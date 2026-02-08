@@ -1353,7 +1353,7 @@
                 requestAnimationFrame(() => {
                     const y = scroller.scrollTop || 0;
                     // Parallax the illustration slightly as you scroll (clamped)
-                    const py = Math.max(-60, Math.min(60, -y * 0.18));
+                    const py = Math.max(-60, Math.min(60, y * 0.18));
                     img.style.transform = `translateY(${py}px) scale(1.08)`;
                     // Also drift the hero background grid a bit
                     hero.style.backgroundPosition = `0px ${Math.round(y * 0.25)}px, 0px 0px`;
