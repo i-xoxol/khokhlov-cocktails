@@ -326,8 +326,8 @@
           max-width: 980px;
           width: 100%;
           max-height: min(82vh, 900px);
-          border-radius: 18px;
           overflow-y:auto;
+          border-radius: 18px;
           position: relative;
           border: 1px solid rgba(25,247,255,.28);
           box-shadow: 0 24px 70px rgba(0,0,0,.65), var(--glow-cyan);
@@ -336,9 +336,6 @@
         @keyframes pop{ from { transform: translateY(8px) scale(.98); opacity:0; } to { transform: translateY(0) scale(1); opacity:1; } }
 
         .modal-close{
-          position:absolute;
-          top: 14px;
-          right: 14px;
           width: 40px;
           height: 40px;
           border-radius: 999px;
@@ -351,17 +348,35 @@
           justify-content:center;
           font-size: 22px;
           line-height: 1;
-          z-index: 3;
+          z-index: 60;
         }
         .modal-close:hover{ box-shadow: var(--glow-mag); border-color: rgba(255,61,242,.6); }
+
+        /* Always-on close button overlay (doesn't scroll away) */
+        .modal-close-fixed{
+          position: fixed;
+          top: calc(14px + env(safe-area-inset-top));
+          right: calc(14px + env(safe-area-inset-right));
+        }
+
+        .modal-hero{
+          position: relative;
+          overflow: hidden;
+          border-bottom: 1px solid rgba(122,231,255,.12);
+          background:
+            radial-gradient(900px 420px at 50% 30%, rgba(25,247,255,.16), rgba(255,61,242,.10), rgba(0,0,0,0)),
+            linear-gradient(180deg, rgba(7,10,28,.85), rgba(5,8,22,.85));
+        }
 
         .modal-img{
           width:100%;
           height: 360px;
-          object-fit: contain; /* less crop */
+          object-fit: contain; /* show full illustration */
           display:block;
-          background: radial-gradient(900px 420px at 50% 30%, rgba(25,247,255,.10), rgba(255,61,242,.06), rgba(0,0,0,0));
-          border-bottom: 1px solid rgba(122,231,255,.12);
+          background: transparent; /* no black side bars */
+          transform: translateY(0px);
+          transition: transform .05s linear;
+          will-change: transform;
         }
 
         .modal-body{ padding: 16px 16px 18px; color: var(--muted); }
@@ -460,9 +475,11 @@
     </div>
 
     <div class="modal-overlay" id="modal" onclick="if(event.target === this) closeModal()">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-            <img src="" class="modal-img" id="modal-img">
+        <button class="modal-close modal-close-fixed" type="button" onclick="closeModal()" aria-label="Close">&times;</button>
+        <div class="modal-content" id="modal-content">
+            <div class="modal-hero" id="modal-hero">
+              <img src="" class="modal-img" id="modal-img">
+            </div>
             <div class="modal-body">
                 <h2 id="modal-title"></h2>
 
@@ -1316,6 +1333,34 @@
             return `${pick} (${name})`;
         }
 
+        let _parallaxBound = false;
+        function bindModalParallax(){
+            if(_parallaxBound) return;
+            _parallaxBound = true;
+
+            const modal = document.getElementById('modal');
+            const scroller = document.getElementById('modal-content');
+            const hero = document.getElementById('modal-hero');
+            const img = document.getElementById('modal-img');
+            if(!scroller || !hero || !img) return;
+
+            let ticking = false;
+            scroller.addEventListener('scroll', () => {
+                if(modal.style.display !== 'flex') return;
+                if(ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => {
+                    const y = scroller.scrollTop || 0;
+                    // Parallax the illustration slightly as you scroll (clamped)
+                    const py = Math.max(-30, Math.min(30, -y * 0.12));
+                    img.style.transform = `translateY(${py}px)`;
+                    // Also drift the hero background grid a bit
+                    hero.style.backgroundPosition = `0px ${Math.round(y * 0.25)}px, 0px 0px`;
+                    ticking = false;
+                });
+            }, { passive: true });
+        }
+
         function openModal(cocktail) {
             const data = cocktail[currentLang];
 
@@ -1323,6 +1368,12 @@
             modalImg.src = `/images/cocktails/cocktail_${cocktail.id}.png?v=3`;
             modalImg.onerror = () => { modalImg.style.display = 'none'; };
             modalImg.onload = () => { modalImg.style.display = 'block'; };
+
+            // Reset scroll + parallax each open
+            const scroller = document.getElementById('modal-content');
+            if(scroller) scroller.scrollTop = 0;
+            modalImg.style.transform = 'translateY(0px)';
+            bindModalParallax();
 
             document.getElementById('modal-title').innerText = data.name;
 
