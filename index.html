@@ -275,6 +275,21 @@
           color: rgba(234,246,255,.75);
           text-transform: uppercase;
           letter-spacing: .06em;
+          align-items:center;
+        }
+
+        .strength-meter{ display:inline-flex; gap:3px; align-items:center; }
+        .str-seg{
+          width: 10px;
+          height: 6px;
+          border-radius: 6px;
+          border: 1px solid rgba(25,247,255,.28);
+          background: rgba(234,246,255,.10);
+        }
+        .str-seg.is-on{
+          background: linear-gradient(90deg, rgba(25,247,255,.85), rgba(255,61,242,.55));
+          border-color: rgba(25,247,255,.55);
+          box-shadow: 0 0 10px rgba(25,247,255,.25);
         }
 
         /* Back button */
@@ -427,7 +442,7 @@
     <div class="container">
         <header>
             <h1 id="main-title">Igor Khokhlov's Bar</h1>
-            <p id="main-subtitle">Spring Speakeasy 🍌🌸</p>
+            <p id="main-subtitle">Neon Ops Speakeasy</p>
         </header>
 
         <div class="menu-grid" id="cocktail-grid"></div>
@@ -1143,6 +1158,79 @@
 ];
         let currentLang = 'en';
 
+        // ---- Strength estimator (approx) ----
+        function strengthInfo(cocktail){
+            const abv = estimateABVPercent(cocktail);
+            const score = abv >= 22 ? 5 : abv >= 18 ? 4 : abv >= 14 ? 3 : abv >= 9 ? 2 : 1;
+            const enLabel = score >= 5 ? 'Very Strong' : score === 4 ? 'Strong' : score === 3 ? 'Medium' : score === 2 ? 'Light' : 'Very Light';
+            const uaLabel = score >= 5 ? 'Дуже міцний' : score === 4 ? 'Міцний' : score === 3 ? 'Середній' : score === 2 ? 'Легкий' : 'Дуже легкий';
+            return { abv, score, enLabel, uaLabel };
+        }
+
+        function estimateABVPercent(cocktail){
+            // Parse "NNml" tokens and estimate alcohol fraction using a simple ABV table.
+            const raw = (cocktail?.en?.ingredients || cocktail?.ua?.ingredients || '').toString();
+            const parts = raw.split(',').map(s => s.trim()).filter(Boolean);
+
+            const abvTable = [
+                { re: /vodka|горілк/i, abv: 0.40 },
+                { re: /gin|джин/i, abv: 0.40 },
+                { re: /whiskey|bourbon|rye|віскі|бурбон/i, abv: 0.45 },
+                { re: /tequila|текіл/i, abv: 0.40 },
+                { re: /rum|ром/i, abv: 0.40 },
+                { re: /cognac|коньяк/i, abv: 0.40 },
+                { re: /vermouth|вермут/i, abv: 0.16 },
+                { re: /campari|кампарі/i, abv: 0.24 },
+                { re: /aperol|апероль/i, abv: 0.11 },
+                { re: /prosecco|просекко/i, abv: 0.11 },
+                { re: /coffee liqueur|kahl|калуа|amaretto|амаретто|irish cream|baileys|айріш|curacao|курасао|schnapps|шнапс|liqueur|лікер/i, abv: 0.20 },
+                { re: /bitters|біттер/i, abv: 0.44 },
+                { re: /ginger beer|ginger|імбирн/i, abv: 0.00 },
+                { re: /tonic|тонік/i, abv: 0.00 },
+                { re: /soda|club soda|содова/i, abv: 0.00 },
+                { re: /lemonade|лимонад|orange juice|апельсиновий сік|tomato|томат/i, abv: 0.00 },
+                { re: /lemon|lime|лимон|лайм/i, abv: 0.00 },
+                { re: /syrup|sirup|сироп|sugar|цук/i, abv: 0.00 },
+                { re: /cream|вершк/i, abv: 0.00 }
+            ];
+
+            let totalMl = 0;
+            let ethanolMl = 0;
+
+            for(const p of parts){
+                const m = p.match(/(\d+(?:\.\d+)?)\s*ml/i);
+                if(!m) continue;
+                const ml = parseFloat(m[1]);
+                if(!Number.isFinite(ml)) continue;
+
+                let abv = null;
+                for(const row of abvTable){
+                    if(row.re.test(p)) { abv = row.abv; break; }
+                }
+                // Unknown ingredient: assume semi-alcoholic.
+                if(abv === null){
+                    abv = /other/i.test(cocktail.spirit) ? 0.10 : 0.20;
+                }
+
+                totalMl += ml;
+                ethanolMl += ml * abv;
+            }
+
+            const methodText = (cocktail?.en?.instructions || '').toString().toLowerCase();
+            const stirredOrShaken = /stir|shake/.test(methodText);
+            const dilutionFactor = stirredOrShaken ? 1.20 : 1.10;
+            const adjustedTotal = totalMl * dilutionFactor;
+
+            if(adjustedTotal <= 1) return 0;
+            const abvPct = (ethanolMl / adjustedTotal) * 100;
+            return Math.max(0, Math.min(60, Math.round(abvPct)));
+        }
+
+        function strengthMeter(score){
+            const segs = Array.from({length:5}).map((_,i)=> `<span class=\"str-seg ${i<score?'is-on':''}\"></span>`).join('');
+            return `<span class=\"strength-meter\" title=\"Strength ${score}/5\">${segs}</span>`;
+        }
+
         function renderGrid(filtered = cocktails) {
             const grid = document.getElementById('cocktail-grid');
             grid.innerHTML = '';
@@ -1151,17 +1239,26 @@
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openModal(c);
+                const s = strengthInfo(c);
+                const strengthLabel = currentLang === 'en' ? s.enLabel : s.uaLabel;
+                const strengthText = currentLang === 'en'
+                    ? `Strength: ${strengthLabel} • ~${s.abv}% ABV`
+                    : `Міцність: ${strengthLabel} • ~${s.abv}% ABV`;
+
                 card.innerHTML = `
-                    <div class="mood-tag">${c.mood}</div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding: 10px 12px 0;">
+                      <div class="mood-tag" style="margin:0;">${c.mood}</div>
+                      <div class="mood-tag" style="margin:0; border-color: rgba(55,255,139,.35); box-shadow: 0 0 16px rgba(55,255,139,.14);">${strengthMeter(s.score)} <span style="margin-left:6px;">${currentLang==='en'?'STR':'МІЦ'}</span></div>
+                    </div>
                     <img src="/images/cocktails/cocktail_${c.id}.png?v=3" alt="${data.name}" onerror="this.style.display='none'">
                     <h3>${data.name}</h3>
-                    <p style="font-size: 0.7rem; opacity: 0.7;">${c.spirit}</p>
+                    <p title="${strengthText}">${c.spirit} • ~${s.abv}%</p>
                 `;
                 grid.appendChild(card);
             });
 
             document.getElementById('main-title').innerText = currentLang === 'en' ? "Igor Khokhlov's Bar" : "Бар Ігоря Хохлова";
-            document.getElementById('main-subtitle').innerText = currentLang === 'en' ? "Spring Speakeasy 🍌🌸" : "Весняний Спікізі 🍌🌸";
+            document.getElementById('main-subtitle').innerText = currentLang === 'en' ? "Neon Ops Speakeasy" : "Неон-Спікізі";
             document.getElementById('back-home').innerText = currentLang === 'en' ? "Back Home" : "Додому";
         }
 
@@ -1234,9 +1331,11 @@
 
             // Method (keep your original, but present as a recipe section)
             const methodTitle = currentLang === 'en' ? 'Method' : 'Як готувати';
+            const s = strengthInfo(cocktail);
+            const strengthLabel = currentLang === 'en' ? s.enLabel : s.uaLabel;
             const metaLine = currentLang === 'en'
-                ? `Spirit: ${cocktail.spirit} • Mood: ${cocktail.mood}`
-                : `База: ${cocktail.spirit} • Настрій: ${cocktail.mood}`;
+                ? `Spirit: ${cocktail.spirit} • Mood: ${cocktail.mood} • Strength: ${strengthLabel} (${s.score}/5, ~${s.abv}% ABV)`
+                : `База: ${cocktail.spirit} • Настрій: ${cocktail.mood} • Міцність: ${strengthLabel} (${s.score}/5, ~${s.abv}% ABV)`;
             document.getElementById('modal-instructions').innerText = `${metaLine}\n\n${methodTitle}:\n${data.instructions}`;
 
             document.getElementById('modal-joke').innerText = `${currentLang === 'en' ? "Bartender's Note" : "Від бармена"}: "${data.joke}"`;
