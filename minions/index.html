@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khokhlov's Spring Speakeasy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka+One&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --minion-yellow: #FFD300;
+            --minion-blue: #0055B8;
+            --spring-pink: #FFB7C5;
+            --spring-green: #98FB98;
+            --gru-gray: #333333;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            overflow-x: hidden;
+            max-width: 100vw;
+            background: linear-gradient(135deg, var(--minion-yellow) 0%, var(--spring-green) 50%, var(--minion-blue) 100%);
+            background-attachment: fixed;
+            font-family: 'Open Sans', sans-serif;
+            color: var(--gru-gray);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .controls {
+            position: sticky;
+            top: 10px;
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: var(--minion-blue);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-family: 'Fredoka One', cursive;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            font-size: 0.8rem;
+        }
+
+        .control-btn:hover, .control-btn.active {
+            background: white;
+            color: var(--minion-blue);
+            transform: scale(1.05);
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            border: 8px solid var(--minion-blue);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            padding: 40px;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 4px dashed var(--minion-blue);
+            padding-bottom: 10px;
+        }
+
+        h1 {
+            font-family: 'Bungee', cursive;
+            font-size: 2.5rem;
+            color: var(--minion-blue);
+            text-shadow: 3px 3px 0px var(--minion-yellow);
+            margin: 0;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            border: 3px solid var(--minion-yellow);
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            border-color: var(--minion-blue);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 10px;
+        }
+
+        .card h3 {
+            font-family: 'Fredoka One', cursive;
+            margin: 5px 0;
+            color: var(--minion-blue);
+            font-size: 1.1rem;
+        }
+
+        .card .mood-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #d63384;
+            margin-bottom: 5px;
+        }
+
+        select {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--minion-blue);
+            font-family: 'Fredoka One', cursive;
+            color: var(--minion-blue);
+            background: white;
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 30px;
+            overflow-y: auto;
+            position: relative;
+            animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: white;
+            text-shadow: 0 0 10px black;
+            z-index: 10;
+        }
+
+        .modal-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .modal-body h2 {
+            font-family: 'Bungee', cursive;
+            color: var(--minion-blue);
+            margin-top: 0;
+        }
+
+        .ingredients {
+            background: var(--spring-green);
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+        }
+
+        .history {
+            background: rgba(255, 183, 197, 0.35);
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+            line-height: 1.35;
+        }
+
+        .section-title {
+            font-family: 'Fredoka One', cursive;
+            color: var(--minion-blue);
+            font-size: 0.95rem;
+            margin: 0 0 6px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .joke {
+            border-left: 5px solid var(--minion-yellow);
+            padding-left: 15px;
+            font-style: italic;
+            color: #d63384;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            margin-top: 40px;
+            background: var(--minion-blue);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-family: 'Bungee', cursive;
+            display: inline-block;
+        }
+
+        /* Mobile polish: prevent side-scroll + better density */
+        @media (max-width: 640px) {
+            body { padding: 12px; }
+            .container { padding: 18px; border-width: 6px; border-radius: 22px; }
+            h1 { font-size: 1.9rem; }
+            .menu-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+            .card { padding: 10px; border-radius: 16px; }
+            .card img { height: 140px; border-radius: 12px; }
+            .modal-overlay { padding: 10px; }
+            .modal-img { height: 220px; }
+            .modal-body { padding: 18px; }
+            select { padding: 8px 12px; max-width: 46vw; }
+            .controls { gap: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button class="control-btn" onclick="toggleLang()">UA / EN</button>
+        <select id="spirit-filter" onchange="applyFilters()">
+            <option value="all">All Spirits</option>
+            <option value="Vodka">Vodka</option>
+            <option value="Gin">Gin</option>
+            <option value="Whiskey">Whiskey</option>
+            <option value="Tequila">Tequila</option>
+            <option value="Rum">Rum</option>
+            <option value="Cognac">Cognac</option>
+            <option value="Liqueur">Liqueur</option>
+            <option value="Other">Other</option>
+        </select>
+        <select id="mood-filter" onchange="applyFilters()">
+            <option value="all">All Moods</option>
+            <option value="Refreshing">Refreshing</option>
+            <option value="Strong">Strong</option>
+            <option value="Sweet">Sweet</option>
+            <option value="Bitter">Bitter</option>
+            <option value="Savory">Savory</option>
+        </select>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1 id="main-title">Igor Khokhlov's Bar</h1>
+            <p id="main-subtitle">Spring Speakeasy 🍌🌸</p>
+        </header>
+
+        <div class="menu-grid" id="cocktail-grid"></div>
+
+        <div style="text-align: center;">
+            <a href="/" class="back-btn" id="back-home">Back Home</a>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal" onclick="if(event.target === this) closeModal()">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <img src="" class="modal-img" id="modal-img">
+            <div class="modal-body">
+                <h2 id="modal-title"></h2>
+
+                <div class="ingredients" id="modal-ingredients"></div>
+
+                <div class="history" id="modal-history" style="display:none;"></div>
+
+                <p id="modal-instructions" style="white-space: pre-line;"></p>
+                <div class="joke" id="modal-joke"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cocktails = [
+    {
+        "id": "negroni",
+        "spirit": "Gin",
+        "mood": "Bitter",
+        "en": {
+            "name": "Negroni",
+            "joke": "I’ll have a Negroni. Sbagliato. With Prosecco in it. — Emma D’Arcy. But this one is classic, for the Purists.",
+            "ingredients": "30ml Gin, 30ml Campari, 30ml Sweet Vermouth",
+            "instructions": "1. Fill a mixing glass with ice.\n2. Add Gin, Campari, and Sweet Vermouth.\n3. Stir well for 20-30 seconds until chilled.\n4. Strain into a rocks glass over a large ice cube.\n5. Garnish with an orange peel.",
+            "history": "Created in Florence around 1919 when Count Camillo Negroni asked for his Americano with gin instead of soda. The simple swap became a legend. (true story)"
+        },
+        "ua": {
+            "name": "Негроні",
+            "joke": "Гіркий, як доля того, хто запізнився на останню маршрутку з Лівобережки. Але шляхетний.",
+            "ingredients": "30мл Джин, 30мл Кампарі, 30мл Солодкий Вермут",
+            "instructions": "1. Наповніть змішувальний стакан льодом.\n2. Додайте джин, Кампарі та солодкий вермут.\n3. Добре перемішайте протягом 20-30 секунд.\n4. Процідіть у стакан рокс на великий куб льоду.\n5. Прикрасьте цедрою апельсина.",
+            "history": "Створили у Флоренції близько 1919 року, коли граф Камілло Негроні попросив Американо з джином замість содової. Так народилась легенда. (правдива історія)"
+        }
+    },
+    {
+        "id": "old_fashioned",
+        "spirit": "Whiskey",
+        "mood": "Strong",
+        "en": {
+            "name": "Old Fashioned",
+            "joke": "I want an Old Fashioned, and I want it now. — Don Draper probably. Classic, just like your Mad Men era dreams.",
+            "ingredients": "60ml Bourbon or Rye, 1 Sugar Cube (or 10ml Syrup), 2 dashes Angostura Bitters",
+            "instructions": "1. Place sugar and bitters in a rocks glass.\n2. Add a splash of water/soda and muddle until sugar dissolves.\n3. Add a large ice cube and the whiskey.\n4. Stir gently for 30 seconds to chill and dilute.\n5. Express orange oil over the drink and drop in the peel.",
+            "history": "In the late 1800s, bartenders called spirit + sugar + bitters an old fashioned cocktail to distinguish it from newer styles. (true story)"
+        },
+        "ua": {
+            "name": "Олд Фешн",
+            "joke": "Старший за міст на Русанівку, але все ще тримається бодрячком.",
+            "ingredients": "60мл Бурбон або Житній віскі, 1 кубик цукру (або 10мл сиропу), 2 деш біттера Angostura",
+            "instructions": "1. Покладіть цукор і біттер у стакан рокс.\n2. Додайте краплю води/содової та розітріть до розчинення цукру.\n3. Додайте великий куб льоду та віскі.\n4. Обережно перемішуйте 30 секунд.\n5. Вичавіть олію з апельсинової цедри та покладіть її в келих.",
+            "history": "Наприкінці XIX ст. так називали коктейль зі спирту, цукру та біттера, щоб відрізняти від «новомодних» міксів. (правдива історія)"
+        }
+    },
+    {
+        "id": "aperol_spritz",
+        "spirit": "Other",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Aperol Spritz",
+            "joke": "Orange, bubbly, and slightly confusing. Just like a Minion trying to explain physics.",
+            "ingredients": "90ml Prosecco, 60ml Aperol, 30ml Soda Water",
+            "instructions": "1. Fill a large wine glass with plenty of ice.\n2. Pour in the Prosecco first.\n3. Add the Aperol.\n4. Top with a splash of soda water.\n5. Stir gently and garnish with an orange slice.",
+            "history": "Spritzes came from northern Italy where wine was spritzed with soda; the orange aperitif version took off in Veneto in the 20th century. (true story)"
+        },
+        "ua": {
+            "name": "Апероль Шприц",
+            "joke": "Легкий, як прогулянка вздовж каналу на Русанівці, поки ще не включили фонтани.",
+            "ingredients": "90мл Просекко, 60мл Апероль, 30мл Содова",
+            "instructions": "1. Наповніть великий винний келих льодом доверху.\n2. Спочатку налийте Просекко.\n3. Додайте Апероль.\n4. Долийте трохи содової.\n5. Легко перемішайте та прикрасьте скибочкою апельсина.",
+            "history": "Шприци з’явилися у Північній Італії, де вино «розбризкували» содовою; аперитивна версія стала хітом у Венето. (правдива історія)"
+        }
+    },
+    {
+        "id": "white_russian",
+        "spirit": "Vodka",
+        "mood": "Sweet",
+        "en": {
+            "name": "White Russian",
+            "joke": "The Dude abides. — The Big Lebowski. Best enjoyed in a bathrobe.",
+            "ingredients": "50ml Vodka, 20ml Coffee Liqueur (Kahlúa), 30ml Heavy Cream",
+            "instructions": "1. Fill a rocks glass with ice.\n2. Add vodka and coffee liqueur.\n3. Stir gently to combine.\n4. Slowly pour the cream over the back of a spoon to float it on top.\n5. Serve without stirring (let the guest stir).",
+            "history": "A creamy twist on the Black Russian, popularized in the mid‑20th century and later revived by pop culture. (true story)"
+        },
+        "ua": {
+            "name": "Білий Російський",
+            "joke": "Улюблений напій Чувака. Ідеально смакує в халаті з видом на Дніпро.",
+            "ingredients": "50мл Горілка, 20мл Кавовий лікер (Kahlúa), 30мл Вершки",
+            "instructions": "1. Наповніть стакан рокс льодом.\n2. Додайте горілку та кавовий лікер.\n3. Легко перемішайте.\n4. Повільно налийте вершки через тильну сторону ложки, щоб вони лягли шаром зверху.\n5. Подавайте, не перемішуючи.",
+            "history": "Кремова версія Black Russian, що стала популярною у середині ХХ століття і знову ожила завдяки попкультурі. (правдива історія)"
+        }
+    },
+    {
+        "id": "espresso_martini",
+        "spirit": "Vodka",
+        "mood": "Strong",
+        "en": {
+            "name": "Espresso Martini",
+            "joke": "Wake up and smell the... martini? Perfect for when you need a boost at the office.",
+            "ingredients": "50ml Vodka, 10ml Coffee Liqueur, 30ml Fresh Espresso, (Simple syrup to taste)",
+            "instructions": "1. Brew a fresh shot of espresso and let it cool slightly.\n2. Fill a shaker with ice.\n3. Add vodka, coffee liqueur, and the espresso.\n4. Shake VIGOROUSLY for 15-20 seconds to create foam.\n5. Fine strain into a chilled coupe or martini glass. Garnish with 3 coffee beans.",
+            "history": "Invented in late‑1980s London by Dick Bradsell for a guest who asked for a drink to wake her up. (true story)"
+        },
+        "ua": {
+            "name": "Еспресо Мартіні",
+            "joke": "Заряджає сильніше, ніж кава з кіоску біля метро Дарниця о 7 ранку.",
+            "ingredients": "50мл Горілка, 10мл Кавовий лікер, 30мл Свіжий еспресо, (Цукровий сироп за смаком)",
+            "instructions": "1. Зваріть свіжий еспресо і дайте йому трохи охолонути.\n2. Наповніть шейкер льодом.\n3. Додайте горілку, кавовий лікер та еспресо.\n4. Трясіть ДУЖЕ ЕНЕРГІЙНО 15-20 секунд для піни.\n5. Процідіть через ситечко в охолоджений келих. Прикрасьте 3 кавовими зернами.",
+            "history": "Створений у Лондоні наприкінці 1980‑х, коли бармена попросили зробити напій, що «пробуджує». (правдива історія)"
+        }
+    },
+    {
+        "id": "sidecar",
+        "spirit": "Cognac",
+        "mood": "Strong",
+        "en": {
+            "name": "Sidecar",
+            "joke": "So classy it makes you want to start speaking with a fake British accent. Indubitably!",
+            "ingredients": "50ml Cognac, 20ml Orange Liqueur (Cointreau), 20ml Lemon Juice",
+            "instructions": "1. Rim a coupe glass with sugar (run a lemon wedge around the rim, then dip in sugar).\n2. Fill a shaker with ice.\n3. Add Cognac, Orange Liqueur, and lemon juice.\n4. Shake well until chilled.\n5. Strain into the prepared glass.",
+            "history": "First recorded in the 1920s in Paris/London; its name likely nods to the motorcycle sidecar. (true story)"
+        },
+        "ua": {
+            "name": "Сайдкар",
+            "joke": "Такий же вишуканий, як мешканець нової висотки на Русанівці.",
+            "ingredients": "50мл Коньяк, 20мл Апельсиновий лікер (Cointreau), 20мл Лимонний сік",
+            "instructions": "1. Зробіть цукровий обідок на келиху (проведіть лимоном по краю, вмочіть у цукор).\n2. Наповніть шейкер льодом.\n3. Додайте коньяк, апельсиновий лікер та лимонний сік.\n4. Добре збовтайте.\n5. Процідіть у підготовлений келих.",
+            "history": "Перші згадки з 1920‑х у Парижі/Лондоні; назва — від мотоциклетного «сайдкара». (правдива історія)"
+        }
+    },
+    {
+        "id": "margarita",
+        "spirit": "Tequila",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Margarita",
+            "joke": "If life gives you lemons, throw them back and ask for limes and Tequila.",
+            "ingredients": "50ml Tequila, 20ml Orange Liqueur, 15ml Lime Juice, (Agave syrup optional)",
+            "instructions": "1. Rim a rocks or coupe glass with salt.\n2. Fill a shaker with ice.\n3. Add Tequila, Orange Liqueur, and lime juice.\n4. Shake well for 15 seconds.\n5. Strain into the glass over fresh ice (or serve up). Garnish with a lime wheel.",
+            "history": "Its exact origin is debated, but the tequila‑lime‑orange combo became a border‑town classic in the 1930s–40s. (true story)"
+        },
+        "ua": {
+            "name": "Маргарита",
+            "joke": "Солона, як коментарі про затори на мосту Патона.",
+            "ingredients": "50мл Текіла, 20мл Апельсиновий лікер, 15мл Сік лайма, (Сироп агави за смаком)",
+            "instructions": "1. Зробіть соляний обідок на келиху.\n2. Наповніть шейкер льодом.\n3. Додайте текілу, апельсиновий лікер та сік лайма.\n4. Збовтайте протягом 15 секунд.\n5. Процідіть у келих на свіжий лід. Прикрасьте кружальцем лайма.",
+            "history": "Точне походження сперечаються, але поєднання текіли, лайма та апельсину стало класикою 30–40‑х років. (правдива історія)"
+        }
+    },
+    {
+        "id": "blue_minion",
+        "spirit": "Gin",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Blue Minion",
+            "joke": "One of these and you'll be speaking fluent Banananese by the end of the night.",
+            "ingredients": "30ml Gin, 15ml Blue Curacao, 15ml Lemon Juice, Top with Prosecco (~90ml)",
+            "instructions": "1. Chill a champagne flute or tall glass.\n2. In a shaker with ice, combine Gin, Blue Curacao, and lemon juice.\n3. Shake briefly to chill.\n4. Strain into the glass.\n5. Top slowly with Prosecco. Garnish with a lemon twist.",
+            "history": "Born during a karaoke night when someone asked for “something blue and bubbly.” It stuck as the unofficial toast of spring evenings by the canal."
+        },
+        "ua": {
+            "name": "Синій Міньйон",
+            "joke": "Світиться яскравіше за вивіску Дитячого Світу вночі.",
+            "ingredients": "30мл Джин, 15мл Блю Курасао, 15мл Лимонний сік, Долити Просекко (~90мл)",
+            "instructions": "1. Охолодіть келих для шампанського або високий стакан.\n2. У шейкері з льодом змішайте джин, Блю Курасао та лимонний сік.\n3. Коротко збовтайте.\n4. Процідіть у келих.\n5. Повільно долийте Просекко. Прикрасьте цедрою лимона.",
+            "history": "Народився на караоке‑вечорі, коли попросили «щось синє і з бульбашками». Відтоді — тост весняних вечорів біля каналу."
+        }
+    },
+    {
+        "id": "manhattan",
+        "spirit": "Whiskey",
+        "mood": "Strong",
+        "en": {
+            "name": "Manhattan",
+            "joke": "I'll have what she's having. Wait, wrong movie. But you definitely want this one.",
+            "ingredients": "50ml Rye Whiskey, 20ml Sweet Vermouth, 2 dashes Angostura Bitters",
+            "instructions": "1. Chill a coupe or martini glass.\n2. Fill a mixing glass with ice.\n3. Add Rye Whiskey, Sweet Vermouth, and bitters.\n4. Stir smoothly for 30 seconds.\n5. Strain into the chilled glass. Garnish with a cocktail cherry.",
+            "history": "Documented by the 1880s and often linked to New York’s Manhattan Club, it became the archetype for whiskey cocktails. (true story)"
+        },
+        "ua": {
+            "name": "Мангеттен",
+            "joke": "Міцний і надійний, як бетонні панельки Дарниці.",
+            "ingredients": "50мл Житній віскі, 20мл Солодкий вермут, 2 деш біттера Angostura",
+            "instructions": "1. Охолодіть келих купе або мартіні.\n2. Наповніть змішувальний стакан льодом.\n3. Додайте житній віскі, солодкий вермут та біттер.\n4. Плавно перемішуйте 30 секунд.\n5. Процідіть у охолоджений келих. Прикрасьте коктейльною вишнею.",
+            "history": "Відомий щонайменше з 1880‑х і пов’язаний з Manhattan Club у Нью‑Йорку. (правдива історія)"
+        }
+    },
+    {
+        "id": "amaretto_sour",
+        "spirit": "Other",
+        "mood": "Sweet",
+        "en": {
+            "name": "Amaretto Sour",
+            "joke": "Tastes like an almond biscotti, but without the crunch and with a kick.",
+            "ingredients": "50ml Amaretto, 30ml Lemon Juice, 15ml Sugar Syrup, 1 dash Bitters, (Egg white optional)",
+            "instructions": "1. Fill a shaker with ice.\n2. Add Amaretto, Bourbon, lemon juice, and syrup.\n3. Shake vigorously to emulsify (add egg white if you like foam, dry shake first).\n4. Strain into a rocks glass filled with fresh ice.\n5. Garnish with a lemon wedge and a cherry.",
+            "history": "A 1970s crowd‑pleaser; the modern recipe adds whiskey for balance and structure. (true story)"
+        },
+        "ua": {
+            "name": "Амаретто Сауер",
+            "joke": "Солодкий, як знайти вільне місце для парковки біля каналу в неділю.",
+            "ingredients": "50мл Амаретто, 30мл Лимонний сік, 15мл Цукровий сироп, 1 деш біттера, (Яєчний білок за бажанням)",
+            "instructions": "1. Наповніть шейкер льодом.\n2. Додайте Амаретто, бурбон, лимонний сік та сироп.\n3. Енергійно збовтайте (якщо хочете піну — додайте білок і збийте спершу без льоду).\n4. Процідіть у стакан рокс зі свіжим льодом.\n5. Прикрасьте скибочкою лимона та вишнею.",
+            "history": "Хіт 1970‑х; сучасна версія додає віскі, щоб напій був більш збалансованим. (правдива історія)"
+        }
+    },
+    {
+        "id": "gt",
+        "spirit": "Gin",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Gin & Tonic",
+            "joke": "Bond. Jane Bond. A gin so floral it probably counts as one of your five-a-day.",
+            "ingredients": "50ml Gin, 150ml Tonic Water, Lime wedge",
+            "instructions": "1. Fill a balloon glass or highball with lots of ice.\n2. Pour in the Gin.\n3. Add a dash of orange bitters (optional but recommended).\n4. Top with premium Tonic water.\n5. Stir gently once. Garnish with a lime wedge or botanicals.",
+            "history": "Born in British India as a way to make quinine tonic palatable; gin did the heavy lifting. (true story)"
+        },
+        "ua": {
+            "name": "Джин-тонік",
+            "joke": "Свіжий, як вітерець з Дніпра, але пахне значно краще.",
+            "ingredients": "50мл Джин, 150мл Тонік, Скибочка лайма",
+            "instructions": "1. Наповніть великий келих або хайбол великою кількістю льоду.\n2. Налийте джин.\n3. Додайте краплю апельсинового біттера (за бажанням).\n4. Долийте якісний тонік.\n5. Один раз легонько перемішайте. Прикрасьте лаймом або спеціями.",
+            "history": "Народився у Британській Індії, щоб зробити хініновий тонік смачнішим. Джин допоміг. (правдива історія)"
+        }
+    },
+    {
+        "id": "rum_cocktail",
+        "spirit": "Rum",
+        "mood": "Strong",
+        "en": {
+            "name": "Rum Old Fashioned",
+            "joke": "Why is the rum always gone? — Captain Jack Sparrow. This 12yr is the reason.",
+            "ingredients": "60ml Aged Rum, 10ml Maple Syrup, 2 dashes Orange Bitters",
+            "instructions": "1. Place maple syrup and bitters in a rocks glass.\n2. Add a splash of water and stir to combine.\n3. Add a large ice cube and the Rum.\n4. Stir for 30 seconds until chilled and syrupy.\n5. Express orange peel over the top and drop it in.",
+            "history": "Mixed after a long winter evening when rum was the only bottle left and maple syrup stood in for sugar. It became a house staple."
+        },
+        "ua": {
+            "name": "Ромовий Олд Фешн",
+            "joke": "Такий же насичений і ситний, як обід у бабусі на Русанівці.",
+            "ingredients": "60мл Витриманий ром, 10мл Кленовий сироп, 2 деш апельсинового біттера",
+            "instructions": "1. Налийте кленовий сироп і біттер у стакан рокс.\n2. Додайте трохи води і перемішайте.\n3. Додайте великий куб льоду та ром.\n4. Перемішуйте 30 секунд до охолодження.\n5. Вичавіть цедру апельсина зверху та покладіть у стакан.",
+            "history": "Змішали в довгий зимовий вечір, коли в барі залишився лише ром, а замість цукру — кленовий сироп. Так і прижився."
+        }
+    },
+    {
+        "id": "peach_fizz",
+        "spirit": "Vodka",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Peach Fizz",
+            "joke": "Sweeter than a Minion singing a love song to a banana.",
+            "ingredients": "40ml Vodka, 20ml Peach Schnapps, 10ml Lemon Juice, Top with Prosecco",
+            "instructions": "1. Fill a tall glass with ice.\n2. Add Vodka, Peach Schnapps, and lemon juice.\n3. Stir to mix and chill.\n4. Top with Prosecco.\n5. Garnish with a lemon slice or mint sprig.",
+            "history": "Created for the first warm weekend of April—peach and bubbles felt like a promise of summer."
+        },
+        "ua": {
+            "name": "Персиковий Фіз",
+            "joke": "Грайливий, як передчуття першого тепла на Лівому березі.",
+            "ingredients": "40мл Горілка, 20мл Персиковий шнапс, 10мл Лимонний сік, Долити Просекко",
+            "instructions": "1. Наповніть високий стакан льодом.\n2. Додайте горілку, персиковий шнапс та лимонний сік.\n3. Перемішайте для охолодження.\n4. Долийте Просекко.\n5. Прикрасьте скибочкою лимона або м’ятою.",
+            "history": "Зробили на перші теплі вихідні квітня: персик і бульбашки — як обіцянка літа."
+        }
+    },
+    {
+        "id": "moscow_mule",
+        "spirit": "Vodka",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Moscow Mule",
+            "joke": "Served in a copper mug because we're fancy, but essentially a spicy adult soda.",
+            "ingredients": "50ml Vodka, 15ml Lime Juice, 120ml Ginger Beer",
+            "instructions": "1. Fill a copper mug (or highball glass) with crushed ice.\n2. Add Vodka and squeeze in half a lime (drop the shell in).\n3. Top with spicy Ginger Beer.\n4. Stir gently.\n5. Garnish with a lime wheel and mint.",
+            "history": "Created in 1941 in Los Angeles to promote vodka, ginger beer, and copper mugs. (true story)"
+        },
+        "ua": {
+            "name": "Московський Мул",
+            "joke": "Б’є в голову сильніше, ніж контролер у трамваї №8.",
+            "ingredients": "50мл Горілка, 15мл Сік лайма, 120мл Імбирне пиво",
+            "instructions": "1. Наповніть мідну кружку (або високий стакан) колотим льодом.\n2. Додайте горілку та вичавіть половинку лайма (шкірку киньте всередину).\n3. Долийте гостре імбирне пиво.\n4. Легко перемішайте.\n5. Прикрасьте лаймом та м’ятою.",
+            "history": "З’явився у 1941 році в Лос‑Анджелесі, щоб просунути горілку, імбирне пиво й мідні кухлі. (правдива історія)"
+        }
+    },
+    {
+        "id": "boulevardier",
+        "spirit": "Whiskey",
+        "mood": "Bitter",
+        "en": {
+            "name": "Boulevardier",
+            "joke": "The Negroni's sophisticated older brother who went to art school.",
+            "ingredients": "45ml Bourbon, 30ml Campari, 30ml Sweet Vermouth",
+            "instructions": "1. Chill a rocks glass.\n2. In a mixing glass with ice, combine Bourbon, Campari, and Sweet Vermouth.\n3. Stir well for 30 seconds.\n4. Strain into the glass over a large ice cube.\n5. Garnish with an orange twist.",
+            "history": "Published in 1927 by Harry McElhone and named after the magazine The Boulevardier. (true story)"
+        },
+        "ua": {
+            "name": "Бульвардьє",
+            "joke": "Як прогулянка по Русанівському Бульвару: красиво, дорого, але трохи гіркувато.",
+            "ingredients": "45мл Бурбон, 30мл Кампарі, 30мл Солодкий вермут",
+            "instructions": "1. Охолодіть стакан рокс.\n2. У змішувальному стакані з льодом поєднайте бурбон, Кампарі та вермут.\n3. Добре перемішайте протягом 30 секунд.\n4. Процідіть у стакан на великий куб льоду.\n5. Прикрасьте цедрою апельсина.",
+            "history": "Описаний у 1927 році Гаррі МакЕлгоном і названий на честь журналу “The Boulevardier”. (правдива історія)"
+        }
+    },
+    {
+        "id": "gimlet",
+        "spirit": "Gin",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Gimlet",
+            "joke": "Shaken, not stirred. Wait, that's the other one. But this one has more vitamin C!",
+            "ingredients": "60ml Gin, 30ml Lime Cordial (or 20ml Lime Juice + 10ml Syrup)",
+            "instructions": "1. Fill a shaker with ice.\n2. Add Gin, lime juice, and simple syrup.\n3. Shake vigorously for 15 seconds until frost forms on the shaker.\n4. Strain into a chilled coupe or martini glass.\n5. Garnish with a lime wheel.",
+            "history": "Linked to Royal Navy traditions of lime to prevent scurvy; gin turned the medicine into a cocktail. (true story)"
+        },
+        "ua": {
+            "name": "Гімлет",
+            "joke": "Прозорий, як наміри твого сусіда позичити дрель у суботу о 8 ранку.",
+            "ingredients": "60мл Джин, 30мл Лаймовий кордіал (або 20мл сік лайма + 10мл сироп)",
+            "instructions": "1. Наповніть шейкер льодом.\n2. Додайте джин, сік лайма та цукровий сироп.\n3. Енергійно збовтайте 15 секунд, доки шейкер не запітніє.\n4. Процідіть у охолоджений келих купе або мартіні.\n5. Прикрасьте кружальцем лайма.",
+            "history": "Пов’язаний з морською традицією додавати лайм від цинги; джин зробив це коктейлем. (правдива історія)"
+        }
+    },
+    {
+        "id": "rusanivka_blue",
+        "spirit": "Vodka",
+        "mood": "Sweet",
+        "en": {
+            "name": "Rusanivka Blue",
+            "ingredients": "60ml Vodka, 30ml Blue Curacao, 120ml Lemonade",
+            "instructions": "1. Fill a tall glass with ice.\n2. Pour in Vodka and Blue Curacao.\n3. Top with Lemonade.\n4. Stir gently to create a gradient effect.\n5. Garnish with a lemon slice and a straw.",
+            "joke": "You're gonna need a bigger boat. (Jaws)",
+            "history": "Legend from warm Rusanivka promenades when the canal lights turned the lemonade the same shade of blue."
+        },
+        "ua": {
+            "name": "Русанівська Синя",
+            "ingredients": "60мл Горілки, 30мл Блю Курасао, 120мл Лимонаду",
+            "instructions": "1. Наповніть високий стакан льодом.\n2. Налийте горілку та Блю Курасао.\n3. Долийте лимонад.\n4. Обережно перемішайте для градієнту.\n5. Прикрасьте скибочкою лимона та трубочкою.",
+            "joke": "Колір води в каналі, смак — як мрія про квартиру на набережній.",
+            "history": "Кажуть, вигадали під вечірні прогулянки Русанівською набережною, коли підсвічення каналу робило лимонад синім."
+        }
+    },
+    {
+        "id": "darnitsa_diesel",
+        "spirit": "Vodka",
+        "mood": "Strong",
+        "en": {
+            "name": "Darnitsa Diesel",
+            "ingredients": "45ml Vodka, 30ml Espresso liqueur, 30ml Fresh espresso",
+            "instructions": "1. Prepare a fresh espresso shot.\n2. Fill a shaker with ice.\n3. Add Vodka, Espresso Liqueur, and the coffee.\n4. Shake HARD for 15 seconds.\n5. Strain into a chilled glass. No garnish needed, the foam is enough.",
+            "joke": "I love the smell of napalm in the morning. (Apocalypse Now)",
+            "history": "Built as commuter fuel by a tired barista near Darnytsia—equal parts caffeine and resolve."
+        },
+        "ua": {
+            "name": "Дарницький Дизель",
+            "ingredients": "45мл Горілки, 30мл Кавового лікеру, 30мл Еспресо",
+            "instructions": "1. Приготуйте свіжий еспресо.\n2. Наповніть шейкер льодом.\n3. Додайте горілку, кавовий лікер та каву.\n4. Трясіть ДУЖЕ СИЛЬНО 15 секунд.\n5. Процідіть у охолоджений келих. Гарніш не треба, піни достатньо.",
+            "joke": "Пальне для ранкової маршрутки. Пробиває навіть затори на мосту Патона.",
+            "history": "Пальне для ранкових поїздок: придумали біля Дарницького вокзалу, коли потрібні були і кофеїн, і настрій."
+        }
+    },
+    {
+        "id": "kyiv_cake",
+        "spirit": "Vodka",
+        "mood": "Sweet",
+        "en": {
+            "name": "Kyiv Cake Martini",
+            "ingredients": "45ml Vodka, 30ml Amaretto, 30ml Irish cream",
+            "instructions": "1. Rim a martini glass with crushed nuts (hazelnuts or walnuts).\n2. Fill a shaker with ice.\n3. Add Vodka, Amaretto, and Irish Cream.\n4. Shake well until chilled.\n5. Strain into the rimmed glass.",
+            "joke": "Life is like a box of chocolates. (Forrest Gump)",
+            "history": "A liquid tribute to the famous cake, first poured at a family birthday when the dessert vanished early."
+        },
+        "ua": {
+            "name": "Мартіні Київський Торт",
+            "ingredients": "45мл Горілка, 30мл Амаретто, 30мл Айріш Крім",
+            "instructions": "1. Зробіть обідок на келиху з подрібнених горіхів (фундук або волоський).\n2. Наповніть шейкер льодом.\n3. Додайте горілку, Амаретто та Айріш Крім.\n4. Добре збовтайте.\n5. Процідіть у підготовлений келих.",
+            "joke": "Смакує як справжній торт, але без черги в магазині Рошен.",
+            "history": "Рідкий «Київський торт», придуманий на сімейне свято, коли десерт закінчився надто швидко."
+        }
+    },
+    {
+        "id": "metro_token",
+        "spirit": "Liqueur",
+        "mood": "Refreshing",
+        "en": {
+            "name": "The Metro Token",
+            "ingredients": "90ml Prosecco, 60ml Orange aperitif (Aperol), 30ml Soda water",
+            "instructions": "1. Fill a wine glass with ice.\n2. Add the Prosecco and Aperol.\n3. Top with a splash of Soda water.\n4. Stir gently.\n5. Garnish with an orange slice.",
+            "joke": "I'll be back. (Terminator)",
+            "history": "Inspired by the old metro tokens—quick, bright, and perfect for a short ride into the night."
+        },
+        "ua": {
+            "name": "Жетон Метро",
+            "ingredients": "90мл Просекко, 60мл Апельсиновий аперитив (Апероль), 30мл Содова",
+            "instructions": "1. Наповніть винний келих льодом.\n2. Додайте Просекко та Апероль.\n3. Долийте трохи содової.\n4. Легко перемішайте.\n5. Прикрасьте скибочкою апельсина.",
+            "joke": "Помаранчевий і ностальгічний, як старий жетон по 50 копійок.",
+            "history": "Натхнення — старі жетони метро: швидкий, яскравий напій для короткої поїздки у вечір."
+        }
+    },
+    {
+        "id": "left_bank_negroni",
+        "spirit": "Gin",
+        "mood": "Bitter",
+        "en": {
+            "name": "Left Bank Negroni",
+            "ingredients": "30ml Gin, 30ml Italian red bitter aperitif, 30ml Sweet Vermouth",
+            "instructions": "1. Fill a mixing glass with ice.\n2. Add Gin, Bitter, and Vermouth.\n3. Stir well.\n4. Strain into a rocks glass with ice.\n5. Garnish with an orange slice.",
+            "joke": "Frankly, my dear, I don't give a damn. (Gone with the Wind)",
+            "history": "A Negroni with Left Bank attitude, mixed for friends stuck on the bridge traffic."
+        },
+        "ua": {
+            "name": "Лівобережний Негроні",
+            "ingredients": "30мл Джин, 30мл Червоний гіркий аперитив, 30мл Солодкий вермут",
+            "instructions": "1. Наповніть змішувальний стакан льодом.\n2. Додайте джин, біттер та вермут.\n3. Добре перемішайте.\n4. Процідіть у стакан рокс з льодом.\n5. Прикрасьте скибочкою апельсина.",
+            "joke": "Гіркий, як усвідомлення, що метро на Троєщину ще не збудували.",
+            "history": "Негроні з лівобережним характером — придуманий для друзів, що застрягли в заторі на мосту."
+        }
+    },
+    {
+        "id": "troieshchyna_ice",
+        "spirit": "Other",
+        "mood": "Strong",
+        "en": {
+            "name": "Troieshchyna Iced Tea",
+            "ingredients": "15ml Vodka, 15ml Rum, 15ml Gin, 15ml Tequila, 15ml Blue Curacao",
+            "instructions": "1. Fill a tall glass with ice.\n2. Add all spirits (Vodka, Rum, Gin, Tequila, Blue Curacao).\n3. Add sweet & sour mix (lemon juice + syrup) if available.\n4. Top with Cola.\n5. Stir gently. Garnish with a lemon wedge.",
+            "joke": "Say hello to my little friend! (Scarface)",
+            "history": "A big‑crowd backyard classic: a little of everything, because the night was going to be long."
+        },
+        "ua": {
+            "name": "Троєщина Айс Ті",
+            "ingredients": "15мл Горілка, 15мл Ром, 15мл Джин, 15мл Текіла, 15мл Блю Курасао",
+            "instructions": "1. Наповніть високий стакан льодом.\n2. Додайте всі спирти (горілка, ром, джин, текіла, Блю Курасао).\n3. Додайте трохи лимонного соку з сиропом.\n4. Долийте колу.\n5. Перемішайте. Прикрасьте лимоном.",
+            "joke": "Один ковток — і ти прокидаєшся в іншому районі без телефону.",
+            "history": "Класика для великої компанії у дворі: трохи всього, бо вечір обіцяв бути довгим."
+        }
+    },
+    {
+        "id": "golden_gate",
+        "spirit": "Cognac",
+        "mood": "Strong",
+        "en": {
+            "name": "Golden Gate",
+            "ingredients": "60ml Cognac, 30ml Orange liqueur, 20ml Lemon juice",
+            "instructions": "1. Chill a coupe glass.\n2. In a shaker with ice, combine Cognac, Orange Liqueur, and lemon juice.\n3. Shake well.\n4. Strain into the chilled glass.\n5. Garnish with a lemon twist.",
+            "joke": "Here's looking at you, kid. (Casablanca)",
+            "history": "Named after Kyiv’s historic gates—a celebratory sip after a long walk in the old center."
+        },
+        "ua": {
+            "name": "Золоті Ворота",
+            "ingredients": "60мл Коньяк, 30мл Апельсиновий лікер, 20мл Лимонний сік",
+            "instructions": "1. Охолодіть келих купе.\n2. У шейкері з льодом змішайте коньяк, апельсиновий лікер та лимонний сік.\n3. Добре збовтайте.\n4. Процідіть у келих.\n5. Прикрасьте цедрою лимона.",
+            "joke": "Дорого, історично, і краще не чіпати руками, а одразу пити.",
+            "history": "Названий на честь стародавніх воріт — ковток святкування після прогулянки історичним центром."
+        }
+    },
+    {
+        "id": "obolon_sailor",
+        "spirit": "Rum",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Obolon Sailor",
+            "ingredients": "60ml Black rum (Gosling's), 120ml Ginger beer",
+            "instructions": "1. Fill a highball glass with ice.\n2. Add Black Rum.\n3. Top with Ginger Beer.\n4. Squeeze a lime wedge into the drink and drop it in.\n5. Stir gently.",
+            "joke": "Why is the rum gone? (Pirates of the Caribbean)",
+            "history": "A riverside highball for summer fishermen on Obolon."
+        },
+        "ua": {
+            "name": "Оболонський Матрос",
+            "ingredients": "60мл Чорний ром (Gosling's), 120мл Імбирне пиво",
+            "instructions": "1. Наповніть хайбол льодом.\n2. Додайте чорний ром.\n3. Долийте імбирне пиво.\n4. Вичавіть шматочок лайма в напій і киньте його всередину.\n5. Легко перемішайте.",
+            "joke": "Для тих, хто вийшов на набережну в тапках і з насінням.",
+            "history": "Набережний хайбол для літніх рибалок на Оболоні."
+        }
+    },
+    {
+        "id": "pechersk_hills",
+        "spirit": "Gin",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Pechersk Hills",
+            "ingredients": "60ml Gin, 30ml Lime juice, 20ml Syrup",
+            "instructions": "1. Fill a shaker with ice.\n2. Add Gin, lime juice, and syrup.\n3. Shake vigorously.\n4. Strain into a coupe glass.\n5. Garnish with a lime wheel or mint leaf.",
+            "joke": "I feel the need... the need for speed. (Top Gun)",
+            "history": "A crisp gin sour for the steep climbs—earn it, then sip it."
+        },
+        "ua": {
+            "name": "Печерські Пагорби",
+            "ingredients": "60мл Джин, 30мл Сік лайма, 20мл Сироп",
+            "instructions": "1. Наповніть шейкер льодом.\n2. Додайте джин, сік лайма та сироп.\n3. Енергійно збовтайте.\n4. Процідіть у келих купе.\n5. Прикрасьте лаймом або м’ятою.",
+            "joke": "Чистий, дорогий і перехоплює подих (від цін на оренду).",
+            "history": "Свіжий джин‑сауер для підйомів на Печерськ: піднявся — заслужив."
+        }
+    },
+    {
+        "id": "the_oligarch",
+        "spirit": "Whiskey",
+        "mood": "Strong",
+        "en": {
+            "name": "The Oligarch",
+            "ingredients": "60ml Bourbon, Sugar, Bitters",
+            "instructions": "1. Place a sugar cube saturated with bitters in a rocks glass.\n2. Add a splash of water and muddle.\n3. Add a large ice cube and Bourbon.\n4. Stir slowly and deliberately.\n5. Garnish with a cherry and orange twist.",
+            "joke": "I'm gonna make him an offer he can't refuse. (The Godfather)",
+            "history": "Built for a toast at a too‑fancy dinner—simple, stern, and expensive‑feeling."
+        },
+        "ua": {
+            "name": "Олігарх",
+            "ingredients": "60мл Бурбон, Цукор, Біттер",
+            "instructions": "1. Покладіть цукор, просочений біттером, у стакан рокс.\n2. Додайте краплю води і розітріть.\n3. Додайте великий куб льоду та бурбон.\n4. Перемішуйте повільно і впевнено.\n5. Прикрасьте вишнею та цедрою апельсина.",
+            "joke": "Витриманий, міцний і трохи гіркий через податки.",
+            "history": "Напій для тосту на надто пафосній вечері: простий, строгий і «дорого звучить»."
+        }
+    },
+    {
+        "id": "pozniaky_concrete",
+        "spirit": "Vodka",
+        "mood": "Sweet",
+        "en": {
+            "name": "Pozniaky Concrete",
+            "ingredients": "30ml Vodka, 30ml Espresso liqueur (Kahlúa), 30ml Irish cream (Baileys)",
+            "instructions": "1. Fill a rocks glass with ice.\n2. Add Vodka and Coffee Liqueur.\n3. Stir.\n4. Float Irish Cream on top or stir it in for a 'concrete' look.\n5. Serve immediately.",
+            "joke": "The Dude abides. (The Big Lebowski)",
+            "history": "Dense and layered like the neighborhood—late‑night dessert in a glass."
+        },
+        "ua": {
+            "name": "Позняківський Бетон",
+            "ingredients": "30мл Горілка, 30мл Кавовий лікер (Калуа), 30мл Айріш Крім (Baileys)",
+            "instructions": "1. Наповніть стакан рокс льодом.\n2. Додайте горілку та кавовий лікер.\n3. Перемішайте.\n4. Налийте Айріш Крім зверху або перемішайте для кольору «бетону».\n5. Подавайте одразу.",
+            "joke": "Густий і важкий, як забудова на Позняках.",
+            "history": "Щільний і шаруватий, як сам район. Нічний десерт у келиху."
+        }
+    },
+    {
+        "id": "borscht_market",
+        "spirit": "Vodka",
+        "mood": "Savory",
+        "en": {
+            "name": "Borscht Market",
+            "ingredients": "60ml Vodka, Tomato juice, Spices",
+            "instructions": "1. Fill a tall glass with ice.\n2. Add Vodka and Tomato Juice.\n3. Add spices: salt, pepper, Tabasco, Worcestershire sauce.\n4. Stir well using a celery stick.\n5. Garnish with celery, pickle, or lemon.",
+            "joke": "You can't handle the truth! (A Few Good Men)",
+            "history": "A savory pick‑me‑up sold as “liquid lunch” after the morning market run."
+        },
+        "ua": {
+            "name": "Ринок Борщагівка",
+            "ingredients": "60мл Горілка, Томатний сік, Спеції",
+            "instructions": "1. Наповніть високий стакан льодом.\n2. Додайте горілку та томатний сік.\n3. Додайте спеції: сіль, перець, Табаско, Ворчестер.\n4. Добре перемішайте стеблом селери.\n5. Прикрасьте селерою, огірком або лимоном.",
+            "joke": "Це фактично салат. Дуже корисно.",
+            "history": "Солона «рідка вечеря» після ранкового базару — бадьорить і рятує."
+        }
+    },
+    {
+        "id": "funicular_lift",
+        "spirit": "Whiskey",
+        "mood": "Bitter",
+        "en": {
+            "name": "Funicular Lift",
+            "ingredients": "30ml Bourbon, 30ml Orange aperitif (Aperol), 30ml Sweet Vermouth",
+            "instructions": "1. Fill a mixing glass with ice.\n2. Add Bourbon, Aperol, and Sweet Vermouth.\n3. Stir well for dilution.\n4. Strain into a coupe or rocks glass.\n5. Garnish with an orange twist.",
+            "joke": "Houston, we have a problem. (Apollo 13)",
+            "history": "A bittersweet ride that pauses just long enough to enjoy the view."
+        },
+        "ua": {
+            "name": "Фунікулер",
+            "ingredients": "30мл Бурбон, 30мл Апельсиновий аперитив (Апероль), 30мл Солодкий вермут",
+            "instructions": "1. Наповніть змішувальний стакан льодом.\n2. Додайте бурбон, Апероль та вермут.\n3. Добре перемішайте.\n4. Процідіть у келих або рокс.\n5. Прикрасьте цедрою апельсина.",
+            "joke": "Йде м’яко, але іноді зупиняється посеред дороги.",
+            "history": "Гірко‑солодкий «підйом», що зупиняється рівно настільки, щоб насолодитись краєвидом."
+        }
+    },
+    {
+        "id": "botanical_garden",
+        "spirit": "Rum",
+        "mood": "Refreshing",
+        "en": {
+            "name": "Botanical Garden",
+            "ingredients": "60ml White rum (Bacardi), Mint, Lime, Soda",
+            "instructions": "1. In a tall glass, muddle mint leaves with lime juice and sugar (or syrup).\n2. Add Rum.\n3. Fill glass with crushed ice.\n4. Top with Soda water and stir.\n5. Garnish with a fresh mint sprig.",
+            "joke": "Run, Forrest, run! (Forrest Gump)",
+            "history": "A minty refresher mixed after a spring walk through the gardens."
+        },
+        "ua": {
+            "name": "Ботанічний Сад",
+            "ingredients": "60мл Білий ром (Bacardi), М’ята, Лайм, Содова",
+            "instructions": "1. У високому стакані розітріть м’яту з лаймом і цукром (або сиропом).\n2. Додайте ром.\n3. Наповніть стакан колотим льодом.\n4. Долийте содову і перемішайте.\n5. Прикрасьте гілочкою свіжої м’яти.",
+            "joke": "Смакує як травень у Києві, поки не почалася спека.",
+            "history": "М’ятний освіжаючий напій після прогулянки весняним садом."
+        }
+    },
+    {
+        "id": "khreshchatyk_chestnut",
+        "spirit": "Vodka",
+        "mood": "Sweet",
+        "en": {
+            "name": "Khreshchatyk Chestnut",
+            "ingredients": "45ml Vodka, 30ml Amaretto, Mint syrup",
+            "instructions": "1. Fill a shaker with ice.\n2. Add Vodka, Amaretto, and Mint Syrup.\n3. Shake well.\n4. Strain into a martini glass.\n5. Garnish with a mint leaf (the 'chestnut leaf').",
+            "joke": "Show me the money! (Jerry Maguire)",
+            "history": "A nod to Kyiv chestnut blossoms—sweet, minty, and a little nostalgic."
+        },
+        "ua": {
+            "name": "Каштан Хрещатика",
+            "ingredients": "45мл Горілка, 30мл Амаретто, М’ятний сироп",
+            "instructions": "1. Наповніть шейкер льодом.\n2. Додайте горілку, Амаретто та м’ятний сироп.\n3. Добре збовтайте.\n4. Процідіть у келих для мартіні.\n5. Прикрасьте листком м’яти (як лист каштана).",
+            "joke": "Символ міста, тепер у рідкому стані. Обережно, міни (калорійні).",
+            "history": "Присвята каштанам Хрещатика: солодкий, м’ятний і трохи ностальгійний."
+        }
+    },
+    {
+        "id": "bessarabka_hustle",
+        "spirit": "Tequila",
+        "mood": "Sweet",
+        "en": {
+            "name": "Bessarabka Hustle",
+            "ingredients": "60ml Tequila, Orange juice, Syrup",
+            "instructions": "1. Fill a tall glass with ice.\n2. Pour in Tequila and Orange Juice.\n3. Add a splash of Grenadine syrup (it sinks to create a 'sunrise' effect).\n4. Do not stir.\n5. Garnish with an orange slice and cherry.",
+            "joke": "To infinity and beyond! (Toy Story)",
+            "history": "Quick, bright, and a little chaotic—just like the market at rush hour."
+        },
+        "ua": {
+            "name": "Бессарабський Хастл",
+            "ingredients": "60мл Текіла, Апельсиновий сік, Сироп",
+            "instructions": "1. Наповніть високий стакан льодом.\n2. Налийте текілу та апельсиновий сік.\n3. Додайте краплю сиропу Гренадін (він осяде на дно для ефекту світанку).\n4. Не перемішуйте.\n5. Прикрасьте апельсином та вишнею.",
+            "joke": "Яскравий, хаотичний і трохи «overpriced».",
+            "history": "Швидкий, яскравий і трохи хаотичний — як Бессарабка у піковий час."
+        }
+    },
+    {
+        "id": "podil_hipster",
+        "spirit": "Whiskey",
+        "mood": "Bitter",
+        "en": {
+            "name": "Podil Hipster",
+            "ingredients": "45ml Rye whiskey, 30ml Italian red bitter aperitif, 30ml Sweet Vermouth",
+            "instructions": "1. Fill a mixing glass with ice.\n2. Add Rye Whiskey, Campari, and Sweet Vermouth.\n3. Stir well.\n4. Strain into a rocks glass over ice.\n5. Garnish with an orange peel.",
+            "joke": "You talking to me? (Taxi Driver)",
+            "history": "An art‑bar twist for Podil nights: bitter, confident, and oddly photogenic."
+        },
+        "ua": {
+            "name": "Подільський Гіпстер",
+            "ingredients": "45мл Житній віскі, 30мл Червоний гіркий аперитив, 30мл Солодкий вермут",
+            "instructions": "1. Наповніть змішувальний стакан льодом.\n2. Додайте житній віскі, Кампарі та вермут.\n3. Добре перемішайте.\n4. Процідіть у стакан рокс на лід.\n5. Прикрасьте цедрою апельсина.",
+            "joke": "Від цього напою у вас автоматично з’являються вуса і підкати.",
+            "history": "Барний твіст для подільських вечорів: гіркий, впевнений і дуже фотогенічний."
+        }
+    },
+    {
+        "id": "hydropark_gym",
+        "spirit": "Gin",
+        "mood": "Bitter",
+        "en": {
+            "name": "Hydropark Gym",
+            "ingredients": "60ml Gin, Tonic water, Lime",
+            "instructions": "1. Fill a large balloon glass with plenty of ice.\n2. Pour in Gin.\n3. Top with Tonic water.\n4. Squeeze a wedge of lime and drop it in.\n5. Stir once.",
+            "joke": "Wax on, wax off. (Karate Kid)",
+            "history": "A clean G&T for the outdoor gym crowd—hydration, but make it adult."
+        },
+        "ua": {
+            "name": "Гідропарк Качалка",
+            "ingredients": "60мл Джин, Тонік, Лайм",
+            "instructions": "1. Наповніть великий келих великою кількістю льоду.\n2. Налийте джин.\n3. Долийте тонік.\n4. Вичавіть шматочок лайма і киньте всередину.\n5. Один раз перемішайте.",
+            "joke": "Електроліти для Качалки. Без цукру (майже).",
+            "history": "Чистий джин‑тонік для спортивного Гідропарку: «гідратація», але по‑дорослому."
+        }
+    },
+    {
+        "id": "dream_town_shopper",
+        "spirit": "Vodka",
+        "mood": "Sweet",
+        "en": {
+            "name": "Dream Town Shopper",
+            "ingredients": "45ml Vodka, 15ml Orange liqueur (Cointreau/Triple Sec/Curaçao), 30ml Cranberry",
+            "instructions": "1. Fill a shaker with ice.\n2. Add Vodka, Orange Liqueur, Cranberry juice, and lime juice.\n3. Shake well.\n4. Strain into a martini glass.\n5. Garnish with a lime wheel.",
+            "joke": "On Wednesdays we wear pink. (Mean Girls)",
+            "history": "A mall happy‑hour favorite—pink, sweet, and suspiciously easy to finish."
+        },
+        "ua": {
+            "name": "Шопер Дрім Тауна",
+            "ingredients": "45мл Горілка, 15мл Апельсиновий лікер (Куантро/Тріпл Сек/Курасао), 30мл Журавлина",
+            "instructions": "1. Наповніть шейкер льодом.\n2. Додайте горілку, апельсиновий лікер, журавлинний морс та сік лайма.\n3. Добре збовтайте.\n4. Процідіть у келих для мартіні.\n5. Прикрасьте кружальцем лайма.",
+            "joke": "Рожевий, солодкий, і врешті-решт болить голова.",
+            "history": "Фірмовий напій «шопінг‑щастя»: рожевий, солодкий і підступно легкий."
+        }
+    },
+    {
+        "id": "the_blackout",
+        "spirit": "Vodka",
+        "mood": "Strong",
+        "en": {
+            "name": "The Blackout",
+            "ingredients": "30ml Espresso liqueur (Kahlúa), 30ml Vodka, Soda splash",
+            "instructions": "1. Fill a rocks glass with ice.\n2. Add Vodka and Coffee Liqueur.\n3. Top with a splash of Club Soda for fizz.\n4. Stir gently.\n5. Serve immediately (no garnish needed).",
+            "joke": "I am your father. (Star Wars)",
+            "history": "Born during a neighborhood power outage—espresso kept morale (and the party) alive."
+        },
+        "ua": {
+            "name": "Блекаут",
+            "ingredients": "30мл Кавовий лікер (Калуа), 30мл Горілка, Содова",
+            "instructions": "1. Наповніть стакан рокс льодом.\n2. Додайте горілку та кавовий лікер.\n3. Долийте трохи содової для бульбашок.\n4. Легко перемішайте.\n5. Подавайте одразу (гарніш не потрібен).",
+            "joke": "Немає світла? Немає проблем. Вимикає надійно.",
+            "history": "З’явився під час блекауту: трохи еспресо, щоб тримати настрій і світло всередині."
+        }
+    }
+];
+        let currentLang = 'en';
+
+        function renderGrid(filtered = cocktails) {
+            const grid = document.getElementById('cocktail-grid');
+            grid.innerHTML = '';
+            filtered.forEach(c => {
+                const data = c[currentLang];
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openModal(c);
+                card.innerHTML = `
+                    <div class="mood-tag">${c.mood}</div>
+                    <img src="/minions/images/cocktails/cocktail_${c.id}.png?v=3" alt="${data.name}" onerror="this.style.display='none'">
+                    <h3>${data.name}</h3>
+                    <p style="font-size: 0.7rem; opacity: 0.7;">${c.spirit}</p>
+                `;
+                grid.appendChild(card);
+            });
+
+            document.getElementById('main-title').innerText = currentLang === 'en' ? "Igor Khokhlov's Bar" : "Бар Ігоря Хохлова";
+            document.getElementById('main-subtitle').innerText = currentLang === 'en' ? "Spring Speakeasy 🍌🌸" : "Весняний Спікізі 🍌🌸";
+            document.getElementById('back-home').innerText = currentLang === 'en' ? "Back Home" : "Додому";
+        }
+
+        function toggleLang() {
+            currentLang = currentLang === 'en' ? 'ua' : 'en';
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const spirit = document.getElementById('spirit-filter').value;
+            const mood = document.getElementById('mood-filter').value;
+            
+            let filtered = cocktails;
+            if (spirit !== 'all') filtered = filtered.filter(c => c.spirit === spirit);
+            if (mood !== 'all') filtered = filtered.filter(c => c.mood === mood);
+            
+            renderGrid(filtered);
+        }
+
+        function formatIngredients(raw) {
+            if (!raw) return '';
+            // Supports either a string ("A, B, C") or an array.
+            const parts = Array.isArray(raw)
+                ? raw
+                : String(raw).split(',').map(s => s.trim()).filter(Boolean);
+            return parts.map(p => `• ${p}`).join('\n');
+        }
+
+        function makeUpHistory(name) {
+            const bits = [
+                `Legend says this one was invented after someone said "just one more" and the bartender took it personally.`,
+                `A totally real classic from 19th‑century "somewhere". Historians are still looking for the evidence (and the bartender).`,
+                `This recipe was "discovered" the same way most great ideas are: late night + whatever was left on the shelf.`,
+                `Originally served to impress a very important guest. The guest forgot the meeting, but remembered the drink.`
+            ];
+            const pick = bits[(name.length + name.charCodeAt(0)) % bits.length];
+            return `${pick} (${name})`;
+        }
+
+        function makeUpHistoryUA(name) {
+            const bits = [
+                `Кажуть, його придумали після фрази «ще по одному», і бармен сприйняв це як технічне завдання.`,
+                `Нібито це класика з XIX століття. Документи зникли, але настрій залишився.`,
+                `Рецепт «винайшли» вночі з того, що було під рукою. Як і багато геніальних речей.`,
+                `Спершу робили для важливого гостя. Гість забув навіщо прийшов, але напій запам’ятав.`
+            ];
+            const pick = bits[(name.length + name.charCodeAt(0)) % bits.length];
+            return `${pick} (${name})`;
+        }
+
+        function openModal(cocktail) {
+            const data = cocktail[currentLang];
+
+            const modalImg = document.getElementById('modal-img');
+            modalImg.src = `/minions/images/cocktails/cocktail_${cocktail.id}.png?v=3`;
+            modalImg.onerror = () => { modalImg.style.display = 'none'; };
+            modalImg.onload = () => { modalImg.style.display = 'block'; };
+
+            document.getElementById('modal-title').innerText = data.name;
+
+            // Ingredients (detailed, bullet list)
+            const ingredientsBlock = document.getElementById('modal-ingredients');
+            ingredientsBlock.innerText = `${currentLang === 'en' ? 'Ingredients' : 'Інгредієнти'}:\n${formatIngredients(data.ingredients)}`;
+
+            // History (real if provided, otherwise funny)
+            const historyBlock = document.getElementById('modal-history');
+            const historyText = data.history || (currentLang === 'en' ? makeUpHistory(data.name) : makeUpHistoryUA(data.name));
+            historyBlock.style.display = historyText ? 'block' : 'none';
+            historyBlock.innerHTML = `<div class="section-title">${currentLang === 'en' ? 'History' : 'Історія'}</div>${historyText}`;
+
+            // Method (keep your original, but present as a recipe section)
+            const methodTitle = currentLang === 'en' ? 'Method' : 'Як готувати';
+            const metaLine = currentLang === 'en'
+                ? `Spirit: ${cocktail.spirit} • Mood: ${cocktail.mood}`
+                : `База: ${cocktail.spirit} • Настрій: ${cocktail.mood}`;
+            document.getElementById('modal-instructions').innerText = `${metaLine}\n\n${methodTitle}:\n${data.instructions}`;
+
+            document.getElementById('modal-joke').innerText = `${currentLang === 'en' ? "Bartender's Note" : "Від бармена"}: "${data.joke}"`;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        renderGrid();
+    </script>
+</body>
+</html>
