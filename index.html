@@ -364,17 +364,18 @@
           overflow: hidden;
           border-bottom: 1px solid rgba(122,231,255,.12);
           background:
-            radial-gradient(900px 420px at 50% 30%, rgba(25,247,255,.16), rgba(255,61,242,.10), rgba(0,0,0,0)),
+            radial-gradient(900px 520px at 50% 30%, rgba(25,247,255,.16), rgba(255,61,242,.10), rgba(0,0,0,0)),
             linear-gradient(180deg, rgba(7,10,28,.85), rgba(5,8,22,.85));
         }
 
         .modal-img{
           width:100%;
-          height: 360px;
-          object-fit: contain; /* show full illustration */
+          height: 520px;              /* bigger hero */
+          object-fit: contain;        /* show full illustration */
           display:block;
-          background: transparent; /* no black side bars */
-          transform: translateY(0px);
+          background: transparent;    /* no side bars */
+          transform: translateY(0px) scale(1.08); /* slightly “behind” */
+          transform-origin: 50% 30%;
           transition: transform .05s linear;
           will-change: transform;
         }
@@ -430,7 +431,7 @@
           .controls{ gap: 10px; }
           select{ max-width: 46vw; }
           .container{ padding: 16px; }
-          .modal-img{ height: 260px; }
+          .modal-img{ height: 360px; }
         }
     </style>
 </head>
@@ -1352,8 +1353,8 @@
                 requestAnimationFrame(() => {
                     const y = scroller.scrollTop || 0;
                     // Parallax the illustration slightly as you scroll (clamped)
-                    const py = Math.max(-30, Math.min(30, -y * 0.12));
-                    img.style.transform = `translateY(${py}px)`;
+                    const py = Math.max(-60, Math.min(60, -y * 0.18));
+                    img.style.transform = `translateY(${py}px) scale(1.08)`;
                     // Also drift the hero background grid a bit
                     hero.style.backgroundPosition = `0px ${Math.round(y * 0.25)}px, 0px 0px`;
                     ticking = false;
@@ -1372,7 +1373,7 @@
             // Reset scroll + parallax each open
             const scroller = document.getElementById('modal-content');
             if(scroller) scroller.scrollTop = 0;
-            modalImg.style.transform = 'translateY(0px)';
+            modalImg.style.transform = 'translateY(0px) scale(1.08)';
             bindModalParallax();
 
             document.getElementById('modal-title').innerText = data.name;
