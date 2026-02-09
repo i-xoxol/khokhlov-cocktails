@@ -1019,7 +1019,7 @@
                 card.onclick = () => openModal(c);
                 card.innerHTML = `
                     <div class="mood-tag">${c.mood}</div>
-                    <img src="/minions/images/cocktails/cocktail_${c.id}.png?v=3" alt="${data.name}" onerror="this.style.display='none'">
+                    <img src="/minions/images/cocktails/cocktail_${c.id}.png?v=1" alt="${data.name}" onerror="this.style.display='none'">
                     <h3>${data.name}</h3>
                     <p style="font-size: 0.7rem; opacity: 0.7;">${c.spirit}</p>
                 `;
@@ -1082,7 +1082,7 @@
             const data = cocktail[currentLang];
 
             const modalImg = document.getElementById('modal-img');
-            modalImg.src = `/minions/images/cocktails/cocktail_${cocktail.id}.png?v=3`;
+            modalImg.src = `/minions/images/cocktails/cocktail_${cocktail.id}.png?v=1`;
             modalImg.onerror = () => { modalImg.style.display = 'none'; };
             modalImg.onload = () => { modalImg.style.display = 'block'; };
 

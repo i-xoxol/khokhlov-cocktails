@@ -1275,7 +1275,7 @@
                       <div class="mood-tag" style="margin:0;">${c.mood}</div>
                       <div class="mood-tag" style="margin:0; border-color: rgba(55,255,139,.35); box-shadow: 0 0 16px rgba(55,255,139,.14);">${strengthMeter(s.score)} <span style="margin-left:6px;">${currentLang==='en'?'STR':'МІЦ'}</span></div>
                     </div>
-                    <img src="/images/cocktails/cocktail_${c.id}.png?v=3" alt="${data.name}" onerror="this.style.display='none'">
+                    <img src="/images/cocktails/cocktail_${c.id}.png?v=4" alt="${data.name}" onerror="this.style.display='none'">
                     <h3>${data.name}</h3>
                     <p title="${strengthText}">${c.spirit} • ~${s.abv}%</p>
                 `;
@@ -1366,7 +1366,7 @@
             const data = cocktail[currentLang];
 
             const modalImg = document.getElementById('modal-img');
-            modalImg.src = `/images/cocktails/cocktail_${cocktail.id}.png?v=3`;
+            modalImg.src = `/images/cocktails/cocktail_${cocktail.id}.png?v=4`;
             modalImg.onerror = () => { modalImg.style.display = 'none'; };
             modalImg.onload = () => { modalImg.style.display = 'block'; };
 
