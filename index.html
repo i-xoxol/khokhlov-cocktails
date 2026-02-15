@@ -3,272 +3,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khokhlov's Spring Speakeasy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Fredoka+One&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <title>Khokhlov’s Neon Ops Speakeasy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --minion-yellow: #FFD300;
-            --minion-blue: #0055B8;
-            --spring-pink: #FFB7C5;
-            --spring-green: #98FB98;
-            --gru-gray: #333333;
-            --glass: rgba(255, 255, 255, 0.9);
+        :root{
+          --bg0:#050816;
+          --bg1:#070A1C;
+
+          --surface: rgba(10, 18, 44, 0.55);
+          --surface2: rgba(8, 14, 32, 0.82);
+          --border: rgba(122, 231, 255, 0.22);
+
+          --text: #EAF6FF;
+          --muted: rgba(234,246,255,.72);
+
+          --cyan:#19F7FF;
+          --blue:#2E6BFF;
+          --magenta:#FF3DF2;
+          --green:#37FF8B;
+          --amber:#FFCC4D;
+          --danger:#FF3B5C;
+
+          --glow-cyan: 0 0 18px rgba(25,247,255,.35);
+          --glow-mag: 0 0 18px rgba(255,61,242,.28);
+
+          --radius: 16px;
+          --radius-sm: 12px;
+          --shadow: 0 18px 40px rgba(0,0,0,.45);
+
+          --font-ui: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+          --font-display: "Orbitron", "Inter", system-ui, sans-serif;
+          --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
         }
 
-        * { box-sizing: border-box; }
-
-        body {
-            overflow-x: hidden;
-            max-width: 100vw;
-            background: linear-gradient(135deg, var(--minion-yellow) 0%, var(--spring-green) 50%, var(--minion-blue) 100%);
-            background-attachment: fixed;
-            font-family: 'Open Sans', sans-serif;
-            color: var(--gru-gray);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        *{ box-sizing:border-box; }
+        html,body{ height:100%; }
+        body{
+          margin:0;
+          color:var(--text);
+          font-family:var(--font-ui);
+          background: var(--bg0);
+          overflow-x:hidden;
+          padding: 16px;
         }
 
-        .controls {
-            position: sticky;
-            top: 10px;
-            width: 100%;
-            max-width: 1000px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            z-index: 100;
-            flex-wrap: wrap;
+        /* Background: gradients + grid + scanlines */
+        body.neo-bg{
+          position:relative;
+          min-height:100%;
+          background:
+            radial-gradient(1200px 800px at 15% 10%, rgba(25,247,255,.18), transparent 55%),
+            radial-gradient(1000px 700px at 85% 25%, rgba(255,61,242,.12), transparent 60%),
+            radial-gradient(900px 700px at 55% 90%, rgba(46,107,255,.10), transparent 60%),
+            linear-gradient(180deg, var(--bg1), var(--bg0));
+        }
+        body.neo-bg::before{
+          content:"";
+          position:absolute; inset:0;
+          background:
+            linear-gradient(rgba(25,247,255,.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(25,247,255,.06) 1px, transparent 1px);
+          background-size: 56px 56px;
+          opacity:.35;
+          pointer-events:none;
+          mask-image: radial-gradient(ellipse at center, rgba(0,0,0,.75) 0%, rgba(0,0,0,.15) 55%, transparent 78%);
+        }
+        body.neo-bg::after{
+          content:"";
+          position:absolute; inset:0;
+          background: repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,.03),
+            rgba(255,255,255,.03) 1px,
+            transparent 1px,
+            transparent 4px
+          );
+          opacity:.18;
+          mix-blend-mode: overlay;
+          pointer-events:none;
+        }
+        @media (prefers-reduced-motion: no-preference){
+          body.neo-bg::before{ animation: griddrift 18s linear infinite; }
+          @keyframes griddrift{
+            from { background-position: 0 0, 0 0; }
+            to   { background-position: 56px 56px, 56px 56px; }
+          }
         }
 
-        .control-btn {
-            background: var(--minion-blue);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 50px;
-            font-family: 'Fredoka One', cursive;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: 0.2s;
-            font-size: 0.8rem;
+        .page-container{
+          width:min(1120px, calc(100% - 16px));
+          margin:0 auto;
+          position:relative;
+          z-index:1;
         }
 
-        .control-btn:hover, .control-btn.active {
-            background: white;
-            color: var(--minion-blue);
-            transform: scale(1.05);
+        /* Controls */
+        .controls{
+          position: sticky;
+          top: 10px;
+          z-index: 10;
+          display:flex;
+          gap:12px;
+          flex-wrap:wrap;
+          align-items:center;
+          justify-content:center;
+          padding:12px;
+          border-radius: var(--radius);
+          background: var(--surface);
+          border: 1px solid var(--border);
+          backdrop-filter: blur(10px);
+          box-shadow: var(--shadow);
+          margin: 10px auto 16px;
         }
 
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            border: 8px solid var(--minion-blue);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-            padding: 40px;
-            position: relative;
+        .control-btn{
+          border: 1px solid rgba(25,247,255,.28);
+          background: rgba(6,10,24,.55);
+          color: var(--text);
+          padding: 10px 12px;
+          border-radius: 999px;
+          cursor:pointer;
+          transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
+          font-family: var(--font-display);
+          letter-spacing: .06em;
+          text-transform: uppercase;
+          font-size: 12px;
+        }
+        .control-btn:hover{
+          transform: translateY(-1px);
+          border-color: rgba(25,247,255,.6);
+          box-shadow: var(--glow-cyan);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 4px dashed var(--minion-blue);
-            padding-bottom: 10px;
+        select{
+          color:var(--text);
+          background: rgba(6, 10, 24, 0.55);
+          border: 1px solid rgba(122,231,255,.18);
+          border-radius: 12px;
+          padding:10px 12px;
+          outline:none;
+          min-height: 40px;
+          font-family: var(--font-ui);
+        }
+        select:focus{
+          border-color: rgba(25,247,255,.55);
+          box-shadow: var(--glow-cyan);
         }
 
-        h1 {
-            font-family: 'Bungee', cursive;
-            font-size: 2.5rem;
-            color: var(--minion-blue);
-            text-shadow: 3px 3px 0px var(--minion-yellow);
-            margin: 0;
+        /* Main panel */
+        .container{
+          width:100%;
+          background: var(--surface);
+          border-radius: 18px;
+          border: 1px solid rgba(25,247,255,.28);
+          box-shadow: 0 24px 70px rgba(0,0,0,.45);
+          padding: 22px;
+          position: relative;
+          overflow:hidden;
+          backdrop-filter: blur(10px);
+        }
+        .container::before{
+          content:"";
+          position:absolute; inset:-2px;
+          background: linear-gradient(120deg,
+            rgba(25,247,255,.0),
+            rgba(25,247,255,.18),
+            rgba(255,61,242,.12),
+            rgba(25,247,255,.0)
+          );
+          opacity:.55;
+          filter: blur(14px);
+          pointer-events:none;
         }
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+        header{
+          text-align:center;
+          margin-bottom: 18px;
+          border-bottom: 1px solid rgba(122,231,255,.18);
+          padding-bottom: 10px;
+          position:relative;
+          z-index:1;
+        }
+        h1{
+          font-family: var(--font-display);
+          letter-spacing:.08em;
+          text-transform:uppercase;
+          font-size: clamp(22px, 3.2vw, 34px);
+          margin:0;
+          text-shadow: 0 0 22px rgba(25,247,255,.22);
+        }
+        #main-subtitle{
+          margin: 8px 0 0;
+          color: var(--muted);
+          font-size: 13px;
         }
 
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 15px;
-            border: 3px solid var(--minion-yellow);
-            cursor: pointer;
-            transition: 0.3s;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
+        /* Grid */
+        .menu-grid{
+          display:grid;
+          grid-template-columns: repeat(12, 1fr);
+          gap: 14px;
+          padding: 14px 0 8px;
+          position:relative;
+          z-index:1;
+        }
+        .card{
+          grid-column: span 4;
+          border-radius: var(--radius);
+          background: rgba(8, 14, 32, 0.55);
+          border:1px solid rgba(122,231,255,.18);
+          overflow:hidden;
+          cursor:pointer;
+          transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
+          position:relative;
+          display:flex;
+          flex-direction:column;
+        }
+        .card::before{
+          content:"";
+          position:absolute; inset:-2px;
+          background: linear-gradient(120deg,
+            rgba(25,247,255,.0),
+            rgba(25,247,255,.22),
+            rgba(255,61,242,.18),
+            rgba(25,247,255,.0)
+          );
+          opacity:.0;
+          filter: blur(10px);
+          transition: opacity .2s ease;
+          pointer-events:none;
+        }
+        .card:hover{
+          transform: translateY(-3px);
+          border-color: rgba(25,247,255,.45);
+          box-shadow: 0 18px 44px rgba(0,0,0,.48), var(--glow-cyan);
+        }
+        .card:hover::before{ opacity:.9; }
+
+        .card img{
+          width:100%;
+          height: 190px;
+          object-fit: cover;
+          display:block;
+          filter: saturate(1.1) contrast(1.05);
+        }
+        .card h3{
+          margin: 10px 12px 6px;
+          font-family: var(--font-display);
+          letter-spacing:.06em;
+          text-transform:uppercase;
+          font-size: 13px;
+          color: var(--text);
+        }
+        .card p{
+          margin: 0 12px 12px;
+          color: var(--muted);
+          font-family: var(--font-mono);
+          font-size: 12px;
+        }
+        .card .mood-tag{
+          margin: 10px 12px 0;
+          display:inline-flex;
+          align-self:flex-start;
+          font-size: 11px;
+          padding: 6px 8px;
+          border-radius: 999px;
+          border: 1px solid rgba(25,247,255,.22);
+          background: rgba(6,10,24,.45);
+          color: rgba(234,246,255,.75);
+          text-transform: uppercase;
+          letter-spacing: .06em;
+          align-items:center;
         }
 
-        .card:hover {
-            transform: scale(1.05);
-            border-color: var(--minion-blue);
+        .strength-meter{ display:inline-flex; gap:3px; align-items:center; }
+        .str-seg{
+          width: 10px;
+          height: 6px;
+          border-radius: 6px;
+          border: 1px solid rgba(25,247,255,.28);
+          background: rgba(234,246,255,.10);
+        }
+        .str-seg.is-on{
+          background: linear-gradient(90deg, rgba(25,247,255,.85), rgba(255,61,242,.55));
+          border-color: rgba(25,247,255,.55);
+          box-shadow: 0 0 10px rgba(25,247,255,.25);
         }
 
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 10px;
+        /* Back button */
+        .back-btn{
+          margin-top: 18px;
+          display:inline-block;
+          border: 1px solid rgba(25,247,255,.28);
+          background: rgba(6,10,24,.55);
+          color: var(--text);
+          padding: 10px 14px;
+          border-radius: 12px;
+          text-decoration:none;
+          font-family: var(--font-display);
+          letter-spacing:.06em;
+          text-transform:uppercase;
+          font-size: 12px;
+          transition: transform .12s ease, box-shadow .18s ease, border-color .18s ease;
         }
-
-        .card h3 {
-            font-family: 'Fredoka One', cursive;
-            margin: 5px 0;
-            color: var(--minion-blue);
-            font-size: 1.1rem;
-        }
-
-        .card .mood-tag {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            color: #d63384;
-            margin-bottom: 5px;
-        }
-
-        select {
-            padding: 10px 20px;
-            border-radius: 20px;
-            border: 2px solid var(--minion-blue);
-            font-family: 'Fredoka One', cursive;
-            color: var(--minion-blue);
-            background: white;
-            cursor: pointer;
-        }
+        .back-btn:hover{ transform: translateY(-1px); border-color: rgba(25,247,255,.6); box-shadow: var(--glow-cyan); }
 
         /* Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            padding: 20px;
+        .modal-overlay{
+          position:fixed; inset:0;
+          background: rgba(0,0,0,.62);
+          backdrop-filter: blur(6px);
+          display:none;
+          justify-content:center;
+          align-items:center;
+          z-index:50;
+          padding: 16px;
+        }
+        .modal-content{
+          background: var(--surface2);
+          max-width: 980px;
+          width: 100%;
+          max-height: min(82vh, 900px);
+          overflow-y:auto;
+          border-radius: 18px;
+          position: relative;
+          border: 1px solid rgba(25,247,255,.28);
+          box-shadow: 0 24px 70px rgba(0,0,0,.65), var(--glow-cyan);
+          animation: pop .22s cubic-bezier(.2,.9,.2,1);
+        }
+        @keyframes pop{ from { transform: translateY(8px) scale(.98); opacity:0; } to { transform: translateY(0) scale(1); opacity:1; } }
+
+        .modal-close{
+          width: 40px;
+          height: 40px;
+          border-radius: 999px;
+          border:1px solid rgba(255,61,242,.28);
+          background: rgba(6,10,24,.55);
+          color: var(--text);
+          cursor:pointer;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-size: 22px;
+          line-height: 1;
+          z-index: 60;
+        }
+        .modal-close:hover{ box-shadow: var(--glow-mag); border-color: rgba(255,61,242,.6); }
+
+        /* Always-on close button overlay (doesn't scroll away) */
+        .modal-close-fixed{
+          position: fixed;
+          top: calc(14px + env(safe-area-inset-top));
+          right: calc(14px + env(safe-area-inset-right));
         }
 
-        .modal-content {
-            background: white;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            border-radius: 30px;
-            overflow-y: auto;
-            position: relative;
-            animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .modal-hero{
+          position: relative;
+          overflow: hidden;
+          border-bottom: 1px solid rgba(122,231,255,.12);
+          background:
+            radial-gradient(900px 520px at 50% 30%, rgba(25,247,255,.16), rgba(255,61,242,.10), rgba(0,0,0,0)),
+            linear-gradient(180deg, rgba(7,10,28,.85), rgba(5,8,22,.85));
         }
 
-        @keyframes pop {
-            from { transform: scale(0.8); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        .modal-img{
+          width:100%;
+          height: 520px;              /* bigger hero */
+          object-fit: contain;        /* show full illustration */
+          display:block;
+          background: transparent;    /* no side bars */
+          transform: translateY(0px) scale(1.08); /* slightly “behind” */
+          transform-origin: 50% 30%;
+          transition: transform .05s linear;
+          will-change: transform;
         }
 
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 2rem;
-            cursor: pointer;
-            color: white;
-            text-shadow: 0 0 10px black;
-            z-index: 10;
+        .modal-body{ padding: 16px 16px 18px; color: var(--muted); }
+        .modal-body h2{
+          margin:0 0 10px;
+          font-family: var(--font-display);
+          letter-spacing:.08em;
+          text-transform:uppercase;
+          color: var(--text);
+          font-size: 16px;
+        }
+        .ingredients, .history{
+          border-radius: 14px;
+          padding: 12px;
+          background: rgba(6,10,24,.45);
+          border: 1px solid rgba(122,231,255,.16);
+          margin-bottom: 12px;
+          color: rgba(234,246,255,.78);
+          font-family: var(--font-mono);
+          font-size: 12px;
+          white-space: pre-line;
+        }
+        .history{ font-family: var(--font-ui); color: var(--muted); }
+
+        .section-title{
+          font-family: var(--font-display);
+          color: var(--cyan);
+          font-size: 12px;
+          margin: 0 0 6px 0;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
         }
 
-        .modal-img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
+        #modal-instructions{ white-space: pre-line; color: var(--muted); font-family: var(--font-ui); line-height:1.45; }
+        .joke{
+          border-left: 4px solid rgba(255,61,242,.55);
+          padding-left: 12px;
+          font-style: italic;
+          color: rgba(255,61,242,.85);
+          margin-top: 14px;
         }
 
-        .modal-body {
-            padding: 30px;
+        /* Responsive */
+        @media (max-width: 980px){
+          .card{ grid-column: span 6; }
         }
-
-        .modal-body h2 {
-            font-family: 'Bungee', cursive;
-            color: var(--minion-blue);
-            margin-top: 0;
-        }
-
-        .ingredients {
-            background: var(--spring-green);
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            margin-bottom: 14px;
-        }
-
-        .history {
-            background: rgba(255, 183, 197, 0.35);
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            margin-bottom: 14px;
-            line-height: 1.35;
-        }
-
-        .section-title {
-            font-family: 'Fredoka One', cursive;
-            color: var(--minion-blue);
-            font-size: 0.95rem;
-            margin: 0 0 6px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-
-        .joke {
-            border-left: 5px solid var(--minion-yellow);
-            padding-left: 15px;
-            font-style: italic;
-            color: #d63384;
-            margin-top: 20px;
-        }
-
-        .back-btn {
-            margin-top: 40px;
-            background: var(--minion-blue);
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-family: 'Bungee', cursive;
-            display: inline-block;
-        }
-
-        /* Mobile polish: prevent side-scroll + better density */
-        @media (max-width: 640px) {
-            body { padding: 12px; }
-            .container { padding: 18px; border-width: 6px; border-radius: 22px; }
-            h1 { font-size: 1.9rem; }
-            .menu-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
-            .card { padding: 10px; border-radius: 16px; }
-            .card img { height: 140px; border-radius: 12px; }
-            .modal-overlay { padding: 10px; }
-            .modal-img { height: 220px; }
-            .modal-body { padding: 18px; }
-            select { padding: 8px 12px; max-width: 46vw; }
-            .controls { gap: 8px; }
+        @media (max-width: 640px){
+          body{ padding: 12px; }
+          .card{ grid-column: span 12; }
+          .card img{ height: 160px; }
+          .controls{ gap: 10px; }
+          select{ max-width: 46vw; }
+          .container{ padding: 16px; }
+          .modal-img{ height: 360px; }
         }
     </style>
 </head>
-<body>
+<body class="neo-bg">
+
+  <div class="page-container">
 
     <div class="controls">
-        <button class="control-btn" onclick="toggleLang()">UA / EN</button>
+        <select id="lang-select" class="control-select" onchange="setLang(this.value)">
+            <option value="en">English</option>
+            <option value="ua">Українська</option>
+            <option value="sk">Slovenčina</option>
+            <option value="pl">Polski</option>
+        </select>
         <button class="control-btn" id="availability-toggle" onclick="toggleAvailability()">Available: ON</button>
         <select id="spirit-filter" onchange="applyFilters()">
             <option value="all">All Spirits</option>
@@ -294,7 +471,7 @@
     <div class="container">
         <header>
             <h1 id="main-title">Igor Khokhlov's Bar</h1>
-            <p id="main-subtitle">Spring Speakeasy 🍌🌸</p>
+            <p id="main-subtitle">Neon Ops Speakeasy</p>
         </header>
 
         <div class="menu-grid" id="cocktail-grid"></div>
@@ -305,9 +482,11 @@
     </div>
 
     <div class="modal-overlay" id="modal" onclick="if(event.target === this) closeModal()">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-            <img src="" class="modal-img" id="modal-img">
+        <button class="modal-close modal-close-fixed" type="button" onclick="closeModal()" aria-label="Close">&times;</button>
+        <div class="modal-content" id="modal-content">
+            <div class="modal-hero" id="modal-hero">
+              <img src="" class="modal-img" id="modal-img">
+            </div>
             <div class="modal-body">
                 <h2 id="modal-title"></h2>
 
@@ -1009,14 +1188,16 @@
         }
     }
 ];
+        const supportedLangs = ['en','ua','sk','pl'];
         let currentLang = 'en';
+
+        // Availability toggle (remembered per device)
         const AVAILABILITY_KEY = 'khokhlov_show_available_only_v1';
         let showAvailableOnly = true;
 
         function loadAvailabilityPref(){
             try {
                 const v = localStorage.getItem(AVAILABILITY_KEY);
-                // default ON (available-only)
                 showAvailableOnly = (v === null) ? true : (v === '1');
             } catch { showAvailableOnly = true; }
             updateAvailabilityUI();
@@ -1039,33 +1220,7 @@
             applyFilters();
         }
 
-        function renderGrid(filtered = cocktails) {
-            const grid = document.getElementById('cocktail-grid');
-            grid.innerHTML = '';
-            filtered.forEach(c => {
-                const data = c[currentLang];
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.onclick = () => openModal(c);
-                card.innerHTML = `
-                    <div class="mood-tag">${c.mood}</div>
-                    <img src="/images/cocktails/cocktail_${c.id}.png?v=3" alt="${data.name}" onerror="this.style.display='none'">
-                    <h3>${data.name}</h3>
-                    <p style="font-size: 0.7rem; opacity: 0.7;">${c.spirit}</p>
-                `;
-                grid.appendChild(card);
-            });
-
-            document.getElementById('main-title').innerText = currentLang === 'en' ? "Igor Khokhlov's Bar" : "Бар Ігоря Хохлова";
-            document.getElementById('main-subtitle').innerText = currentLang === 'en' ? "Spring Speakeasy 🍌🌸" : "Весняний Спікізі 🍌🌸";
-            document.getElementById('back-home').innerText = currentLang === 'en' ? "Back Home" : "Додому";
-        }
-
-        function toggleLang() {
-            currentLang = currentLang === 'en' ? 'ua' : 'en';
-            applyFilters();
-        }
-
+        // Server inventory (shared across devices)
         async function loadServerInventory() {
             try {
                 const inv = await BAR.apiGetInventory();
@@ -1076,6 +1231,831 @@
             }
         }
 
+        // Hand-crafted translations (SK + PL)
+        const skpl = {
+  "negroni": {
+    "sk": {
+      "name": "Negroni",
+      "ingredients": "30ml Gin, 30ml Campari, 30ml Sweet Vermouth",
+      "instructions": "1. Naplň miešací pohár ľadom.\n2. Pridaj gin, Campari a sladký vermút.\n3. Miešaj 20–30 sekúnd, kým sa drink dobre neochladí.\n4. Preceď do rocks pohára cez veľkú kocku ľadu.\n5. Ozdob pomarančovou kôrou.",
+      "joke": "Horké, noblesné a neúprosné — ako keď v Prešove čakáš spoj na Sekčov a príde „už plný“. Aspoň štýl ostáva.",
+      "history": "Vznikol vo Florencii okolo roku 1919, keď gróf Camillo Negroni chcel svoje Americano s ginom namiesto sódy. Jedna výmena a legenda bola na svete. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Negroni",
+      "ingredients": "30ml Gin, 30ml Campari, 30ml Sweet Vermouth",
+      "instructions": "1. Napełnij szklankę barmańską lodem.\n2. Wlej gin, Campari i słodki wermut.\n3. Mieszaj 20–30 sekund, aż dobrze się schłodzi.\n4. Przecedź do szklanki typu rocks na dużą kostkę lodu.\n5. Udekoruj skórką pomarańczową.",
+      "joke": "Gorzkie, eleganckie i pewne siebie — jak powrót nocnym z PKP z myślą: „jutro też wstanę”.",
+      "history": "Powstało we Florencji około 1919 roku, gdy hrabia Camillo Negroni poprosił o Americano z ginem zamiast wody sodowej. Prosto i genialnie. (prawdziwa historia)"
+    }
+  },
+  "old_fashioned": {
+    "sk": {
+      "name": "Old Fashioned",
+      "ingredients": "60ml Bourbon or Rye, 1 Sugar Cube (or 10ml Syrup), 2 dashes Angostura Bitters",
+      "instructions": "1. Daj cukor a bitters do rocks pohára.\n2. Pridaj trošku vody/sódy a roztlač/rozmiešaj, kým sa cukor rozpustí.\n3. Pridaj veľkú kocku ľadu a whiskey.\n4. Jemne miešaj ~30 sekúnd, aby sa ochladil a ľahko zriedil.\n5. Vytlač oleje z pomarančovej kôry nad drink a kôru vlož dnu.",
+      "joke": "Klasika bez výhovoriek — ako keď na Sídlisku povieš „dám si jedno“ a myslíš to vážne. Aspoň prvých 10 minút.",
+      "history": "Koncom 19. storočia sa kombinácia destilátu + cukor + bitters volala „old fashioned“, aby sa odlíšila od novších štýlov. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Old Fashioned",
+      "ingredients": "60ml Bourbon or Rye, 1 Sugar Cube (or 10ml Syrup), 2 dashes Angostura Bitters",
+      "instructions": "1. Umieść cukier i bitters w szklance typu rocks.\n2. Dodaj odrobinę wody/sody i rozgnieć, aż cukier się rozpuści.\n3. Dodaj dużą kostkę lodu i whiskey.\n4. Mieszaj delikatnie ~30 sekund, żeby schłodzić i lekko rozcieńczyć.\n5. Wyciśnij olejki ze skórki pomarańczy nad drink i wrzuć skórkę do środka.",
+      "joke": "Minimalizm jak z osiedlowego baru: mało składników, zero ściemy, maksimum klimatu na blokowisku.",
+      "history": "Pod koniec XIX wieku miks: alkohol + cukier + bitters nazywano „old fashioned”, by odróżnić go od nowszych koktajli. (prawdziwa historia)"
+    }
+  },
+  "aperol_spritz": {
+    "sk": {
+      "name": "Aperol Spritz",
+      "ingredients": "90ml Prosecco, 60ml Aperol, 30ml Soda Water",
+      "instructions": "1. Naplň veľký vínový pohár kopou ľadu.\n2. Najprv nalej Prosecco.\n3. Pridaj Aperol.\n4. Dolej sódovú vodu.\n5. Jemne premiešaj a ozdob plátkom pomaranča.",
+      "joke": "Oranžové bublinky — ako keď v Prešove vybehneš „len na chvíľku“ a zrazu je z toho celá promenáda.",
+      "history": "Spritz pochádza zo severu Talianska, kde sa víno „špliechalo“ sódou; oranžová aperitívna verzia prerazila vo Venete v 20. storočí. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Aperol Spritz",
+      "ingredients": "90ml Prosecco, 60ml Aperol, 30ml Soda Water",
+      "instructions": "1. Napełnij duży kieliszek do wina sporą ilością lodu.\n2. Najpierw wlej Prosecco.\n3. Dodaj Aperol.\n4. Dopełnij wodą sodową.\n5. Delikatnie zamieszaj i udekoruj plasterkiem pomarańczy.",
+      "joke": "Pomarańczowe bąbelki — jak szybki wypad do Żabki „po coś małego”, który kończy się rozmową do północy.",
+      "history": "Spritz narodził się w północnych Włoszech jako wino „psikane” sodą; wersja z pomarańczowym aperitifem stała się hitem w Veneto w XX wieku. (prawdziwa historia)"
+    }
+  },
+  "white_russian": {
+    "sk": {
+      "name": "White Russian",
+      "ingredients": "50ml Vodka, 20ml Coffee Liqueur (Kahlúa), 30ml Heavy Cream",
+      "instructions": "1. Naplň rocks pohár ľadom.\n2. Pridaj vodku a kávový likér.\n3. Jemne premiešaj.\n4. Pomaly nalej smotanu po chrbte lyžičky, aby ostala navrchu.\n5. Podávaj bez miešania (nech si hosť premieša sám).",
+      "joke": "Krémové pohodlie — ako keď na Sekčove nájdeš voľné miesto na parkovanie. Najlepšie v župane.",
+      "history": "Krémový twist na Black Russian, populárny od polovice 20. storočia a neskôr znovu oživený popkultúrou. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "White Russian",
+      "ingredients": "50ml Vodka, 20ml Coffee Liqueur (Kahlúa), 30ml Heavy Cream",
+      "instructions": "1. Napełnij szklankę typu rocks lodem.\n2. Wlej wódkę i likier kawowy.\n3. Delikatnie zamieszaj.\n4. Powoli wlej śmietankę po łyżeczce, żeby „pływała” na wierzchu.\n5. Podawaj bez mieszania (niech gość sam wymiesza).",
+      "joke": "Kremowy klasyk: najlepiej smakuje w dresie, po drodze z PKP i z planem „nic nie robię”.",
+      "history": "Kremowa wersja Black Russian: popularna w połowie XX wieku, później odświeżona przez popkulturę. (prawdziwa historia)"
+    }
+  },
+  "espresso_martini": {
+    "sk": {
+      "name": "Espresso Martini",
+      "ingredients": "50ml Vodka, 10ml Coffee Liqueur, 30ml Fresh Espresso, (Simple syrup to taste)",
+      "instructions": "1. Sprav čerstvé espresso a nechaj ho mierne vychladnúť.\n2. Naplň shaker ľadom.\n3. Pridaj vodku, kávový likér a espresso.\n4. TRAS poriadne 15–20 sekúnd, aby sa spravila pena.\n5. Jemne preceď do vychladeného coupe/martini pohára. Ozdob 3 kávovými zrnami.",
+      "joke": "Keď potrebuješ nakopnúť rýchlejšie než ranný spoj v Prešove. Káva, ale s dress code: „silno“.",
+      "history": "Vymyslené v Londýne koncom 80. rokov barmanom Dickom Bradsellom pre hosťa, ktorý chcel niečo, čo ho „prebudí“. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Espresso Martini",
+      "ingredients": "50ml Vodka, 10ml Coffee Liqueur, 30ml Fresh Espresso, (Simple syrup to taste)",
+      "instructions": "1. Zaparz świeże espresso i pozwól mu lekko przestygnąć.\n2. Napełnij shaker lodem.\n3. Wlej wódkę, likier kawowy i espresso.\n4. Wstrząsaj BARDZO mocno 15–20 sekund, żeby powstała pianka.\n5. Drobno przecedź do schłodzonego coupe/martini. Udekoruj 3 ziarnami kawy.",
+      "joke": "Kawa w trybie „PKP o 6:12, godność o 6:13”. Robi robotę.",
+      "history": "Wymyślone w Londynie pod koniec lat 80. przez Dicka Bradsella dla gościa, który poprosił o coś „na obudzenie”. (prawdziwa historia)"
+    }
+  },
+  "sidecar": {
+    "sk": {
+      "name": "Sidecar",
+      "ingredients": "50ml Cognac, 20ml Orange Liqueur (Cointreau), 20ml Lemon Juice",
+      "instructions": "1. Sprav cukrový okraj na coupe (citrón po okraji, potom do cukru).\n2. Naplň shaker ľadom.\n3. Pridaj koňak, pomarančový likér a citrónovú šťavu.\n4. Dobre pretrep, kým je drink ľadový.\n5. Preceď do pripraveného pohára.",
+      "joke": "Také elegantné, že aj Prešovské Sídlisko sa na chvíľu tvári ako Paríž. Na chvíľu.",
+      "history": "Prvýkrát zaznamenaný v 20. rokoch v Paríži/Londýne; názov pravdepodobne odkazuje na motocyklový sidecar. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Sidecar",
+      "ingredients": "50ml Cognac, 20ml Orange Liqueur (Cointreau), 20ml Lemon Juice",
+      "instructions": "1. Zrób cukrowy rant na coupe (cytryna na brzegu, potem do cukru).\n2. Napełnij shaker lodem.\n3. Wlej koniak, likier pomarańczowy i sok z cytryny.\n4. Wstrząśnij porządnie, aż będzie mocno schłodzone.\n5. Przecedź do przygotowanego kieliszka.",
+      "joke": "Tak elegancki, że aż chce się mówić „dzień dobry” sąsiadom na klatce. Prawie.",
+      "history": "Pierwsze przepisy pochodzą z lat 20. w Paryżu/Londynie; nazwa najpewniej od wózka bocznego motocykla. (prawdziwa historia)"
+    }
+  },
+  "margarita": {
+    "sk": {
+      "name": "Margarita",
+      "ingredients": "50ml Tequila, 20ml Orange Liqueur, 15ml Lime Juice, (Agave syrup optional)",
+      "instructions": "1. Sprav soľný okraj na rocks alebo coupe.\n2. Naplň shaker ľadom.\n3. Pridaj tequilu, pomarančový likér a limetkovú šťavu.\n4. Pretrep 15 sekúnd.\n5. Preceď do pohára na čerstvý ľad (alebo podávaj bez ľadu). Ozdob kolieskom limetky.",
+      "joke": "Soľ na okraji, limetka v srdci — ako večer na Sídlisku: trochu štípe, ale je veselo.",
+      "history": "Presný pôvod je sporný, no kombinácia tequila–limetka–pomaranč sa stala klasikou v 30.–40. rokoch. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Margarita",
+      "ingredients": "50ml Tequila, 20ml Orange Liqueur, 15ml Lime Juice, (Agave syrup optional)",
+      "instructions": "1. Zrób solony rant na rocks albo coupe.\n2. Napełnij shaker lodem.\n3. Wlej tequilę, likier pomarańczowy i sok z limonki.\n4. Wstrząśnij 15 sekund.\n5. Przecedź do szkła na świeży lód (albo podaj „up”). Udekoruj plastrem limonki.",
+      "joke": "Sól, limonka i odwaga — jak szybki skok do Żabki o 23:58: niby się nie da, a jednak.",
+      "history": "Pochodzenie jest dyskutowane, ale duet tequila–limonka–pomarańcza zrobił karierę w latach 30.–40. (prawdziwa historia)"
+    }
+  },
+  "blue_minion": {
+    "sk": {
+      "name": "Modrý Mimoň",
+      "ingredients": "30ml Gin, 15ml Blue Curacao, 15ml Lemon Juice, Top with Prosecco (~90ml)",
+      "instructions": "1. Vychlaď flute alebo vysoký pohár.\n2. V shakri s ľadom zmiešaj gin, Blue Curacao a citrónovú šťavu.\n3. Krátko pretrep, aby sa ochladilo.\n4. Preceď do pohára.\n5. Pomaly dolej Proseccom. Ozdob citrónovou kôrou.",
+      "joke": "Jeden a začneš rozumieť aj hláseniu na stanici Prešov v piatok večer. Banana-ready.",
+      "history": "Zrodil sa na karaoke noci, keď niekto chcel „niečo modré a bublinkové“. Ostal ako neoficiálny prípitok jarných večerov pri vode."
+    },
+    "pl": {
+      "name": "Niebieski Minionek",
+      "ingredients": "30ml Gin, 15ml Blue Curacao, 15ml Lemon Juice, Top with Prosecco (~90ml)",
+      "instructions": "1. Schłódź kieliszek typu flute albo wysoką szklankę.\n2. W shakerze z lodem połącz gin, Blue Curacao i sok z cytryny.\n3. Krótko wstrząśnij, żeby schłodzić.\n4. Przecedź do szkła.\n5. Powoli dopełnij Prosecco. Udekoruj twistem cytrynowym.",
+      "joke": "Po jednym zaczniesz mówić „bananowym” i śmiać się z dowcipów w kolejce w Żabce.",
+      "history": "Urodził się na karaoke, gdy ktoś poprosił o „coś niebieskiego i bąbelkowego”. Został jako toast na wiosenne wieczory."
+    }
+  },
+  "manhattan": {
+    "sk": {
+      "name": "Manhattan",
+      "ingredients": "50ml Rye Whiskey, 20ml Sweet Vermouth, 2 dashes Angostura Bitters",
+      "instructions": "1. Vychlaď coupe alebo martini pohár.\n2. Naplň miešací pohár ľadom.\n3. Pridaj rye whiskey, sladký vermút a bitters.\n4. Miešaj plynulo 30 sekúnd.\n5. Preceď do vychladeného pohára. Ozdob koktejlovou čerešňou.",
+      "joke": "Mestský a uhladený — ako keď ideš po Hlavnej v Prešove a tváriš sa, že zajtra nemáš nič.",
+      "history": "Zdokumentovaný už v 80. rokoch 19. storočia a často spájaný s Manhattan Clubom v New Yorku. Stal sa vzorom pre whiskey koktaily. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Manhattan",
+      "ingredients": "50ml Rye Whiskey, 20ml Sweet Vermouth, 2 dashes Angostura Bitters",
+      "instructions": "1. Schłódź kieliszek coupe albo martini.\n2. Napełnij szklankę barmańską lodem.\n3. Wlej rye whiskey, słodki wermut i bitters.\n4. Mieszaj płynnie 30 sekund.\n5. Przecedź do schłodzonego kieliszka. Udekoruj wisienką koktajlową.",
+      "joke": "Miejski klasyk: elegancki jak koszula „na wyjście”, ale w środku to dalej konkret.",
+      "history": "Znany co najmniej od lat 80. XIX wieku, często łączony z Manhattan Club w Nowym Jorku. Archetyp koktajli na whiskey. (prawdziwa historia)"
+    }
+  },
+  "amaretto_sour": {
+    "sk": {
+      "name": "Amaretto Sour",
+      "ingredients": "50ml Amaretto, 30ml Lemon Juice, 15ml Sugar Syrup, 1 dash Bitters, (Egg white optional)",
+      "instructions": "1. Naplň shaker ľadom.\n2. Pridaj Amaretto, Bourbon, citrónovú šťavu a sirup.\n3. Pretrep poriadne (ak chceš penu, pridaj bielok; najprv „dry shake“ bez ľadu).\n4. Preceď do rocks pohára so свежým ľadom.\n5. Ozdob citrónom a čerešňou.",
+      "joke": "Chutí ako mandľový dezert — len bez omrviniek a s odvahou typu „Sekčov, ideme“. ",
+      "history": "Obľúbenec zo 70. rokov; moderná verzia pridáva whiskey pre lepšiu rovnováhu a štruktúru. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Amaretto Sour",
+      "ingredients": "50ml Amaretto, 30ml Lemon Juice, 15ml Sugar Syrup, 1 dash Bitters, (Egg white optional)",
+      "instructions": "1. Napełnij shaker lodem.\n2. Wlej Amaretto, Bourbon, sok z cytryny i syrop.\n3. Wstrząśnij energicznie (dla pianki dodaj białko; najpierw „dry shake” bez lodu).\n4. Przecedź do rocks na świeży lód.\n5. Udekoruj cytryną i wisienką.",
+      "joke": "Smakuje jak migdałowy deser, tylko bez talerzyka i z klimatem „blokowisko nocą”.",
+      "history": "Hit lat 70.; nowoczesne wersje dodają whiskey dla balansu i „kręgosłupa”. (prawdziwa historia)"
+    }
+  },
+  "gt": {
+    "sk": {
+      "name": "Gin & Tonic",
+      "ingredients": "50ml Gin, 150ml Tonic Water, Lime wedge",
+      "instructions": "1. Naplň balónový pohár alebo highball kopou ľadu.\n2. Nalej gin.\n3. Pridaj pár kvapiek orange bitters (voliteľné, ale odporúčané).\n4. Dolej kvalitným tonikom.\n5. Jemne premiešaj raz. Ozdob limetkou alebo botanicals.",
+      "joke": "Osviežujúce ako prechádzka v Prešove — len si dávaj pozor, aby z toho nebola „ešte jedna“ na Sekčove.",
+      "history": "Vznikol v britskej Indii ako spôsob, ako spraviť chinínový tonic pitnejším; gin urobil zvyšok. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Gin & Tonic",
+      "ingredients": "50ml Gin, 150ml Tonic Water, Lime wedge",
+      "instructions": "1. Napełnij kielich typu balloon albo highball dużą ilością lodu.\n2. Wlej gin.\n3. Dodaj kilka kropel orange bitters (opcjonalnie, ale warto).\n4. Dopełnij dobrym tonikiem.\n5. Zamieszaj raz, delikatnie. Udekoruj limonką albo ziołami/botanikami.",
+      "joke": "Klasyk jak „dwa przystanki i jestem”: proste, chłodne i zawsze działa po drodze z PKP.",
+      "history": "Narodził się w Indiach Brytyjskich, żeby dało się pić tonik z chininą; gin zrobił z tego towarzyski hit. (prawdziwa historia)"
+    }
+  },
+  "rum_cocktail": {
+    "sk": {
+      "name": "Rum Old Fashioned",
+      "ingredients": "60ml Aged Rum, 10ml Maple Syrup, 2 dashes Orange Bitters",
+      "instructions": "1. Daj do rocks pohára javorový sirup a bitters.\n2. Pridaj trošku vody a premiešaj.\n3. Pridaj veľkú kocku ľadu a rum.\n4. Miešaj 30 sekúnd, kým je krásne chladný a „sirupový“.\n5. Vytlač pomarančovú kôru nad drink a kôru vlož dnu.",
+      "joke": "Prečo je rum vždy preč? Lebo na Sídlisku sa „len ochutná“ mení na „kde je fľaša“. ",
+      "history": "Namiešané po dlhej zimnej noci, keď ostal už len rum a javorový sirup zaskočil cukor. Z toho sa stal domáci staple."
+    },
+    "pl": {
+      "name": "Rum Old Fashioned",
+      "ingredients": "60ml Aged Rum, 10ml Maple Syrup, 2 dashes Orange Bitters",
+      "instructions": "1. Wlej syrop klonowy i bitters do szklanki typu rocks.\n2. Dodaj odrobinę wody i zamieszaj.\n3. Wrzuć dużą kostkę lodu i wlej rum.\n4. Mieszaj 30 sekund, aż będzie schłodzone i aksamitne.\n5. Wyciśnij skórkę pomarańczy nad drink i wrzuć ją do środka.",
+      "joke": "„Czemu rum zniknął?” Bo na blokowisku ktoś zrobił z niego Old Fashioned i już nie odda.",
+      "history": "Powstał po długim zimowym wieczorze, gdy rum był jedyną poważną butelką, a syrop klonowy udawał cukier. I tak już zostało."
+    }
+  },
+  "peach_fizz": {
+    "sk": {
+      "name": "Broskyňový Fizz",
+      "ingredients": "40ml Vodka, 20ml Peach Schnapps, 10ml Lemon Juice, Top with Prosecco",
+      "instructions": "1. Naplň vysoký pohár ľadom.\n2. Pridaj vodku, broskyňový schnapps a citrónovú šťavu.\n3. Premiešaj, aby sa spojilo a ochladilo.\n4. Dolej Proseccom.\n5. Ozdob plátkom citróna alebo vetvičkou mäty.",
+      "joke": "Sladšie než keď v Prešove konečne stihneš zelenú vlnu. (Stáva sa raz za sezónu.)",
+      "history": "Vytvorené na prvý teplý aprílový víkend — broskyňa a bubliny zneli ako sľub leta."
+    },
+    "pl": {
+      "name": "Brzoskwiniowy Fizz",
+      "ingredients": "40ml Vodka, 20ml Peach Schnapps, 10ml Lemon Juice, Top with Prosecco",
+      "instructions": "1. Napełnij wysoką szklankę lodem.\n2. Wlej wódkę, brzoskwiniowy schnapps i sok z cytryny.\n3. Zamieszaj, żeby połączyć i schłodzić.\n4. Dopełnij Prosecco.\n5. Udekoruj plasterkiem cytryny albo miętą.",
+      "joke": "Słodsze niż moment, gdy w Żabce działa samoobsługa i nikt nie woła „kierownik!”.",
+      "history": "Stworzone na pierwszy ciepły weekend kwietnia — brzoskwinia i bąbelki to obietnica lata."
+    }
+  },
+  "moscow_mule": {
+    "sk": {
+      "name": "Moscow Mule",
+      "ingredients": "50ml Vodka, 15ml Lime Juice, 120ml Ginger Beer",
+      "instructions": "1. Naplň medený hrnček (alebo highball) drveným ľadom.\n2. Pridaj vodku a vytlač polovicu limetky (šupku hoď dnu).\n3. Dolej pikantným ginger beer.\n4. Jemne premiešaj.\n5. Ozdob kolieskom limetky a mätou.",
+      "joke": "Medený hrnček, lebo sme „fancy“ — ale v srdci je to dospelá sóda. Ako na Sídlisku, len s lepším zvukom ľadu.",
+      "history": "Vytvorený v roku 1941 v Los Angeles na podporu vodky, ginger beer a medených hrnčekov. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Moscow Mule",
+      "ingredients": "50ml Vodka, 15ml Lime Juice, 120ml Ginger Beer",
+      "instructions": "1. Napełnij miedziany kubek (albo highball) kruszonym lodem.\n2. Wlej wódkę i wyciśnij pół limonki (łupinę wrzuć do środka).\n3. Dopełnij ostrym ginger beer.\n4. Delikatnie zamieszaj.\n5. Udekoruj plastrem limonki i miętą.",
+      "joke": "Miedziany kubek, bo styl musi być — a w środku: najlepsza pikantna „dorosła oranżada” z blokowiska.",
+      "history": "Wymyślony w 1941 w Los Angeles, żeby wypromować wódkę, ginger beer i miedziane kubki. (prawdziwa historia)"
+    }
+  },
+  "boulevardier": {
+    "sk": {
+      "name": "Boulevardier",
+      "ingredients": "45ml Bourbon, 30ml Campari, 30ml Sweet Vermouth",
+      "instructions": "1. Vychlaď rocks pohár.\n2. V miešacom pohári s ľadom zmiešaj bourbon, Campari a sladký vermút.\n3. Miešaj 30 sekúnd.\n4. Preceď do pohára cez veľkú kocku ľadu.\n5. Ozdob pomarančovým twistom.",
+      "joke": "Negroniho starší súrodenec, čo chodil na umeleckú školu — a potom si dal jedno na Hlavnej v Prešove.",
+      "history": "Publikované v roku 1927 Harrym McElhoneom a pomenované podľa magazínu The Boulevardier. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Boulevardier",
+      "ingredients": "45ml Bourbon, 30ml Campari, 30ml Sweet Vermouth",
+      "instructions": "1. Schłódź szklankę typu rocks.\n2. W szklance barmańskiej z lodem połącz bourbon, Campari i słodki wermut.\n3. Mieszaj 30 sekund.\n4. Przecedź do szkła na dużą kostkę lodu.\n5. Udekoruj twistem pomarańczowym.",
+      "joke": "Negroni po studiach: bardziej „kulturalne”, ale dalej gorzkie i konkretne jak rozmowy pod klatką.",
+      "history": "Opublikowany w 1927 przez Harry’ego McElhone’a i nazwany od magazynu „The Boulevardier”. (prawdziwa historia)"
+    }
+  },
+  "gimlet": {
+    "sk": {
+      "name": "Gimlet",
+      "ingredients": "60ml Gin, 30ml Lime Cordial (or 20ml Lime Juice + 10ml Syrup)",
+      "instructions": "1. Naplň shaker ľadom.\n2. Pridaj gin, limetkovú šťavu a cukrový sirup.\n3. Pretrep 15 sekúnd, kým shaker „zmrzne“ zvonku.\n4. Preceď do vychladeného coupe alebo martini pohára.\n5. Ozdob kolieskom limetky.",
+      "joke": "Čisté a kyslé — ako ranný vzduch v Prešove, kým si ešte nespomenieš, čo si včera sľúbil.",
+      "history": "Spája sa s tradíciou Royal Navy používať limetky proti skorbutu; gin spravil z lieku koktail. (pravdivý príbeh)"
+    },
+    "pl": {
+      "name": "Gimlet",
+      "ingredients": "60ml Gin, 30ml Lime Cordial (or 20ml Lime Juice + 10ml Syrup)",
+      "instructions": "1. Napełnij shaker lodem.\n2. Wlej gin, sok z limonki i syrop cukrowy.\n3. Wstrząśnij 15 sekund, aż shaker będzie oszroniony.\n4. Przecedź do schłodzonego coupe albo martini.\n5. Udekoruj plastrem limonki.",
+      "joke": "Kwaśne, czyste i konkretne — jak szybka decyzja na blokowisku: „bierzemy i idziemy dalej”.",
+      "history": "Łączony z marynarską tradycją limonek przeciw szkorbutowi; gin zamienił „lekarstwo” w koktajl. (prawdziwa historia)"
+    }
+  },
+  "rusanivka_blue": {
+    "sk": {
+      "name": "Rusanivka Blue",
+      "ingredients": "60ml Vodka, 30ml Blue Curacao, 120ml Lemonade",
+      "instructions": "1. Naplň vysoký pohár ľadom.\n2. Nalej vodku a Blue Curacao.\n3. Dolej limonádou.\n4. Jemne premiešaj, aby vznikol gradient.\n5. Ozdob plátkom citróna a slamkou.",
+      "joke": "Farba jak neon nad Sídliskom a nálada jak keď v Prešove nájdeš otvorený podnik po polnoci.",
+      "history": "Legenda z teplých promenád, keď svetlá pri kanáli spravili limonádu rovnako modrú."
+    },
+    "pl": {
+      "name": "Rusanivka Blue",
+      "ingredients": "60ml Vodka, 30ml Blue Curacao, 120ml Lemonade",
+      "instructions": "1. Napełnij wysoką szklankę lodem.\n2. Wlej wódkę i Blue Curacao.\n3. Dopełnij lemoniadą.\n4. Delikatnie zamieszaj, żeby powstał efekt gradientu.\n5. Udekoruj plastrem cytryny i słomką.",
+      "joke": "Kolor jak neon nad blokowiskiem i smak jak „jeszcze jeden, przecież jutro wolne”.",
+      "history": "Legenda z ciepłych spacerów nad kanałem, gdy światła robiły lemoniadę dokładnie tak niebieską."
+    }
+  },
+  "darnitsa_diesel": {
+    "sk": {
+      "name": "Darnitsa Diesel",
+      "ingredients": "45ml Vodka, 30ml Espresso liqueur, 30ml Fresh espresso",
+      "instructions": "1. Priprav čerstvé espresso.\n2. Naplň shaker ľadom.\n3. Pridaj vodku, espresso likér a kávu.\n4. Pretrep NA TVRDO 15 sekúnd.\n5. Preceď do vychladeného pohára. Ozdoba netreba — pena stačí.",
+      "joke": "Palivo na ráno: silnejšie než „rýchla káva“ na stanici. V Prešove by to mali dávať k lístku na Sekčov.",
+      "history": "Postavené ako palivo pre dochádzajúcich — rovnakým dielom kofeín aj odhodlanie."
+    },
+    "pl": {
+      "name": "Darnitsa Diesel",
+      "ingredients": "45ml Vodka, 30ml Espresso liqueur, 30ml Fresh espresso",
+      "instructions": "1. Zrób świeże espresso.\n2. Napełnij shaker lodem.\n3. Wlej wódkę, likier espresso i kawę.\n4. Wstrząśnij MOCNO 15 sekund.\n5. Przecedź do schłodzonego kieliszka. Bez dekoracji — pianka robi wszystko.",
+      "joke": "Paliwo dla człowieka: kawa + moc, czyli „PKP znów opóźnione, ale ja nie”.",
+      "history": "Zrobiony jako paliwo dla zmęczonych — po równo kofeiny i determinacji."
+    }
+  },
+  "kyiv_cake": {
+    "sk": {
+      "name": "Kyiv Cake Martini",
+      "ingredients": "45ml Vodka, 30ml Amaretto, 30ml Irish cream",
+      "instructions": "1. Urob orieškový okraj na martini pohári (lieskovce alebo vlašské).\n2. Naplň shaker ľadom.\n3. Pridaj vodku, Amaretto a Irish Cream.\n4. Dobre pretrep, kým sa ochladí.\n5. Preceď do pohára s okrajom.",
+      "joke": "Dezert v pohári — ako keď na Sídlisku povieš „len kúsok“ a zrazu je všetko preč.",
+      "history": "Tekutá pocta slávnemu koláču, prvýkrát naliata na rodinných narodeninách, keď dezert zmizol priskoro."
+    },
+    "pl": {
+      "name": "Kyiv Cake Martini",
+      "ingredients": "45ml Vodka, 30ml Amaretto, 30ml Irish cream",
+      "instructions": "1. Zrób orzechowy rant na kieliszku martini (laskowe albo włoskie).\n2. Napełnij shaker lodem.\n3. Wlej wódkę, Amaretto i Irish Cream.\n4. Wstrząśnij porządnie, aż będzie schłodzone.\n5. Przecedź do kieliszka z rantem.",
+      "joke": "Smakuje jak deser, tylko bez talerzyka i z większą skłonnością do „dokładki” na blokowisku.",
+      "history": "Płynny hołd dla słynnego ciasta — powstał na rodzinnych urodzinach, gdy deser skończył się podejrzanie szybko."
+    }
+  },
+  "metro_token": {
+    "sk": {
+      "name": "The Metro Token",
+      "ingredients": "90ml Prosecco, 60ml Orange aperitif (Aperol), 30ml Soda water",
+      "instructions": "1. Naplň vínový pohár ľadom.\n2. Pridaj Prosecco a Aperol.\n3. Dolej sódovú vodu.\n4. Jemne premiešaj.\n5. Ozdob plátkom pomaranča.",
+      "joke": "Rýchle a jasné — ako keď v Prešove prebehneš na zastávku a stihneš to „na poslednú sekundu“. Niekedy.",
+      "history": "Inšpirované starými žetónmi do metra — krátke, jasné a ideálne na rýchlu jazdu do noci."
+    },
+    "pl": {
+      "name": "The Metro Token",
+      "ingredients": "90ml Prosecco, 60ml Orange aperitif (Aperol), 30ml Soda water",
+      "instructions": "1. Napełnij kieliszek do wina lodem.\n2. Wlej Prosecco i Aperol.\n3. Dopełnij wodą sodową.\n4. Delikatnie zamieszaj.\n5. Udekoruj plastrem pomarańczy.",
+      "joke": "Szybkie i jasne — jak przesiadka z PKP, gdy „na styk” jednak wchodzi.",
+      "history": "Inspiracja starymi żetonami: krótka przejażdżka w noc — prosta, świeża, pomarańczowa."
+    }
+  },
+  "left_bank_negroni": {
+    "sk": {
+      "name": "Left Bank Negroni",
+      "ingredients": "30ml Gin, 30ml Italian red bitter aperitif, 30ml Sweet Vermouth",
+      "instructions": "1. Naplň miešací pohár ľadom.\n2. Pridaj gin, bitter a vermút.\n3. Dobre miešaj.\n4. Preceď do rocks pohára s ľadom.\n5. Ozdob plátkom pomaranča.",
+      "joke": "Má postoj — ako keď na Sekčove povieš „v pohode“ a pritom vieš, že nič nie je v pohode.",
+      "history": "Negroni s ľavobrežným postojom, miešané pre kamarátov uviaznutých v dopravnej „romantike“."
+    },
+    "pl": {
+      "name": "Left Bank Negroni",
+      "ingredients": "30ml Gin, 30ml Italian red bitter aperitif, 30ml Sweet Vermouth",
+      "instructions": "1. Napełnij szklankę barmańską lodem.\n2. Wlej gin, bitter i wermut.\n3. Dobrze wymieszaj.\n4. Przecedź do rocks z lodem.\n5. Udekoruj plastrem pomarańczy.",
+      "joke": "Ma charakter dzielnicy: gorzkie, pewne siebie i nie pyta o zgodę — jak życie na blokowisku.",
+      "history": "Negroni z miejskim pazurem — miksowane dla znajomych utkwionych w korkach."
+    }
+  },
+  "troieshchyna_ice": {
+    "sk": {
+      "name": "Troieshchyna Iced Tea",
+      "ingredients": "15ml Vodka, 15ml Rum, 15ml Gin, 15ml Tequila, 15ml Blue Curacao",
+      "instructions": "1. Naplň vysoký pohár ľadom.\n2. Pridaj všetky destiláty (vodka, rum, gin, tequila, Blue Curacao).\n3. Ak máš, pridaj sweet & sour mix (citrón + sirup).\n4. Dolej colou.\n5. Jemne premiešaj. Ozdob citrónom.",
+      "joke": "Trochu zo všetkého — ako sídlisková párty: niekto prinesie „ešte jednu tašku“ a plán na spánok sa zruší.",
+      "history": "Klasika pre veľkú partiu: trochu zo všetkého, lebo noc mala byť dlhá."
+    },
+    "pl": {
+      "name": "Troieshchyna Iced Tea",
+      "ingredients": "15ml Vodka, 15ml Rum, 15ml Gin, 15ml Tequila, 15ml Blue Curacao",
+      "instructions": "1. Napełnij wysoką szklankę lodem.\n2. Wlej wszystkie alkohole (wódka, rum, gin, tequila, Blue Curacao).\n3. Jeśli masz, dodaj sweet & sour (cytryna + syrop).\n4. Dopełnij colą.\n5. Delikatnie zamieszaj. Udekoruj cytryną.",
+      "joke": "Trochę wszystkiego, bo impreza długa — jak nocna rozmowa pod klatką na blokowisku.",
+      "history": "Podwórkowy klasyk na dużą ekipę: po trochu z każdej butelki, bo noc miała być długa."
+    }
+  },
+  "golden_gate": {
+    "sk": {
+      "name": "Golden Gate",
+      "ingredients": "60ml Cognac, 30ml Orange liqueur, 20ml Lemon juice",
+      "instructions": "1. Vychlaď coupe pohár.\n2. V shakri s ľadom spoj koňak, pomarančový likér a citrónovú šťavu.\n3. Dobre pretrep.\n4. Preceď do vychladeného pohára.\n5. Ozdob citrónovým twistom.",
+      "joke": "Znie to slávnostne — ako keď v Prešove ideš „iba na jedno“ a vezmeš si lepšiu bundu.",
+      "history": "Pomenované podľa historických brán — slávnostný dúšok po dlhej prechádzke starým centrom."
+    },
+    "pl": {
+      "name": "Golden Gate",
+      "ingredients": "60ml Cognac, 30ml Orange liqueur, 20ml Lemon juice",
+      "instructions": "1. Schłódź kieliszek coupe.\n2. W shakerze z lodem połącz koniak, likier pomarańczowy i sok z cytryny.\n3. Wstrząśnij porządnie.\n4. Przecedź do schłodzonego kieliszka.\n5. Udekoruj twistem cytrynowym.",
+      "joke": "Odświętne jak spacer po mieście w „lepszych butach”. Nawet jeśli potem i tak wracasz na PKP.",
+      "history": "Nazwa nawiązuje do historycznych bram — łyk celebracji po długim spacerze po starym centrum."
+    }
+  },
+  "obolon_sailor": {
+    "sk": {
+      "name": "Obolon Sailor",
+      "ingredients": "60ml Black rum (Gosling's), 120ml Ginger beer",
+      "instructions": "1. Naplň highball pohár ľadom.\n2. Pridaj čierny rum.\n3. Dolej ginger beer.\n4. Vytlač limetku do drinku a limetku hoď dnu.\n5. Jemne premiešaj.",
+      "joke": "Pre tých, čo idú „len na chvíľku“ k vode… a vrátia sa s príbehom. Prešov edition: aj s jednou limetkou navyše.",
+      "history": "Nábrežný highball na leto — pre rybárov aj večerných romantikov pri vode."
+    },
+    "pl": {
+      "name": "Obolon Sailor",
+      "ingredients": "60ml Black rum (Gosling's), 120ml Ginger beer",
+      "instructions": "1. Napełnij highball lodem.\n2. Wlej czarny rum.\n3. Dopełnij ginger beer.\n4. Wyciśnij ćwiartkę limonki i wrzuć ją do środka.\n5. Delikatnie zamieszaj.",
+      "joke": "Na lato nad wodą: proste, chłodne i z vibe’em jak wieczór pod blokiem, tylko z lepszym rumem.",
+      "history": "Nadbrzeżny highball na letnie dni — dla tych, którzy lubią wiatr, wodę i konkretny łyk."
+    }
+  },
+  "pechersk_hills": {
+    "sk": {
+      "name": "Pechersk Hills",
+      "ingredients": "60ml Gin, 30ml Lime juice, 20ml Syrup",
+      "instructions": "1. Naplň shaker ľadom.\n2. Pridaj gin, limetkovú šťavu a sirup.\n3. Pretrep energicky.\n4. Preceď do coupe pohára.\n5. Ozdob kolieskom limetky alebo lístkom mäty.",
+      "joke": "Kyslé a čisté — ako keď si dáš „kondičnú“ trasu na Sekčov pešo. Jasné, že len kondične.",
+      "history": "Chrumkavý gin sour na strmé výstupy — zaslúž si ho a potom si ho vychutnaj."
+    },
+    "pl": {
+      "name": "Pechersk Hills",
+      "ingredients": "60ml Gin, 30ml Lime juice, 20ml Syrup",
+      "instructions": "1. Napełnij shaker lodem.\n2. Wlej gin, sok z limonki i syrop.\n3. Wstrząśnij energicznie.\n4. Przecedź do kieliszka coupe.\n5. Udekoruj plastrem limonki albo listkiem mięty.",
+      "joke": "Orzeźwia jak podejście pod górę z zakupami z Żabki: najpierw wysiłek, potem nagroda.",
+      "history": "Rześki gin sour na strome podejścia — najpierw zasłuż, potem delektuj się."
+    }
+  },
+  "the_oligarch": {
+    "sk": {
+      "name": "The Oligarch",
+      "ingredients": "60ml Bourbon, Sugar, Bitters",
+      "instructions": "1. Daj do rocks pohára kocku cukru nasiaknutú bitters.\n2. Pridaj trošku vody a roztlač.\n3. Pridaj veľkú kocku ľadu a bourbon.\n4. Miešaj pomaly a „s autoritou“.\n5. Ozdob čerešňou a pomarančovým twistom.",
+      "joke": "Jednoduché, prísne a tvári sa draho — ako nový „luxusný“ byt na Sídlisku s výhľadom na parkovisko.",
+      "history": "Postavené na prípitok pri príliš nóbl večeri — jednoduché, tvrdé a na pohľad „drahé“."
+    },
+    "pl": {
+      "name": "The Oligarch",
+      "ingredients": "60ml Bourbon, Sugar, Bitters",
+      "instructions": "1. Włóż do rocks kostkę cukru nasączoną bitters.\n2. Dodaj odrobinę wody i rozgnieć.\n3. Dodaj dużą kostkę lodu i bourbon.\n4. Mieszaj powoli i „z klasą”.\n5. Udekoruj wisienką i twistem pomarańczowym.",
+      "joke": "Prosty skład, poważny ton i aura „to kosztuje” — jak kolacja, na którą ubierasz się za ładnie na blokowisku.",
+      "history": "Stworzony na toast przy zbyt eleganckiej kolacji — prosty, surowy i sprawiający wrażenie drogiego."
+    }
+  },
+  "pozniaky_concrete": {
+    "sk": {
+      "name": "Pozniaky Concrete",
+      "ingredients": "30ml Vodka, 30ml Espresso liqueur (Kahlúa), 30ml Irish cream (Baileys)",
+      "instructions": "1. Naplň rocks pohár ľadom.\n2. Pridaj vodku a kávový likér.\n3. Premiešaj.\n4. Nalej Irish Cream navrch (alebo premiešaj pre „betónový“ vzhľad).\n5. Podávaj hneď.",
+      "joke": "Husté a vrstvené — ako paneláky na Sekčove. Zvonku pokoj, vnútri dej.",
+      "history": "Husté a vrstvené ako štvrť — neskorý dezert v pohári."
+    },
+    "pl": {
+      "name": "Pozniaky Concrete",
+      "ingredients": "30ml Vodka, 30ml Espresso liqueur (Kahlúa), 30ml Irish cream (Baileys)",
+      "instructions": "1. Napełnij rocks lodem.\n2. Wlej wódkę i likier kawowy.\n3. Zamieszaj.\n4. Dolej Irish Cream na wierzch (albo wymieszaj dla efektu „betonu”).\n5. Podawaj od razu.",
+      "joke": "Gęste i warstwowe jak blokowisko: z wierzchu spokój, w środku dużo się dzieje.",
+      "history": "Gęste i warstwowe jak dzielnica — późnonocny deser w szklance."
+    }
+  },
+  "borscht_market": {
+    "sk": {
+      "name": "Borscht Market",
+      "ingredients": "60ml Vodka, Tomato juice, Spices",
+      "instructions": "1. Naplň vysoký pohár ľadom.\n2. Pridaj vodku a paradajkovú šťavu.\n3. Dochucuj: soľ, korenie, Tabasco, Worcestershire.\n4. Dobre premiešaj (ideálne stopkou zeleru).\n5. Ozdob zelerom, uhorkou alebo citrónom.",
+      "joke": "Prakticky šalát… len tekutý. Ako keď na prešovskom trhu povieš: „dám si niečo zdravé“.",
+      "history": "Slaný „nakopávač“, niekedy prezývaný aj „tekutý obed“ po rannej trhovej runde."
+    },
+    "pl": {
+      "name": "Borscht Market",
+      "ingredients": "60ml Vodka, Tomato juice, Spices",
+      "instructions": "1. Napełnij wysoką szklankę lodem.\n2. Wlej wódkę i sok pomidorowy.\n3. Dodaj przyprawy: sól, pieprz, Tabasco, Worcestershire.\n4. Dokładnie zamieszaj (najlepiej łodygą selera).\n5. Udekoruj selerem, ogórkiem albo cytryną.",
+      "joke": "To prawie zupa. Prawie zdrowe. Na pewno ratuje po ciężkim wieczorze na blokowisku.",
+      "history": "Wytrawny „ratunek” po porannym bazarze — bywał sprzedawany jako „płynny lunch”."
+    }
+  },
+  "funicular_lift": {
+    "sk": {
+      "name": "Funicular Lift",
+      "ingredients": "30ml Bourbon, 30ml Orange aperitif (Aperol), 30ml Sweet Vermouth",
+      "instructions": "1. Naplň miešací pohár ľadom.\n2. Pridaj bourbon, Aperol a sladký vermút.\n3. Miešaj, aby sa správne zriedilo.\n4. Preceď do coupe alebo rocks pohára.\n5. Ozdob pomarančovým twistom.",
+      "joke": "Horko-sladká jazda — ako keď sa v Prešove vyvezieš „len na chvíľu“ a už si hore s drinkom v ruke.",
+      "history": "Horko-sladká jazda, ktorá sa zastaví presne na chvíľu — aby si stihol vychutnať výhľad."
+    },
+    "pl": {
+      "name": "Funicular Lift",
+      "ingredients": "30ml Bourbon, 30ml Orange aperitif (Aperol), 30ml Sweet Vermouth",
+      "instructions": "1. Napełnij szklankę barmańską lodem.\n2. Wlej bourbon, Aperol i słodki wermut.\n3. Mieszaj, żeby uzyskać odpowiednie rozcieńczenie.\n4. Przecedź do coupe albo rocks.\n5. Udekoruj twistem pomarańczowym.",
+      "joke": "Słodko-gorzka przejażdżka: jedzie gładko, czasem jakby na chwilę staje — żebyś zdążył popatrzeć na świat.",
+      "history": "Koktajl jak krótka podróż z widokiem: bittersweet i idealnie w tempo."
+    }
+  },
+  "botanical_garden": {
+    "sk": {
+      "name": "Botanical Garden",
+      "ingredients": "60ml White rum (Bacardi), Mint, Lime, Soda",
+      "instructions": "1. Vo vysokom pohári jemne roztlač mätu s limetkou a cukrom (alebo sirupom).\n2. Pridaj rum.\n3. Naplň pohár drveným ľadom.\n4. Dolej sódovou vodou a premiešaj.\n5. Ozdob čerstvou vetvičkou mäty.",
+      "joke": "Mäta robí zázraky — ako keď v Prešove prvýkrát po zime cítiš jar a hneď je svet miernejší.",
+      "history": "Mätové osvieženie namiešané po jarnej prechádzke záhradami."
+    },
+    "pl": {
+      "name": "Botanical Garden",
+      "ingredients": "60ml White rum (Bacardi), Mint, Lime, Soda",
+      "instructions": "1. W wysokiej szklance delikatnie ugnieć miętę z limonką i cukrem (albo syropem).\n2. Wlej rum.\n3. Napełnij szklankę kruszonym lodem.\n4. Dopełnij sodą i zamieszaj.\n5. Udekoruj świeżą gałązką mięty.",
+      "joke": "Mięta robi robotę: jak wiosna po zimie — nagle oddycha się łatwiej, nawet na blokowisku.",
+      "history": "Miętowe orzeźwienie po wiosennym spacerze wśród zieleni."
+    }
+  },
+  "khreshchatyk_chestnut": {
+    "sk": {
+      "name": "Khreshchatyk Chestnut",
+      "ingredients": "45ml Vodka, 30ml Amaretto, Mint syrup",
+      "instructions": "1. Naplň shaker ľadom.\n2. Pridaj vodku, Amaretto a mätový sirup.\n3. Dobre pretrep.\n4. Preceď do martini pohára.\n5. Ozdob lístkom mäty (ako „gaštanový“ list).",
+      "joke": "Sladké, mätové a nostalgické — ako prvé kvety na jar v Prešove… a potom si spomenieš na realitu na Sídlisku.",
+      "history": "Odkaz na gaštanové kvety — sladké, mätové a trochu nostalgické."
+    },
+    "pl": {
+      "name": "Khreshchatyk Chestnut",
+      "ingredients": "45ml Vodka, 30ml Amaretto, Mint syrup",
+      "instructions": "1. Napełnij shaker lodem.\n2. Wlej wódkę, Amaretto i syrop miętowy.\n3. Wstrząśnij porządnie.\n4. Przecedź do kieliszka martini.\n5. Udekoruj listkiem mięty (taki „kasztanowy liść”).",
+      "joke": "Słodkie i miętowe — jak wspomnienie wiosny, zanim wrócisz na PKP i do codzienności.",
+      "history": "Ukłon w stronę kasztanowych kwiatów: słodkie, miętowe i lekko nostalgiczne."
+    }
+  },
+  "bessarabka_hustle": {
+    "sk": {
+      "name": "Bessarabka Hustle",
+      "ingredients": "60ml Tequila, Orange juice, Syrup",
+      "instructions": "1. Naplň vysoký pohár ľadom.\n2. Nalej tequilu a pomarančový džús.\n3. Pridaj grenadín/sirup (klesne a spraví „sunrise“ efekt).\n4. Nemiešaj.\n5. Ozdob pomarančom a čerešňou.",
+      "joke": "Rýchle, jasné a trochu chaotické — ako sobota na trhu. Prešov vibe: „len dve veci“ a odídeš s piatimi.",
+      "history": "Rýchly, jasný a ľahko chaotický drink — presne ako trh v špičke."
+    },
+    "pl": {
+      "name": "Bessarabka Hustle",
+      "ingredients": "60ml Tequila, Orange juice, Syrup",
+      "instructions": "1. Napełnij wysoką szklankę lodem.\n2. Wlej tequilę i sok pomarańczowy.\n3. Dodaj grenadynę/syrop (opadnie i zrobi efekt „sunrise”).\n4. Nie mieszaj.\n5. Udekoruj plastrem pomarańczy i wisienką.",
+      "joke": "Szybkie, jasne i trochę chaotyczne — jak zakupy w sobotę, gdy wszyscy mają ten sam plan: Żabka, „tylko na chwilę”.",
+      "history": "Błyskawiczne, słoneczne i odrobinę szalone — jak targ w godzinach szczytu."
+    }
+  },
+  "podil_hipster": {
+    "sk": {
+      "name": "Podil Hipster",
+      "ingredients": "45ml Rye whiskey, 30ml Italian red bitter aperitif, 30ml Sweet Vermouth",
+      "instructions": "1. Naplň miešací pohár ľadom.\n2. Pridaj rye whiskey, Campari a sladký vermút.\n3. Dobre miešaj.\n4. Preceď do rocks pohára cez ľad.\n5. Ozdob pomarančovou kôrou.",
+      "joke": "Horké a fotogenické — ako keď na Hlavnej v Prešove držíš pohár tak, aby to vyzeralo „nenútene“.",
+      "history": "Art‑barový twist na nočné potulky: horké, sebavedomé a zvláštne fotogenické."
+    },
+    "pl": {
+      "name": "Podil Hipster",
+      "ingredients": "45ml Rye whiskey, 30ml Italian red bitter aperitif, 30ml Sweet Vermouth",
+      "instructions": "1. Napełnij szklankę barmańską lodem.\n2. Wlej rye whiskey, Campari i słodki wermut.\n3. Dobrze wymieszaj.\n4. Przecedź do rocks na lód.\n5. Udekoruj skórką pomarańczy.",
+      "joke": "Gorzkie, pewne siebie i dziwnie fotogeniczne — jak kawa specialty pita pod blokiem o 21:37.",
+      "history": "Art‑barowy twist na nocne wyjścia: gorzkie, pewne i z klimatem."
+    }
+  },
+  "hydropark_gym": {
+    "sk": {
+      "name": "Hydropark Gym",
+      "ingredients": "60ml Gin, Tonic water, Lime",
+      "instructions": "1. Naplň veľký balónový pohár kopou ľadu.\n2. Nalej gin.\n3. Dolej tonik.\n4. Vytlač limetku a limetku hoď dnu.\n5. Premiešaj raz.",
+      "joke": "Dospelá hydratácia: ako keď po tréningu na Sídlisku povieš „zaslúžim si“ — a máš pravdu.",
+      "history": "Čistý G&T pre outdoor „gym“ partiu — hydratácia, ale pre dospelých."
+    },
+    "pl": {
+      "name": "Hydropark Gym",
+      "ingredients": "60ml Gin, Tonic water, Lime",
+      "instructions": "1. Napełnij duży kielich typu balloon sporą ilością lodu.\n2. Wlej gin.\n3. Dopełnij tonikiem.\n4. Wyciśnij limonkę i wrzuć ją do środka.\n5. Zamieszaj raz.",
+      "joke": "„Elektrolity”, tylko w wersji dla dorosłych. Niby lekko, a jednak działa jak spacer po blokowisku po treningu.",
+      "history": "Czysty G&T dla plenerowej ekipy — orzeźwienie, ale z charakterem."
+    }
+  },
+  "dream_town_shopper": {
+    "sk": {
+      "name": "Dream Town Shopper",
+      "ingredients": "45ml Vodka, 15ml Orange liqueur (Cointreau/Triple Sec/Curaçao), 30ml Cranberry",
+      "instructions": "1. Naplň shaker ľadom.\n2. Pridaj vodku, pomarančový likér, brusnicový džús a limetkovú šťavu.\n3. Dobre pretrep.\n4. Preceď do martini pohára.\n5. Ozdob kolieskom limetky.",
+      "joke": "Ružové, sladké a zradne rýchle — ako keď na Sekčove ideš „len pozrieť“ a odídeš s troma taškami.",
+      "history": "Obľúbenec z mall happy-hour: ružové, sladké a podozrivo ľahké dopiť."
+    },
+    "pl": {
+      "name": "Dream Town Shopper",
+      "ingredients": "45ml Vodka, 15ml Orange liqueur (Cointreau/Triple Sec/Curaçao), 30ml Cranberry",
+      "instructions": "1. Napełnij shaker lodem.\n2. Wlej wódkę, likier pomarańczowy, sok żurawinowy i sok z limonki.\n3. Wstrząśnij porządnie.\n4. Przecedź do kieliszka martini.\n5. Udekoruj plastrem limonki.",
+      "joke": "Różowe, słodkie i podejrzanie łatwe do wypicia — jak „tylko wpadnę do Żabki na chwilę”.",
+      "history": "Ulubieniec happy hour: różowy, słodki i znikający szybciej, niż planowałeś."
+    }
+  },
+  "the_blackout": {
+    "sk": {
+      "name": "The Blackout",
+      "ingredients": "30ml Espresso liqueur (Kahlúa), 30ml Vodka, Soda splash",
+      "instructions": "1. Naplň rocks pohár ľadom.\n2. Pridaj vodku a kávový likér.\n3. Dolej trošku sódy pre bublinky.\n4. Jemne premiešaj.\n5. Podávaj hneď (bez ozdoby).",
+      "joke": "Keď zhasne svetlo, na Sídlisku sa vždy nájde plán B: káva, ľad a dobrá nálada. Len s mierou.",
+      "history": "Narodené počas výpadku prúdu — espresso držalo morálku (a párty) pri živote."
+    },
+    "pl": {
+      "name": "The Blackout",
+      "ingredients": "30ml Espresso liqueur (Kahlúa), 30ml Vodka, Soda splash",
+      "instructions": "1. Napełnij rocks lodem.\n2. Wlej wódkę i likier kawowy.\n3. Dopełnij odrobiną sody dla bąbelków.\n4. Delikatnie zamieszaj.\n5. Podawaj od razu (bez dekoracji).",
+      "joke": "Gdy gaśnie prąd, zostaje plan B: kawa i odwaga. Ten drink zna oba — zwłaszcza na blokowisku.",
+      "history": "Powstał podczas awarii prądu — espresso trzymało morale (i imprezę) przy życiu."
+    }
+  }
+};;
+
+        // Attach SK/PL translations to cocktail objects.
+        cocktails.forEach(c => {
+            const t = skpl[c.id];
+            if (!t) return;
+            c.sk = t.sk;
+            c.pl = t.pl;
+        });
+
+        const uiText = {
+            en: {
+                title: "Igor Khokhlov's Bar",
+                subtitle: "Neon Ops Speakeasy",
+                back: "Back Home",
+                ingredients: "Ingredients",
+                history: "History",
+                method: "Method",
+                bartenderNote: "Bartender's Note",
+                strengthShort: "STR",
+                strength: "Strength",
+                strengthLevels: { 5:"Very Strong", 4:"Strong", 3:"Medium", 2:"Light", 1:"Very Light" },
+                allSpirits: "All Spirits",
+                allMoods: "All Moods",
+                spirits: { Vodka: "Vodka", Gin: "Gin", Whiskey: "Whiskey", Tequila: "Tequila", Rum: "Rum", Cognac: "Cognac", Liqueur: "Liqueur", Other: "Other" },
+                moods: { Refreshing: "Refreshing", Strong: "Strong", Sweet: "Sweet", Bitter: "Bitter", Savory: "Savory" }
+            },
+            ua: {
+                title: "Бар Ігоря Хохлова",
+                subtitle: "Неон-Спікізі",
+                back: "Додому",
+                ingredients: "Інгредієнти",
+                history: "Історія",
+                method: "Як готувати",
+                bartenderNote: "Від бармена",
+                strengthShort: "МІЦ",
+                strength: "Міцність",
+                strengthLevels: { 5:"Дуже міцний", 4:"Міцний", 3:"Середній", 2:"Легкий", 1:"Дуже легкий" },
+                allSpirits: "Усі бази",
+                allMoods: "Усі настрої",
+                spirits: { Vodka: "Горілка", Gin: "Джин", Whiskey: "Віскі", Tequila: "Текіла", Rum: "Ром", Cognac: "Коньяк", Liqueur: "Лікер", Other: "Інше" },
+                moods: { Refreshing: "Освіжаючий", Strong: "Міцний", Sweet: "Солодкий", Bitter: "Гіркий", Savory: "Пікантний" }
+            },
+            sk: {
+                title: "Bar Igora Khokhlova",
+                subtitle: "Neónový speakeasy",
+                back: "Späť domov",
+                ingredients: "Ingrediencie",
+                history: "História",
+                method: "Postup",
+                bartenderNote: "Poznámka od barmana",
+                strengthShort: "SILA",
+                strength: "Sila",
+                strengthLevels: { 5:"Veľmi silné", 4:"Silné", 3:"Stredné", 2:"Ľahké", 1:"Veľmi ľahké" },
+                allSpirits: "Všetky bázy",
+                allMoods: "Všetky nálady",
+                spirits: { Vodka: "Vodka", Gin: "Gin", Whiskey: "Whisky", Tequila: "Tequila", Rum: "Rum", Cognac: "Koňak", Liqueur: "Likér", Other: "Iné" },
+                moods: { Refreshing: "Osviežujúci", Strong: "Silný", Sweet: "Sladký", Bitter: "Horký", Savory: "Slaný" }
+            },
+            pl: {
+                title: "Bar Igora Khokhlova",
+                subtitle: "Neonowy speakeasy",
+                back: "Powrót",
+                ingredients: "Składniki",
+                history: "Historia",
+                method: "Sposób",
+                bartenderNote: "Notatka od barmana",
+                strengthShort: "MOC",
+                strength: "Moc",
+                strengthLevels: { 5:"Bardzo mocny", 4:"Mocny", 3:"Średni", 2:"Lekki", 1:"Bardzo lekki" },
+                allSpirits: "Wszystkie alkohole",
+                allMoods: "Wszystkie nastroje",
+                spirits: { Vodka: "Wódka", Gin: "Gin", Whiskey: "Whisky", Tequila: "Tequila", Rum: "Rum", Cognac: "Koniak", Liqueur: "Likier", Other: "Inne" },
+                moods: { Refreshing: "Orzeźwiający", Strong: "Mocny", Sweet: "Słodki", Bitter: "Gorzki", Savory: "Wytrawny" }
+            }
+        };
+
+        function t(){
+            return uiText[currentLang] || uiText.en;
+        }
+
+        function updateControlsText(){
+            const tt=t();
+            const spiritSelect=document.getElementById('spirit-filter');
+            const moodSelect=document.getElementById('mood-filter');
+            if(spiritSelect){
+                Array.from(spiritSelect.options).forEach(opt=>{
+                    opt.text = opt.value==='all' ? tt.allSpirits : (tt.spirits[opt.value]||opt.value);
+                });
+            }
+            if(moodSelect){
+                Array.from(moodSelect.options).forEach(opt=>{
+                    opt.text = opt.value==='all' ? tt.allMoods : (tt.moods[opt.value]||opt.value);
+                });
+            }
+        }
+
+        // ---- Internal analytics (pixel) ----
+        let __lastTrack = 0;
+        function trackPageView(reason){
+            try{
+                const now = Date.now();
+                if(now - __lastTrack < 2000) return; // basic spam guard
+                __lastTrack = now;
+                const p = location.pathname + location.search + location.hash;
+                const lang = currentLang || 'en';
+                const url = `/_a/p.gif?path=${encodeURIComponent(p)}&lang=${encodeURIComponent(lang)}&r=${encodeURIComponent(reason||'')}`;
+                const img = new Image();
+                img.referrerPolicy = 'no-referrer-when-downgrade';
+                img.src = url;
+            }catch(e){}
+        }
+
+        function setLang(lang){
+            if(!supportedLangs.includes(lang)) lang='en';
+            currentLang=lang;
+
+            // Remember selection for next visits
+            try{ localStorage.setItem('cocktails_lang', lang); }catch(e){}
+
+            const sel=document.getElementById('lang-select');
+            if(sel) sel.value=lang;
+            updateControlsText();
+            applyFilters();
+            trackPageView('lang');
+        }
+
+        // Restore remembered language on load
+        (function initLang(){
+            let saved = null;
+            try{ saved = localStorage.getItem('cocktails_lang'); }catch(e){}
+            if(saved && supportedLangs.includes(saved)) currentLang = saved;
+            const sel=document.getElementById('lang-select');
+            if(sel) sel.value=currentLang;
+            updateControlsText();
+            trackPageView('load');
+        })();
+
+        // ---- Strength estimator (approx) ----
+        function strengthInfo(cocktail){
+            const abv = estimateABVPercent(cocktail);
+            const score = abv >= 22 ? 5 : abv >= 18 ? 4 : abv >= 14 ? 3 : abv >= 9 ? 2 : 1;
+            return { abv, score };
+        }
+
+        function estimateABVPercent(cocktail){
+            // Parse "NNml" tokens and estimate alcohol fraction using a simple ABV table.
+            const raw = (cocktail?.en?.ingredients || cocktail?.ua?.ingredients || '').toString();
+            const parts = raw.split(',').map(s => s.trim()).filter(Boolean);
+
+            const abvTable = [
+                { re: /vodka|горілк/i, abv: 0.40 },
+                { re: /gin|джин/i, abv: 0.40 },
+                { re: /whiskey|bourbon|rye|віскі|бурбон/i, abv: 0.45 },
+                { re: /tequila|текіл/i, abv: 0.40 },
+                { re: /rum|ром/i, abv: 0.40 },
+                { re: /cognac|коньяк/i, abv: 0.40 },
+                { re: /vermouth|вермут/i, abv: 0.16 },
+                { re: /campari|кампарі/i, abv: 0.24 },
+                { re: /aperol|апероль/i, abv: 0.11 },
+                { re: /prosecco|просекко/i, abv: 0.11 },
+                { re: /coffee liqueur|kahl|калуа|amaretto|амаретто|irish cream|baileys|айріш|curacao|курасао|schnapps|шнапс|liqueur|лікер/i, abv: 0.20 },
+                { re: /bitters|біттер/i, abv: 0.44 },
+                { re: /ginger beer|ginger|імбирн/i, abv: 0.00 },
+                { re: /tonic|тонік/i, abv: 0.00 },
+                { re: /soda|club soda|содова/i, abv: 0.00 },
+                { re: /lemonade|лимонад|orange juice|апельсиновий сік|tomato|томат/i, abv: 0.00 },
+                { re: /lemon|lime|лимон|лайм/i, abv: 0.00 },
+                { re: /syrup|sirup|сироп|sugar|цук/i, abv: 0.00 },
+                { re: /cream|вершк/i, abv: 0.00 }
+            ];
+
+            let totalMl = 0;
+            let ethanolMl = 0;
+
+            for(const p of parts){
+                const m = p.match(/(\d+(?:\.\d+)?)\s*ml/i);
+                if(!m) continue;
+                const ml = parseFloat(m[1]);
+                if(!Number.isFinite(ml)) continue;
+
+                let abv = null;
+                for(const row of abvTable){
+                    if(row.re.test(p)) { abv = row.abv; break; }
+                }
+                // Unknown ingredient: assume semi-alcoholic.
+                if(abv === null){
+                    abv = /other/i.test(cocktail.spirit) ? 0.10 : 0.20;
+                }
+
+                totalMl += ml;
+                ethanolMl += ml * abv;
+            }
+
+            const methodText = (cocktail?.en?.instructions || '').toString().toLowerCase();
+            const stirredOrShaken = /stir|shake/.test(methodText);
+            const dilutionFactor = stirredOrShaken ? 1.20 : 1.10;
+            const adjustedTotal = totalMl * dilutionFactor;
+
+            if(adjustedTotal <= 1) return 0;
+            const abvPct = (ethanolMl / adjustedTotal) * 100;
+            return Math.max(0, Math.min(60, Math.round(abvPct)));
+        }
+
+        function strengthMeter(score){
+            const segs = Array.from({length:5}).map((_,i)=> `<span class=\"str-seg ${i<score?'is-on':''}\"></span>`).join('');
+            return `<span class=\"strength-meter\" title=\"Strength ${score}/5\">${segs}</span>`;
+        }
+
+        function renderGrid(filtered = cocktails) {
+            const grid = document.getElementById('cocktail-grid');
+            grid.innerHTML = '';
+
+            const tt = t();
+
+            filtered.forEach(c => {
+                const data = c[currentLang] || c.en;
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openModal(c);
+
+                const s = strengthInfo(c);
+                const strengthLabel = tt.strengthLevels[s.score] || tt.strengthLevels[3];
+                const strengthText = `${tt.strength}: ${strengthLabel} • ~${s.abv}% ABV`;
+
+                const moodLabel = tt.moods[c.mood] || c.mood;
+                const spiritLabel = tt.spirits[c.spirit] || c.spirit;
+
+                card.innerHTML = `
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding: 10px 12px 0;">
+                      <div class="mood-tag" style="margin:0;">${moodLabel}</div>
+                      <div class="mood-tag" style="margin:0; border-color: rgba(55,255,139,.35); box-shadow: 0 0 16px rgba(55,255,139,.14);">${strengthMeter(s.score)} <span style="margin-left:6px;">${tt.strengthShort}</span></div>
+                    </div>
+                    <img src="https://cocktails.khokhlov.org/images/cocktails/cocktail_${c.id}.png?v=4" alt="${data.name}" onerror="this.style.display='none'">
+                    <h3>${data.name}</h3>
+                    <p title="${strengthText}">${spiritLabel} • ~${s.abv}%</p>
+                `;
+                grid.appendChild(card);
+            });
+
+            document.getElementById('main-title').innerText = tt.title;
+            document.getElementById('main-subtitle').innerText = tt.subtitle;
+            document.getElementById('back-home').innerText = tt.back;
+
+            updateControlsText();
+        }
+
         function applyFilters() {
             const spirit = document.getElementById('spirit-filter').value;
             const mood = document.getElementById('mood-filter').value;
@@ -1084,14 +2064,13 @@
             if (spirit !== 'all') filtered = filtered.filter(c => c.spirit === spirit);
             if (mood !== 'all') filtered = filtered.filter(c => c.mood === mood);
 
-            // Inventory filter (server-based). If inventory can't be loaded, show everything.
+            // Availability filter (uses server inventory)
             try {
                 const inv = window.__serverInventory;
                 if (showAvailableOnly && inv && inv.size > 0) {
                     filtered = filtered.filter(c => BAR.isMakeable(c, inv));
                 }
             } catch (e) {
-                // Fail open
                 console.warn('Inventory filter error:', e);
             }
 
@@ -1129,34 +2108,71 @@
             return `${pick} (${name})`;
         }
 
+        let _parallaxBound = false;
+        function bindModalParallax(){
+            if(_parallaxBound) return;
+            _parallaxBound = true;
+
+            const modal = document.getElementById('modal');
+            const scroller = document.getElementById('modal-content');
+            const hero = document.getElementById('modal-hero');
+            const img = document.getElementById('modal-img');
+            if(!scroller || !hero || !img) return;
+
+            let ticking = false;
+            scroller.addEventListener('scroll', () => {
+                if(modal.style.display !== 'flex') return;
+                if(ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => {
+                    const y = scroller.scrollTop || 0;
+                    // Parallax the illustration slightly as you scroll (clamped)
+                    const py = Math.max(-60, Math.min(60, y * 0.18));
+                    img.style.transform = `translateY(${py}px) scale(1.08)`;
+                    // Also drift the hero background grid a bit
+                    hero.style.backgroundPosition = `0px ${Math.round(y * 0.25)}px, 0px 0px`;
+                    ticking = false;
+                });
+            }, { passive: true });
+        }
+
         function openModal(cocktail) {
-            const data = cocktail[currentLang];
+            const data = cocktail[currentLang] || cocktail.en;
+            const tt = t();
 
             const modalImg = document.getElementById('modal-img');
-            modalImg.src = `/images/cocktails/cocktail_${cocktail.id}.png?v=3`;
+            modalImg.src = `https://cocktails.khokhlov.org/images/cocktails/cocktail_${cocktail.id}.png?v=4`;
             modalImg.onerror = () => { modalImg.style.display = 'none'; };
             modalImg.onload = () => { modalImg.style.display = 'block'; };
+
+            // Reset scroll + parallax each open
+            const scroller = document.getElementById('modal-content');
+            if(scroller) scroller.scrollTop = 0;
+            modalImg.style.transform = 'translateY(0px) scale(1.08)';
+            bindModalParallax();
 
             document.getElementById('modal-title').innerText = data.name;
 
             // Ingredients (detailed, bullet list)
             const ingredientsBlock = document.getElementById('modal-ingredients');
-            ingredientsBlock.innerText = `${currentLang === 'en' ? 'Ingredients' : 'Інгредієнти'}:\n${formatIngredients(data.ingredients)}`;
+            ingredientsBlock.innerText = `${tt.ingredients}:\n${formatIngredients(data.ingredients)}`;
 
-            // History (real if provided, otherwise funny)
+            // History
             const historyBlock = document.getElementById('modal-history');
-            const historyText = data.history || (currentLang === 'en' ? makeUpHistory(data.name) : makeUpHistoryUA(data.name));
+            const historyText = data.history || (currentLang === 'ua' ? makeUpHistoryUA(data.name) : makeUpHistory(data.name));
             historyBlock.style.display = historyText ? 'block' : 'none';
-            historyBlock.innerHTML = `<div class="section-title">${currentLang === 'en' ? 'History' : 'Історія'}</div>${historyText}`;
+            historyBlock.innerHTML = `<div class="section-title">${tt.history}</div>${historyText}`;
 
-            // Method (keep your original, but present as a recipe section)
-            const methodTitle = currentLang === 'en' ? 'Method' : 'Як готувати';
-            const metaLine = currentLang === 'en'
-                ? `Spirit: ${cocktail.spirit} • Mood: ${cocktail.mood}`
-                : `База: ${cocktail.spirit} • Настрій: ${cocktail.mood}`;
+            // Method
+            const methodTitle = tt.method;
+            const s = strengthInfo(cocktail);
+            const strengthLabel = tt.strengthLevels[s.score] || tt.strengthLevels[3];
+            const moodLabel = tt.moods[cocktail.mood] || cocktail.mood;
+            const spiritLabel = tt.spirits[cocktail.spirit] || cocktail.spirit;
+            const metaLine = `${spiritLabel} • ${moodLabel} • ${tt.strength}: ${strengthLabel} (${s.score}/5, ~${s.abv}% ABV)`;
             document.getElementById('modal-instructions').innerText = `${metaLine}\n\n${methodTitle}:\n${data.instructions}`;
 
-            document.getElementById('modal-joke').innerText = `${currentLang === 'en' ? "Bartender's Note" : "Від бармена"}: "${data.joke}"`;
+            document.getElementById('modal-joke').innerText = `${tt.bartenderNote}: "${data.joke}"`;
             document.getElementById('modal').style.display = 'flex';
         }
 
@@ -1164,11 +2180,11 @@
             document.getElementById('modal').style.display = 'none';
         }
 
-        // Preferences
+        // Preferences + inventory (load before first render)
         loadAvailabilityPref();
-
-        // Load inventory first so the grid renders filtered consistently across devices.
         loadServerInventory().finally(() => applyFilters());
     </script>
+
+  </div>
 </body>
 </html>
