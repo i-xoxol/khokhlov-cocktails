@@ -1037,6 +1037,16 @@
             applyFilters();
         }
 
+        async function loadServerInventory() {
+            try {
+                const inv = await BAR.apiGetInventory();
+                window.__serverInventory = inv;
+            } catch (e) {
+                console.warn('Failed to load server inventory:', e);
+                window.__serverInventory = new Set();
+            }
+        }
+
         function applyFilters() {
             const spirit = document.getElementById('spirit-filter').value;
             const mood = document.getElementById('mood-filter').value;
@@ -1045,14 +1055,14 @@
             if (spirit !== 'all') filtered = filtered.filter(c => c.spirit === spirit);
             if (mood !== 'all') filtered = filtered.filter(c => c.mood === mood);
 
-            // Inventory filter (browser-only). If inventory is empty/unset, show everything.
+            // Inventory filter (server-based). If inventory can't be loaded, show everything.
             try {
-                const inv = (window.BAR && BAR.loadInventory) ? BAR.loadInventory() : new Set();
+                const inv = window.__serverInventory;
                 if (inv && inv.size > 0) {
                     filtered = filtered.filter(c => BAR.isMakeable(c, inv));
                 }
             } catch (e) {
-                // Fail open: if something goes wrong with inventory parsing, don't hide cocktails.
+                // Fail open
                 console.warn('Inventory filter error:', e);
             }
 
@@ -1125,7 +1135,8 @@
             document.getElementById('modal').style.display = 'none';
         }
 
-        applyFilters();
+        // Load inventory first so the grid renders filtered consistently across devices.
+        loadServerInventory().finally(() => applyFilters());
     </script>
 </body>
 </html>

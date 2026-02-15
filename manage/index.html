@@ -264,7 +264,6 @@
 
   <script src="/assets/bar.js?v=1"></script>
   <script>
-    const PASSWORD = 'igorx';
     const AUTH_KEY = 'khokhlov_manage_auth_v1';
 
     const els = {
@@ -300,7 +299,10 @@
       if (authed()) {
         els.login.style.display = 'none';
         els.app.style.display = 'block';
-        render();
+        render().catch(e => {
+          console.warn(e);
+          showToast('Failed to load inventory');
+        });
       } else {
         els.login.style.display = 'block';
         els.app.style.display = 'none';
@@ -308,13 +310,15 @@
       }
     }
 
-    function login(){
+    async function login(){
       const val = (els.pw.value || '').trim();
-      if (val === PASSWORD) {
+      try {
+        await BAR.apiLogin(val);
         setAuthed();
         showToast('Unlocked');
         boot();
-      } else {
+      } catch (e) {
+        console.warn(e);
         showToast('Nope');
         els.pw.value = '';
         els.pw.focus();
@@ -326,10 +330,10 @@
       if (e.key === 'Enter') login();
     });
 
-    let inventory = BAR.loadInventory();
+    let inventory = new Set();
 
-    function save(){
-      BAR.saveInventory(inventory);
+    async function save(){
+      await BAR.apiSaveInventory(inventory);
       updateCount();
       showToast('Saved');
     }
@@ -376,8 +380,8 @@
       return row;
     }
 
-    function render(){
-      inventory = BAR.loadInventory();
+    async function render(){
+      inventory = await BAR.apiGetInventory();
       updateCount();
 
       els.categories.innerHTML = '';
@@ -425,25 +429,40 @@
 
     els.search.addEventListener('input', applySearch);
 
-    els.selectAll.addEventListener('click', () => {
+    els.selectAll.addEventListener('click', async () => {
       for (const item of BAR.CATALOG) inventory.add(item.id);
-      BAR.saveInventory(inventory);
-      render();
-      showToast('All selected');
+      try{
+        await BAR.apiSaveInventory(inventory);
+        await render();
+        showToast('All selected');
+      }catch(e){
+        console.warn(e);
+        showToast('Save failed');
+      }
     });
 
-    els.selectNone.addEventListener('click', () => {
+    els.selectNone.addEventListener('click', async () => {
       inventory = new Set();
-      BAR.saveInventory(inventory);
-      render();
-      showToast('Cleared');
+      try{
+        await BAR.apiSaveInventory(inventory);
+        await render();
+        showToast('Cleared');
+      }catch(e){
+        console.warn(e);
+        showToast('Save failed');
+      }
     });
 
-    els.reset.addEventListener('click', () => {
-      localStorage.removeItem(BAR.STORAGE_KEY);
+    els.reset.addEventListener('click', async () => {
       inventory = new Set();
-      render();
-      showToast('Storage cleared');
+      try{
+        await BAR.apiSaveInventory(inventory);
+        await render();
+        showToast('Cleared');
+      }catch(e){
+        console.warn(e);
+        showToast('Save failed');
+      }
     });
 
     boot();

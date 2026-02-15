@@ -6,7 +6,8 @@
 (function (global) {
   'use strict';
 
-  const STORAGE_KEY = 'khokhlov_bar_inventory_v1';
+  const STORAGE_KEY = 'khokhlov_bar_inventory_v1'; // legacy (local-only)
+  const API_BASE = '/_a/bar'; // served by cocktails-analytics via nginx proxy
 
   /** Ingredient catalog
    * id: stable identifier
@@ -100,7 +101,7 @@
       .trim();
   }
 
-  function loadInventory() {
+  function loadInventoryLocal() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return new Set();
@@ -112,9 +113,44 @@
     }
   }
 
-  function saveInventory(set) {
+  function saveInventoryLocal(set) {
     const arr = Array.from(set || []);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+
+  async function apiGetInventory() {
+    const r = await fetch(`${API_BASE}/inventory`, { credentials: 'include' });
+    if (!r.ok) throw new Error(`inventory ${r.status}`);
+    const j = await r.json();
+    const items = Array.isArray(j.items) ? j.items : [];
+    return new Set(items.filter(x => typeof x === 'string'));
+  }
+
+  async function apiSaveInventory(set) {
+    const items = Array.from(set || []);
+    const r = await fetch(`${API_BASE}/inventory`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ items })
+    });
+    if (!r.ok) throw new Error(`save ${r.status}`);
+    return true;
+  }
+
+  async function apiLogin(password) {
+    const r = await fetch(`${API_BASE}/login`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ password })
+    });
+    if (!r.ok) throw new Error(`login ${r.status}`);
+    return true;
+  }
+
+  async function apiLogout() {
+    await fetch(`${API_BASE}/logout`, { method: 'POST', credentials: 'include' });
   }
 
   function isOptionalPhrase(phrase) {
@@ -205,7 +241,7 @@
   }
 
   function isMakeable(cocktail, inventorySet) {
-    const inv = inventorySet || loadInventory();
+    const inv = inventorySet || loadInventoryLocal();
     const groups = requirementGroups(cocktail?.en?.ingredients);
     if (!groups.length) {
       // If we can't infer requirements, be permissive (don’t hide the drink silently).
@@ -232,8 +268,17 @@
     CATALOG,
     byId,
     categories,
-    loadInventory,
-    saveInventory,
+    // local (legacy)
+    loadInventoryLocal,
+    saveInventoryLocal,
+
+    // server API
+    API_BASE,
+    apiGetInventory,
+    apiSaveInventory,
+    apiLogin,
+    apiLogout,
+
     requirementGroups,
     isMakeable,
   };
