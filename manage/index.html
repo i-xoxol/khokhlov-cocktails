@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bar Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg0:#050816;
+      --bg1:#070A1C;
+      --surface: rgba(10, 18, 44, 0.55);
+      --border: rgba(122, 231, 255, 0.22);
+      --text: #EAF6FF;
+      --muted: rgba(234,246,255,.72);
+      --cyan:#19F7FF;
+      --magenta:#FF3DF2;
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+      --radius: 16px;
+      --font-ui: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --font-display: "Orbitron", "Inter", system-ui, sans-serif;
+      --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--text);
+      font-family:var(--font-ui);
+      background:
+        radial-gradient(1200px 800px at 15% 10%, rgba(25,247,255,.18), transparent 55%),
+        radial-gradient(1000px 700px at 85% 25%, rgba(255,61,242,.12), transparent 60%),
+        radial-gradient(900px 700px at 55% 90%, rgba(46,107,255,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg0));
+      padding: 16px;
+    }
+
+    .page{ width:min(960px, 100%); margin:0 auto; }
+
+    .panel{
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    header{
+      text-align:center;
+      margin-bottom: 14px;
+      border-bottom: 1px solid rgba(122,231,255,.18);
+      padding-bottom: 10px;
+    }
+
+    h1{
+      font-family: var(--font-display);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size: 20px;
+      margin: 0;
+    }
+
+    .sub{ margin-top: 8px; color: var(--muted); font-size: 12px; }
+
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+
+    .pill{
+      border: 1px solid rgba(25,247,255,.28);
+      background: rgba(6,10,24,.55);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-family: var(--font-display);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .pill:active{ transform: translateY(1px); }
+
+    input[type="password"], input[type="text"]{
+      width: 100%;
+      color: var(--text);
+      background: rgba(6,10,24,.55);
+      border: 1px solid rgba(122,231,255,.18);
+      border-radius: 12px;
+      padding: 12px;
+      outline: none;
+      font-size: 14px;
+    }
+
+    input:focus{ border-color: rgba(25,247,255,.55); box-shadow: 0 0 18px rgba(25,247,255,.25); }
+
+    .login{
+      max-width: 460px;
+      margin: 60px auto 0;
+    }
+
+    .login .hint{ color: var(--muted); font-size: 12px; margin: 10px 0 0; }
+
+    .toolbar{
+      position: sticky;
+      top: 10px;
+      z-index: 5;
+      background: rgba(10, 18, 44, 0.75);
+      border: 1px solid rgba(122,231,255,.22);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      margin-bottom: 14px;
+    }
+
+    .count{
+      font-family: var(--font-mono);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    details{
+      border: 1px solid rgba(122,231,255,.18);
+      border-radius: 14px;
+      background: rgba(6,10,24,.35);
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 12px 12px;
+      font-family: var(--font-display);
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+
+    summary::-webkit-details-marker{ display:none; }
+
+    .items{ padding: 8px 12px 12px; display:flex; flex-direction:column; gap: 10px; }
+
+    .item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(122,231,255,.12);
+      background: rgba(6,10,24,.40);
+    }
+
+    .item .label{ font-weight: 600; }
+    .item .meta{ color: var(--muted); font-size: 12px; font-family: var(--font-mono); }
+
+    /* iOS-friendly toggle */
+    .switch{ position: relative; display:inline-block; width: 48px; height: 28px; flex: 0 0 auto; }
+    .switch input{ opacity:0; width:0; height:0; }
+    .slider{
+      position:absolute; cursor:pointer;
+      top:0; left:0; right:0; bottom:0;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(122,231,255,.18);
+      transition: .2s;
+      border-radius: 999px;
+    }
+    .slider:before{
+      position:absolute; content:"";
+      height: 22px; width: 22px;
+      left: 3px; top: 2px;
+      background: rgba(234,246,255,.92);
+      transition: .2s;
+      border-radius: 50%;
+      box-shadow: 0 0 14px rgba(25,247,255,.18);
+    }
+    input:checked + .slider{
+      background: rgba(25,247,255,.20);
+      border-color: rgba(25,247,255,.55);
+      box-shadow: 0 0 18px rgba(25,247,255,.20);
+    }
+    input:checked + .slider:before{ transform: translateX(20px); }
+
+    .danger{ border-color: rgba(255, 59, 92, .35); }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 16px;
+      background: rgba(6,10,24,.85);
+      border: 1px solid rgba(122,231,255,.18);
+      border-radius: 999px;
+      padding: 10px 12px;
+      color: var(--muted);
+      font-size: 12px;
+      box-shadow: var(--shadow);
+      display:none;
+      z-index: 10;
+    }
+
+    @media (max-width: 520px){
+      .row{ justify-content:stretch; }
+      .pill{ width: 100%; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div id="login" class="login panel" style="display:none;">
+      <header>
+        <h1>Bar Manager</h1>
+        <div class="sub">Enter password to manage your ingredients.</div>
+      </header>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <input id="pw" type="password" placeholder="Password" autocomplete="current-password" />
+        <button class="pill" id="loginBtn">Unlock</button>
+        <div class="hint">
+          Note: this is client-side only. It keeps the page out of sight, but it’s not real security.
+        </div>
+      </div>
+    </div>
+
+    <div id="app" class="panel" style="display:none;">
+      <header>
+        <h1>Bar Manager</h1>
+        <div class="sub">Toggle what you have. The main page will only show cocktails you can make.</div>
+      </header>
+
+      <div class="toolbar">
+        <div class="row" style="gap:12px;">
+          <div style="flex: 1 1 260px; min-width: 220px;">
+            <input id="search" type="text" placeholder="Search ingredients…" autocomplete="off" />
+          </div>
+          <div class="count" id="count">0 selected</div>
+        </div>
+        <div class="row" style="margin-top:10px;">
+          <button class="pill" id="selectAll">Select all</button>
+          <button class="pill" id="selectNone">Select none</button>
+          <button class="pill danger" id="reset">Reset (clear storage)</button>
+        </div>
+      </div>
+
+      <div id="categories"></div>
+
+      <div class="sub" style="text-align:center; margin-top: 14px;">
+        Tip: on mobile, use search + toggles. Inventory is stored in your browser only.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/assets/bar.js?v=1"></script>
+  <script>
+    const PASSWORD = 'igorx';
+    const AUTH_KEY = 'khokhlov_manage_auth_v1';
+
+    const els = {
+      login: document.getElementById('login'),
+      app: document.getElementById('app'),
+      pw: document.getElementById('pw'),
+      loginBtn: document.getElementById('loginBtn'),
+      categories: document.getElementById('categories'),
+      search: document.getElementById('search'),
+      count: document.getElementById('count'),
+      selectAll: document.getElementById('selectAll'),
+      selectNone: document.getElementById('selectNone'),
+      reset: document.getElementById('reset'),
+      toast: document.getElementById('toast'),
+    };
+
+    function authed(){
+      return sessionStorage.getItem(AUTH_KEY) === '1';
+    }
+
+    function setAuthed(){
+      sessionStorage.setItem(AUTH_KEY, '1');
+    }
+
+    function showToast(msg){
+      els.toast.textContent = msg;
+      els.toast.style.display = 'block';
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => { els.toast.style.display = 'none'; }, 1200);
+    }
+
+    function boot(){
+      if (authed()) {
+        els.login.style.display = 'none';
+        els.app.style.display = 'block';
+        render();
+      } else {
+        els.login.style.display = 'block';
+        els.app.style.display = 'none';
+        els.pw.focus();
+      }
+    }
+
+    function login(){
+      const val = (els.pw.value || '').trim();
+      if (val === PASSWORD) {
+        setAuthed();
+        showToast('Unlocked');
+        boot();
+      } else {
+        showToast('Nope');
+        els.pw.value = '';
+        els.pw.focus();
+      }
+    }
+
+    els.loginBtn.addEventListener('click', login);
+    els.pw.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') login();
+    });
+
+    let inventory = BAR.loadInventory();
+
+    function save(){
+      BAR.saveInventory(inventory);
+      updateCount();
+      showToast('Saved');
+    }
+
+    function updateCount(){
+      els.count.textContent = `${inventory.size} selected`;
+    }
+
+    function itemRow(item){
+      const row = document.createElement('div');
+      row.className = 'item';
+
+      const left = document.createElement('div');
+      const label = document.createElement('div');
+      label.className = 'label';
+      label.textContent = item.label;
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      meta.textContent = item.id;
+      left.appendChild(label);
+      left.appendChild(meta);
+
+      const sw = document.createElement('label');
+      sw.className = 'switch';
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.checked = inventory.has(item.id);
+      const slider = document.createElement('span');
+      slider.className = 'slider';
+
+      input.addEventListener('change', () => {
+        if (input.checked) inventory.add(item.id);
+        else inventory.delete(item.id);
+        save();
+      });
+
+      sw.appendChild(input);
+      sw.appendChild(slider);
+
+      row.appendChild(left);
+      row.appendChild(sw);
+      row.dataset.search = (item.label + ' ' + item.id).toLowerCase();
+
+      return row;
+    }
+
+    function render(){
+      inventory = BAR.loadInventory();
+      updateCount();
+
+      els.categories.innerHTML = '';
+      const cats = BAR.categories();
+
+      for (const [catName, items] of cats.entries()) {
+        const d = document.createElement('details');
+        d.open = (catName === 'Spirits' || catName === 'Juices');
+
+        const s = document.createElement('summary');
+        const left = document.createElement('span');
+        left.textContent = catName;
+        const right = document.createElement('span');
+        const countInCat = items.filter(i => inventory.has(i.id)).length;
+        right.textContent = `${countInCat}/${items.length}`;
+        right.style.color = 'rgba(234,246,255,.72)';
+        right.style.fontFamily = 'JetBrains Mono, ui-monospace, monospace';
+        right.style.fontSize = '12px';
+        s.appendChild(left);
+        s.appendChild(right);
+
+        const wrap = document.createElement('div');
+        wrap.className = 'items';
+
+        for (const item of items) {
+          wrap.appendChild(itemRow(item));
+        }
+
+        d.appendChild(s);
+        d.appendChild(wrap);
+        els.categories.appendChild(d);
+      }
+
+      applySearch();
+    }
+
+    function applySearch(){
+      const q = (els.search.value || '').trim().toLowerCase();
+      const rows = els.categories.querySelectorAll('.item');
+      rows.forEach(r => {
+        if (!q) r.style.display = '';
+        else r.style.display = r.dataset.search.includes(q) ? '' : 'none';
+      });
+    }
+
+    els.search.addEventListener('input', applySearch);
+
+    els.selectAll.addEventListener('click', () => {
+      for (const item of BAR.CATALOG) inventory.add(item.id);
+      BAR.saveInventory(inventory);
+      render();
+      showToast('All selected');
+    });
+
+    els.selectNone.addEventListener('click', () => {
+      inventory = new Set();
+      BAR.saveInventory(inventory);
+      render();
+      showToast('Cleared');
+    });
+
+    els.reset.addEventListener('click', () => {
+      localStorage.removeItem(BAR.STORAGE_KEY);
+      inventory = new Set();
+      render();
+      showToast('Storage cleared');
+    });
+
+    boot();
+  </script>
+</body>
+</html>
