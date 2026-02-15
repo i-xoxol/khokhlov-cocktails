@@ -269,6 +269,7 @@
 
     <div class="controls">
         <button class="control-btn" onclick="toggleLang()">UA / EN</button>
+        <button class="control-btn" id="availability-toggle" onclick="toggleAvailability()">Available: ON</button>
         <select id="spirit-filter" onchange="applyFilters()">
             <option value="all">All Spirits</option>
             <option value="Vodka">Vodka</option>
@@ -1009,6 +1010,34 @@
     }
 ];
         let currentLang = 'en';
+        const AVAILABILITY_KEY = 'khokhlov_show_available_only_v1';
+        let showAvailableOnly = true;
+
+        function loadAvailabilityPref(){
+            try {
+                const v = localStorage.getItem(AVAILABILITY_KEY);
+                // default ON (available-only)
+                showAvailableOnly = (v === null) ? true : (v === '1');
+            } catch { showAvailableOnly = true; }
+            updateAvailabilityUI();
+        }
+
+        function saveAvailabilityPref(){
+            try { localStorage.setItem(AVAILABILITY_KEY, showAvailableOnly ? '1' : '0'); } catch {}
+        }
+
+        function updateAvailabilityUI(){
+            const btn = document.getElementById('availability-toggle');
+            if (!btn) return;
+            btn.innerText = showAvailableOnly ? 'Available: ON' : 'Available: OFF';
+        }
+
+        function toggleAvailability(){
+            showAvailableOnly = !showAvailableOnly;
+            saveAvailabilityPref();
+            updateAvailabilityUI();
+            applyFilters();
+        }
 
         function renderGrid(filtered = cocktails) {
             const grid = document.getElementById('cocktail-grid');
@@ -1058,7 +1087,7 @@
             // Inventory filter (server-based). If inventory can't be loaded, show everything.
             try {
                 const inv = window.__serverInventory;
-                if (inv && inv.size > 0) {
+                if (showAvailableOnly && inv && inv.size > 0) {
                     filtered = filtered.filter(c => BAR.isMakeable(c, inv));
                 }
             } catch (e) {
@@ -1134,6 +1163,9 @@
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
         }
+
+        // Preferences
+        loadAvailabilityPref();
 
         // Load inventory first so the grid renders filtered consistently across devices.
         loadServerInventory().finally(() => applyFilters());
