@@ -54,6 +54,76 @@ window.COCKTAILS = [
     }
   },
   {
+    "id": "tequila_manhattan",
+    "spirit": "Tequila",
+    "mood": "Strong",
+    "newArrival": true,
+    "measurements": [
+      {
+        "amount": 2,
+        "unit": "oz",
+        "ml": 60
+      },
+      {
+        "amount": 0.75,
+        "unit": "oz",
+        "ml": 22.5
+      },
+      {
+        "amount": 2,
+        "unit": "dashes"
+      }
+    ],
+    "en": {
+      "name": "Tequila Manhattan",
+      "notes": "Oak · Vermouth · Citrus",
+      "ingredients": "2 oz Kirkland Añejo Tequila, 0.75 oz sweet vermouth, 2 dashes orange bitters",
+      "ingredientNames": [
+        "Kirkland Añejo Tequila",
+        "sweet vermouth",
+        "orange bitters"
+      ],
+      "instructions": "1. Add tequila, sweet vermouth, and orange bitters to a mixing glass with ice.\n2. Stir for 20–25 seconds.\n3. Strain into a chilled glass.",
+      "description": "A tequila take on the Manhattan, with sweet vermouth and orange bitters."
+    },
+    "ua": {
+      "name": "Текіла Мангеттен",
+      "notes": "Дуб · Вермут · Цитрус",
+      "ingredients": "2 унції текіли Kirkland Añejo, 0.75 унції солодкого вермуту, 2 деші апельсинового бітера",
+      "ingredientNames": [
+        "текіла Kirkland Añejo",
+        "солодкий вермут",
+        "апельсиновий бітер"
+      ],
+      "instructions": "1. Додайте текілу, солодкий вермут та апельсиновий бітер у змішувальний келих із льодом.\n2. Перемішуйте протягом 20–25 секунд.\n3. Процідіть в охолоджений келих.",
+      "description": "Текільна версія Мангеттена із солодким вермутом та апельсиновим бітером."
+    },
+    "sk": {
+      "name": "Tequila Manhattan",
+      "notes": "Dub · Vermút · Citrusy",
+      "ingredients": "2 oz tequily Kirkland Añejo, 0.75 oz sladkého vermútu, 2 streky pomarančového bitteru",
+      "ingredientNames": [
+        "tequila Kirkland Añejo",
+        "sladký vermút",
+        "pomarančový bitter"
+      ],
+      "instructions": "1. Do miešacieho pohára s ľadom pridajte tequilu, sladký vermút a pomarančový bitter.\n2. Miešajte 20–25 sekúnd.\n3. Preceďte do vychladeného pohára.",
+      "description": "Tequilová verzia Manhattanu so sladkým vermútom a pomarančovým bitterom."
+    },
+    "pl": {
+      "name": "Tequila Manhattan",
+      "notes": "Dąb · Wermut · Cytrusy",
+      "ingredients": "2 oz tequili Kirkland Añejo, 0.75 oz słodkiego wermutu, 2 dashe bitteru pomarańczowego",
+      "ingredientNames": [
+        "tequila Kirkland Añejo",
+        "słodki wermut",
+        "bitter pomarańczowy"
+      ],
+      "instructions": "1. Do szklanicy z lodem wlej tequilę, słodki wermut i bitter pomarańczowy.\n2. Mieszaj przez 20–25 sekund.\n3. Przecedź do schłodzonego kieliszka.",
+      "description": "Tequilowa wersja Manhattanu ze słodkim wermutem i bitterem pomarańczowym."
+    }
+  },
+  {
     "id": "negroni",
     "spirit": "Gin",
     "mood": "Bitter",

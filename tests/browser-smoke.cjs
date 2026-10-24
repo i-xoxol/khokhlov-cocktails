@@ -21,24 +21,24 @@ async function check(name, fn) {await fn();report.push(name);console.log(`PASS $
   assert.equal(await page.locator('#inventory-status').isVisible(),false);
  });
  await page.locator('#availability-toggle').click();
- await check('All 37 cocktails and all optimized images load',async()=>{
-  assert.equal(await page.locator('.card').count(),37);
+ await check('All 38 cocktails and all optimized images load',async()=>{
+  assert.equal(await page.locator('.card').count(),38);
   const result=await page.evaluate(async()=>{
    const ids=window.COCKTAILS.map(c=>c.id);const images=await Promise.all(ids.map(async id=>{const img=new Image();img.src=`/images/menu-2026/${id}.webp`;await img.decode();return img.naturalWidth;}));
    return {unique:new Set(ids).size,images};
   });
-  assert.equal(result.unique,37);assert(result.images.every(w=>w===640));
+  assert.equal(result.unique,38);assert(result.images.every(w=>w===640));
  });
  await check('Accent-insensitive name and ingredient search, filters and empty state',async()=>{
-  await page.fill('#search','anejo');assert.equal(await page.locator('.card').count(),1);
-  await page.fill('#search','Kirkland');assert.equal(await page.locator('.card').count(),1);
+  await page.fill('#search','anejo');assert.equal(await page.locator('.card').count(),2);
+  await page.fill('#search','Kirkland');assert.equal(await page.locator('.card').count(),2);
   await page.fill('#search','no-such-cocktail');assert.equal(await page.locator('.card').count(),0);assert(await page.locator('#empty-state').isVisible());
-  await page.locator('#reset-filters').click();assert.equal(await page.locator('.card').count(),37);
+  await page.locator('#reset-filters').click();assert.equal(await page.locator('.card').count(),38);
   await page.selectOption('#spirit-filter','Tequila');assert(await page.locator('[data-id=anejo_old_fashioned]').count());
   const names=await page.locator('.card h3').allTextContents();assert(names.includes('Margarita'));
-  await page.selectOption('#mood-filter','Strong');assert.equal(await page.locator('.card').count(),1);
+  await page.selectOption('#mood-filter','Strong');assert.equal(await page.locator('.card').count(),2);
   await page.selectOption('#spirit-filter','all');await page.selectOption('#mood-filter','all');
-  await page.locator('[data-collection=halloween]').click();assert.equal(await page.locator('.card').count(),9);
+  await page.locator('[data-collection=halloween]').click();assert.equal(await page.locator('.card').count(),10);
   await page.locator('[data-collection=all]').click();
  });
  await check('Favorites persist, filter correctly and remove cleanly',async()=>{
@@ -62,6 +62,26 @@ async function check(name, fn) {await fn();report.push(name);console.log(`PASS $
   await page.keyboard.press('Escape');assert.equal(await page.locator('#recipe-dialog').isVisible(),false);
   assert.equal(await page.evaluate(()=>document.activeElement.id),'featured-open');
  });
+ await check('Tequila Manhattan translations, exact recipe and ingredient-specific scaling',async()=>{
+  for(const [language,name,vermouth] of [['en','Tequila Manhattan','sweet vermouth'],['ua','Текіла Мангеттен','солодкий вермут'],['sk','Tequila Manhattan','sladký vermút'],['pl','Tequila Manhattan','słodki wermut']]){
+   await page.selectOption('#lang-select',language);
+   await page.locator('[data-recipe=tequila_manhattan]').evaluate(button=>button.click());
+   assert.equal(await page.locator('#modal-title').textContent(),name);
+   await page.locator('[data-unit=oz]').click();
+   const amounts=await page.locator('#modal-ingredients li').allTextContents();
+   assert(amounts[0].startsWith('2 '));assert(/^0[.,]75 /.test(amounts[1]));assert(amounts[1].includes(vermouth));assert(amounts[2].startsWith('2 '));
+   if(language==='en')assert.deepEqual(amounts,['2 oz Kirkland Añejo Tequila','0.75 oz sweet vermouth','2 dashes orange bitters']);
+   assert.equal(await page.locator('#modal-instructions li').count(),3);
+   assert((await page.locator('#modal-instructions').textContent()).includes('20–25'));
+   await page.locator('[data-unit=ml]').click();assert(/^22[.,]5 /.test(await page.locator('#modal-ingredients li').nth(1).textContent()));
+   await page.locator('#servings-plus').click();assert((await page.locator('#modal-ingredients li').first().textContent()).startsWith('120 '));assert((await page.locator('#modal-ingredients li').nth(1).textContent()).startsWith('45 '));assert((await page.locator('#modal-ingredients li').nth(2).textContent()).startsWith('4 '));
+   await page.locator('#modal-img').evaluate(img=>img.decode());assert((await page.locator('#modal-img').getAttribute('src')).includes('tequila_manhattan.webp'));
+   await page.keyboard.press('Escape');
+  }
+  await page.selectOption('#lang-select','en');
+  await page.goto(`${base}/#recipe=tequila_manhattan`,{waitUntil:'networkidle'});await page.locator('#recipe-dialog').waitFor({state:'visible'});assert.equal(await page.locator('#modal-title').textContent(),'Tequila Manhattan');assert.equal(await page.locator('#servings-value').textContent(),'1');
+  await page.keyboard.press('Escape');
+ });
  await check('Recipe links open directly, retain keyboard focus and reset servings',async()=>{
   await page.goto(`${base}/#recipe=anejo_old_fashioned`,{waitUntil:'networkidle'});await page.locator('#recipe-dialog').waitFor({state:'visible'});
   assert.equal(await page.locator('#servings-value').textContent(),'1');
@@ -71,7 +91,7 @@ async function check(name, fn) {await fn();report.push(name);console.log(`PASS $
  await check('Four complete translations, every recipe dialog and WCAG AA checks',async()=>{
   for(const [language,htmlLang,title] of [['en','en','Pick your poison.'],['ua','uk','Оберіть своє зілля.'],['sk','sk','Vyberte si elixír.'],['pl','pl','Wybierz swój eliksir.']]){
    await page.selectOption('#lang-select',language);assert.equal(await page.locator('html').getAttribute('lang'),htmlLang);assert.equal(await page.locator('#menu-title').textContent(),title);
-   assert.equal(await page.locator('.card').count(),37);
+   assert.equal(await page.locator('.card').count(),38);
    const cards=await page.locator('.recipe-open').evaluateAll(nodes=>nodes.map(n=>n.dataset.recipe));
    for(const id of cards){await page.locator(`[data-recipe="${id}"]`).evaluate(button=>button.click());assert((await page.locator('#modal-title').textContent()).length>0);assert((await page.locator('#modal-ingredients li').count())>0);assert((await page.locator('#modal-instructions li').count())>0);assert(!((await page.locator('#recipe-dialog').textContent()).includes('undefined')));await page.keyboard.press('Escape');}
    let scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[]);
@@ -98,10 +118,12 @@ async function check(name, fn) {await fn();report.push(name);console.log(`PASS $
  await context.close();
  await check('Stock filtering handles a partial bar and an unavailable inventory service',async()=>{
   const ctx=await browser.newContext();const p=await ctx.newPage();await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items:['tequila','simple-syrup','orange-bitters']}}));await p.goto(base,{waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),1);assert(await p.locator('[data-id=anejo_old_fashioned]').count());
-  await p.unroute('**/_a/bar/inventory');await p.route('**/_a/bar/inventory',r=>r.fulfill({status:503,body:'Unavailable'}));await p.reload({waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),37);assert((await p.locator('#inventory-status').textContent()).includes('unavailable'));await ctx.close();
+  assert.equal(await p.locator('[data-id=tequila_manhattan]').count(),0);
+  await p.unroute('**/_a/bar/inventory');await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items:['tequila','simple-syrup','orange-bitters','sweet-vermouth']}}));await p.reload({waitUntil:'networkidle'});assert(await p.locator('[data-id=tequila_manhattan]').count());assert.equal(await p.locator('.card').count(),2);
+  await p.unroute('**/_a/bar/inventory');await p.route('**/_a/bar/inventory',r=>r.fulfill({status:503,body:'Unavailable'}));await p.reload({waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),38);assert((await p.locator('#inventory-status').textContent()).includes('unavailable'));await ctx.close();
  });
  await check('Blocked browser storage and reduced motion remain usable',async()=>{
-  const ctx=await browser.newContext({reducedMotion:'reduce'});await ctx.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('Unavailable','SecurityError');}});});const p=await ctx.newPage();await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items:[]}}));await p.goto(base,{waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),37);assert.equal(await p.locator('.title-star').evaluate(el=>getComputedStyle(el).animationName),'none');await p.locator('#featured-open').click();assert(await p.locator('#recipe-dialog').isVisible());await ctx.close();
+  const ctx=await browser.newContext({reducedMotion:'reduce'});await ctx.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('Unavailable','SecurityError');}});});const p=await ctx.newPage();await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items:[]}}));await p.goto(base,{waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),38);assert.equal(await p.locator('.title-star').evaluate(el=>getComputedStyle(el).animationName),'none');await p.locator('#featured-open').click();assert(await p.locator('#recipe-dialog').isVisible());await ctx.close();
  });
  console.log(`\n${report.length} checks passed.`);
  if(evidence)fs.writeFileSync(path.join(evidence,'test-results.json'),JSON.stringify({base,checks:report},null,2));
