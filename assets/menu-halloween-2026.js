@@ -84,7 +84,8 @@ window.COCKTAILS = [
         "orange bitters"
       ],
       "instructions": "1. Add tequila, sweet vermouth, and orange bitters to a mixing glass with ice.\n2. Stir for 20–25 seconds.\n3. Strain into a chilled glass.",
-      "description": "A tequila take on the Manhattan, with sweet vermouth and orange bitters."
+      "description": "A tequila take on the Manhattan, with sweet vermouth and orange bitters.",
+      "joke": "Manhattan manners. Añejo attitude. Keep the glass cold and the conversation warm."
     },
     "ua": {
       "name": "Текіла Мангеттен",
@@ -96,7 +97,8 @@ window.COCKTAILS = [
         "апельсиновий бітер"
       ],
       "instructions": "1. Додайте текілу, солодкий вермут та апельсиновий бітер у змішувальний келих із льодом.\n2. Перемішуйте протягом 20–25 секунд.\n3. Процідіть в охолоджений келих.",
-      "description": "Текільна версія Мангеттена із солодким вермутом та апельсиновим бітером."
+      "description": "Текільна версія Мангеттена із солодким вермутом та апельсиновим бітером.",
+      "joke": "Манери Мангеттена. Характер аньєхо. Келих — холодний, розмова — тепла."
     },
     "sk": {
       "name": "Tequila Manhattan",
@@ -108,7 +110,8 @@ window.COCKTAILS = [
         "pomarančový bitter"
       ],
       "instructions": "1. Do miešacieho pohára s ľadom pridajte tequilu, sladký vermút a pomarančový bitter.\n2. Miešajte 20–25 sekúnd.\n3. Preceďte do vychladeného pohára.",
-      "description": "Tequilová verzia Manhattanu so sladkým vermútom a pomarančovým bitterom."
+      "description": "Tequilová verzia Manhattanu so sladkým vermútom a pomarančovým bitterom.",
+      "joke": "Maniere Manhattanu. Charakter añejo. Pohár nech je studený, rozhovor srdečný."
     },
     "pl": {
       "name": "Tequila Manhattan",
@@ -120,7 +123,8 @@ window.COCKTAILS = [
         "bitter pomarańczowy"
       ],
       "instructions": "1. Do szklanicy z lodem wlej tequilę, słodki wermut i bitter pomarańczowy.\n2. Mieszaj przez 20–25 sekund.\n3. Przecedź do schłodzonego kieliszka.",
-      "description": "Tequilowa wersja Manhattanu ze słodkim wermutem i bitterem pomarańczowym."
+      "description": "Tequilowa wersja Manhattanu ze słodkim wermutem i bitterem pomarańczowym.",
+      "joke": "Maniery Manhattanu. Charakter añejo. Kieliszek chłodny, rozmowa ciepła."
     }
   },
   {
