@@ -73,7 +73,7 @@ async function check(name, fn) {await fn();report.push(name);console.log(`PASS $
    await page.selectOption('#lang-select',language);assert.equal(await page.locator('html').getAttribute('lang'),htmlLang);assert.equal(await page.locator('#menu-title').textContent(),title);
    assert.equal(await page.locator('.card').count(),37);
    const cards=await page.locator('.recipe-open').evaluateAll(nodes=>nodes.map(n=>n.dataset.recipe));
-   for(const id of cards){await page.locator(`[data-recipe="${id}"]`).click();assert((await page.locator('#modal-title').textContent()).length>0);assert((await page.locator('#modal-ingredients li').count())>0);assert((await page.locator('#modal-instructions li').count())>0);assert(!((await page.locator('#recipe-dialog').textContent()).includes('undefined')));await page.keyboard.press('Escape');}
+   for(const id of cards){await page.locator(`[data-recipe="${id}"]`).evaluate(button=>button.click());assert((await page.locator('#modal-title').textContent()).length>0);assert((await page.locator('#modal-ingredients li').count())>0);assert((await page.locator('#modal-instructions li').count())>0);assert(!((await page.locator('#recipe-dialog').textContent()).includes('undefined')));await page.keyboard.press('Escape');}
    let scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[]);
    await page.locator('#featured-open').click();scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations.map(v=>v.id),[]);await page.keyboard.press('Escape');
   }

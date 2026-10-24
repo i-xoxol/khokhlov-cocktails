@@ -155,7 +155,7 @@
 
   function isOptionalPhrase(phrase) {
     const p = norm(phrase);
-    return OPTIONAL_MARKERS.some(m => p.includes(m));
+    return OPTIONAL_MARKERS.some(m => new RegExp(`\\b${m}\\b`).test(p));
   }
 
   // Strip amounts/units and parentheticals; keep words.
