@@ -26,7 +26,7 @@ window.COCKTAILS = [
       "ingredients": "2 oz Kirkland Tequila Añejo, 0.25 oz simple syrup, 2 dashes orange bitters",
       "instructions": "1. Add tequila, simple syrup, and orange bitters to a mixing glass with ice.\n2. Stir until chilled.\n3. Strain into a rocks glass over one large ice cube.\n4. Express an orange peel over the glass and use it as the garnish.",
       "description": "A tequila drink with the sophistication of an Old Fashioned.",
-      "joke": "A little oak. A little orange. A very good reason to linger."
+      "joke": "Don Draper’s Old Fashioned took a holiday in Mexico. It came back calling bourbon its “experimental phase.”"
     },
     "ua": {
       "name": "Аньєхо Олд Фешн",
@@ -34,7 +34,7 @@ window.COCKTAILS = [
       "ingredients": "2 унції текіли Kirkland Tequila Añejo, 0.25 унції цукрового сиропу, 2 деші апельсинового бітера",
       "instructions": "1. Додайте текілу, цукровий сироп та апельсиновий бітер у змішувальний келих із льодом.\n2. Перемішайте до охолодження.\n3. Процідіть у келих рокс на один великий кубик льоду.\n4. Вичавіть ефірні олії з апельсинової цедри над келихом і прикрасьте нею напій.",
       "description": "Коктейль із текілою та вишуканістю класичного Олд Фешн.",
-      "joke": "Трохи дуба. Трохи апельсина. Чудовий привід затриматися."
+      "joke": "Витриманий, як сусід із Русанівки, який «на хвилинку» почав розповідати, як раніше працювали фонтани. Післясмак теж надовго."
     },
     "sk": {
       "name": "Añejo Old Fashioned",
@@ -42,7 +42,7 @@ window.COCKTAILS = [
       "ingredients": "2 oz tequily Kirkland Tequila Añejo, 0.25 oz cukrového sirupu, 2 streky pomarančového bitteru",
       "instructions": "1. Do miešacieho pohára s ľadom pridajte tequilu, cukrový sirup a pomarančový bitter.\n2. Miešajte, kým sa nápoj neochladí.\n3. Preceďte do nízkeho pohára na jednu veľkú kocku ľadu.\n4. Nad pohárom vytlačte oleje z pomarančovej kôry a použite ju ako ozdobu.",
       "description": "Tequilový drink s eleganciou klasického Old Fashioned.",
-      "joke": "Trochu duba. Trochu pomaranča. Skvelý dôvod ešte zostať."
+      "joke": "Vyzretá tequila — ako sused z Prešova, ktorý ti „na minútku“ vysvetlí, čo všetko bývalo na Hlavnej. Dlhá dochuť je v cene."
     },
     "pl": {
       "name": "Añejo Old Fashioned",
@@ -50,7 +50,7 @@ window.COCKTAILS = [
       "ingredients": "2 oz tequili Kirkland Tequila Añejo, 0.25 oz syropu cukrowego, 2 dashe bitteru pomarańczowego",
       "instructions": "1. Do szklanicy z lodem wlej tequilę, syrop cukrowy i bitter pomarańczowy.\n2. Mieszaj do schłodzenia.\n3. Przecedź do niskiej szklanki na jedną dużą kostkę lodu.\n4. Wyciśnij olejki ze skórki pomarańczowej nad szklanką i udekoruj nią drink.",
       "description": "Koktajl z tequilą i elegancją klasycznego Old Fashioned.",
-      "joke": "Odrobina dębu. Odrobina pomarańczy. Świetny powód, by zostać dłużej."
+      "joke": "Old Fashioned po urlopie w Meksyku. Wrócił tak dostojny, że nawet do Żabki zakłada marynarkę."
     }
   },
   {
@@ -85,7 +85,7 @@ window.COCKTAILS = [
       ],
       "instructions": "1. Add tequila, sweet vermouth, and orange bitters to a mixing glass with ice.\n2. Stir for 20–25 seconds.\n3. Strain into a chilled glass.",
       "description": "A tequila take on the Manhattan, with sweet vermouth and orange bitters.",
-      "joke": "Manhattan manners. Añejo attitude. Keep the glass cold and the conversation warm."
+      "joke": "A Manhattan with tequila: The Dude borrowed Don Draper’s suit and somehow got promoted."
     },
     "ua": {
       "name": "Текіла Мангеттен",
@@ -98,7 +98,7 @@ window.COCKTAILS = [
       ],
       "instructions": "1. Додайте текілу, солодкий вермут та апельсиновий бітер у змішувальний келих із льодом.\n2. Перемішуйте протягом 20–25 секунд.\n3. Процідіть в охолоджений келих.",
       "description": "Текільна версія Мангеттена із солодким вермутом та апельсиновим бітером.",
-      "joke": "Манери Мангеттена. Характер аньєхо. Келих — холодний, розмова — тепла."
+      "joke": "Мангеттен у назві, Дарниця в характері: такий вишуканий, що навіть суперечка за паркомісце звучить як світська бесіда."
     },
     "sk": {
       "name": "Tequila Manhattan",
@@ -111,7 +111,7 @@ window.COCKTAILS = [
       ],
       "instructions": "1. Do miešacieho pohára s ľadom pridajte tequilu, sladký vermút a pomarančový bitter.\n2. Miešajte 20–25 sekúnd.\n3. Preceďte do vychladeného pohára.",
       "description": "Tequilová verzia Manhattanu so sladkým vermútom a pomarančovým bitterom.",
-      "joke": "Maniere Manhattanu. Charakter añejo. Pohár nech je studený, rozhovor srdečný."
+      "joke": "Manhattan v názve, Sekčov v duši. Pohár na vysokej stopke, debata stále o tom, kto komu zabral miesto pred blokom."
     },
     "pl": {
       "name": "Tequila Manhattan",
@@ -124,7 +124,7 @@ window.COCKTAILS = [
       ],
       "instructions": "1. Do szklanicy z lodem wlej tequilę, słodki wermut i bitter pomarańczowy.\n2. Mieszaj przez 20–25 sekund.\n3. Przecedź do schłodzonego kieliszka.",
       "description": "Tequilowa wersja Manhattanu ze słodkim wermutem i bitterem pomarańczowym.",
-      "joke": "Maniery Manhattanu. Charakter añejo. Kieliszek chłodny, rozmowa ciepła."
+      "joke": "Manhattan w nazwie, PKP w rozkładzie dnia. Tak elegancki, że na spóźniony pociąg czekasz jak na prywatnego szofera."
     }
   },
   {

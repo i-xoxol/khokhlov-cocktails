@@ -31,6 +31,10 @@ The local preview uses a small example inventory sufficient for the Añejo cockt
 
 Browser checks cover all 38 dialogs in four languages, image decoding, filters, favorites and persistence, recipe links, serving arithmetic, five responsive widths, reduced motion, unavailable storage/inventory, and automated WCAG AA audits.
 
+## Bartender note style
+
+Keep the established, playful voice when adding cocktails. Ukrainian notes use neighborhood jokes about Rusanivka, Darnytsia and Kyiv life; English notes use pop culture and cocktail-specific jokes. Slovak notes retain the Prešov/Sekčov references, and Polish notes the Żabka/PKP and neighborhood humor. Write distinct jokes suited to the drink; avoid generic tasting slogans or hospitality advice. Notes live in each language’s `joke` field.
+
 ## Source files
 
 - `index.html` — semantic layout and recipe dialog.
