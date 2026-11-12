@@ -128,6 +128,128 @@ window.COCKTAILS = [
     }
   },
   {
+    "id": "long_island_iced_tea",
+    "spirit": "Other",
+    "mood": "Strong",
+    "newArrival": true,
+    "measurements": [
+      {
+        "amount": 0.5,
+        "unit": "oz",
+        "ml": 15
+      },
+      {
+        "amount": 0.5,
+        "unit": "oz",
+        "ml": 15
+      },
+      {
+        "amount": 0.5,
+        "unit": "oz",
+        "ml": 15
+      },
+      {
+        "amount": 0.5,
+        "unit": "oz",
+        "ml": 15
+      },
+      {
+        "amount": 0.5,
+        "unit": "oz",
+        "ml": 15
+      },
+      {
+        "amount": 0.8333333333333334,
+        "unit": "oz",
+        "ml": 25
+      },
+      {
+        "amount": 1,
+        "unit": "oz",
+        "ml": 30
+      },
+      {
+        "unit": "top"
+      }
+    ],
+    "source": {
+      "name": "International Bartenders Association",
+      "url": "https://iba-world.com/iba-cocktail/long-island-iced-tea/"
+    },
+    "en": {
+      "name": "Long Island Iced Tea",
+      "notes": "Citrus · Cola · Five spirits",
+      "ingredients": "15 ml Vodka, 15 ml Tequila, 15 ml White rum, 15 ml Gin, 15 ml Orange liqueur (Cointreau/Triple Sec), 25 ml Lemon juice, 30 ml Simple syrup, Cola",
+      "ingredientNames": [
+        "Vodka",
+        "Tequila",
+        "White rum",
+        "Gin",
+        "Orange liqueur (Cointreau/Triple Sec)",
+        "Lemon juice",
+        "Simple syrup",
+        "Top with cola (Diet Pepsi works too)"
+      ],
+      "instructions": "1. Fill a highball glass with ice.\n2. Add the vodka, tequila, white rum, gin, orange liqueur, lemon juice, and simple syrup.\n3. Top with cola and stir gently. Diet Pepsi from the home bar can be used instead.\n4. Garnish with a lemon slice if you like.",
+      "description": "Five spirits meet fresh lemon and a splash of cola in a tall, iced classic.",
+      "joke": "The Avengers assembled in a highball. Apparently gin, rum, vodka, tequila and triple sec all thought they were the main character."
+    },
+    "ua": {
+      "name": "Лонг-Айленд Айс Ті",
+      "notes": "Цитрус · Кола · П’ять міцних основ",
+      "ingredients": "15 мл горілки, 15 мл текіли, 15 мл білого рому, 15 мл джину, 15 мл апельсинового лікеру (Cointreau/Triple Sec), 25 мл лимонного соку, 30 мл цукрового сиропу, Кола",
+      "ingredientNames": [
+        "Горілка",
+        "Текіла",
+        "Білий ром",
+        "Джин",
+        "Апельсиновий лікер (Cointreau/Triple Sec)",
+        "Лимонний сік",
+        "Цукровий сироп",
+        "Долийте колу (підійде й Diet Pepsi)"
+      ],
+      "instructions": "1. Наповніть високий келих хайбол льодом.\n2. Додайте горілку, текілу, білий ром, джин, апельсиновий лікер, лимонний сік і цукровий сироп.\n3. Долийте колу та обережно перемішайте. Замість коли можна взяти Diet Pepsi з домашнього бару.\n4. За бажанням прикрасьте скибкою лимона.",
+      "description": "П’ять міцних основ, свіжий лимон і трохи коли у високому келиху з льодом.",
+      "joke": "П’ять видів алкоголю в одному келиху — як п’ять сусідів із Русанівки й Дарниці в чаті ОСББ. Кожен головний, а мир тримається на краплі коли."
+    },
+    "sk": {
+      "name": "Long Island Iced Tea",
+      "notes": "Citrusy · Kola · Päť destilátov",
+      "ingredients": "15 ml vodky, 15 ml tequily, 15 ml bieleho rumu, 15 ml ginu, 15 ml pomarančového likéru (Cointreau/Triple Sec), 25 ml citrónovej šťavy, 30 ml cukrového sirupu, Kola",
+      "ingredientNames": [
+        "Vodka",
+        "Tequila",
+        "Biely rum",
+        "Gin",
+        "Pomarančový likér (Cointreau/Triple Sec)",
+        "Citrónová šťava",
+        "Cukrový sirup",
+        "Dolejte kolou (hodí sa aj Diet Pepsi)"
+      ],
+      "instructions": "1. Naplňte vysoký pohár highball ľadom.\n2. Pridajte vodku, tequilu, biely rum, gin, pomarančový likér, citrónovú šťavu a cukrový sirup.\n3. Dolejte kolou a jemne premiešajte. Namiesto koly môžete použiť Diet Pepsi z domáceho baru.\n4. Podľa chuti ozdobte plátkom citróna.",
+      "description": "Päť destilátov, čerstvý citrón a trocha koly vo vysokom pohári s ľadom.",
+      "joke": "Päť druhov alkoholu v jednom pohári — ako päť susedov zo Sekčova na domovej schôdzi. Každý chce mať posledné slovo. Kola robí zápisnicu."
+    },
+    "pl": {
+      "name": "Long Island Iced Tea",
+      "notes": "Cytrusy · Cola · Pięć alkoholi",
+      "ingredients": "15 ml wódki, 15 ml tequili, 15 ml białego rumu, 15 ml ginu, 15 ml likieru pomarańczowego (Cointreau/Triple Sec), 25 ml soku z cytryny, 30 ml syropu cukrowego, Cola",
+      "ingredientNames": [
+        "Wódka",
+        "Tequila",
+        "Biały rum",
+        "Gin",
+        "Likier pomarańczowy (Cointreau/Triple Sec)",
+        "Sok z cytryny",
+        "Syrop cukrowy",
+        "Dopełnij colą (może być też Diet Pepsi)"
+      ],
+      "instructions": "1. Napełnij wysoką szklankę typu highball lodem.\n2. Dodaj wódkę, tequilę, biały rum, gin, likier pomarańczowy, sok z cytryny i syrop cukrowy.\n3. Dopełnij colą i delikatnie wymieszaj. Zamiast coli możesz użyć Diet Pepsi z domowego baru.\n4. Opcjonalnie udekoruj plasterkiem cytryny.",
+      "description": "Pięć alkoholi, świeża cytryna i odrobina coli w wysokiej szklance z lodem.",
+      "joke": "Pięć alkoholi w jednej szklance. Jak kolejka w Żabce przed świętami: każdy przyszedł „tylko po jedną rzecz”, a cola próbuje otworzyć drugą kasę."
+    }
+  },
+  {
     "id": "negroni",
     "spirit": "Gin",
     "mood": "Bitter",
@@ -167,28 +289,28 @@ window.COCKTAILS = [
     "en": {
       "name": "Old Fashioned",
       "joke": "I want an Old Fashioned, and I want it now. — Don Draper probably. Classic, just like your Mad Men era dreams.",
-      "ingredients": "60ml Bourbon or Rye, 1 Sugar Cube (or 10ml Syrup), 2 dashes Angostura Bitters",
-      "instructions": "1. Place sugar and bitters in a rocks glass.\n2. Add a splash of water/soda and muddle until sugar dissolves.\n3. Add a large ice cube and the whiskey.\n4. Stir gently for 30 seconds to chill and dilute.\n5. Express orange oil over the drink and drop in the peel.",
+      "ingredients": "60ml Bourbon or Rye, 10ml Simple Syrup, 2 dashes Angostura Bitters",
+      "instructions": "1. Add whiskey, simple syrup and bitters to a rocks glass with a large ice cube.\n2. Stir for 30 seconds to chill and dilute.\n3. Garnish with orange peel if available.",
       "history": "In the late 1800s, bartenders called spirit + sugar + bitters an old fashioned cocktail to distinguish it from newer styles. (true story)"
     },
     "ua": {
       "name": "Олд Фешн",
       "joke": "Старший за міст на Русанівку, але все ще тримається бодрячком.",
-      "ingredients": "60мл Бурбон або Житній віскі, 1 кубик цукру (або 10мл сиропу), 2 деш біттера Angostura",
-      "instructions": "1. Покладіть цукор і біттер у стакан рокс.\n2. Додайте краплю води/содової та розітріть до розчинення цукру.\n3. Додайте великий куб льоду та віскі.\n4. Обережно перемішуйте 30 секунд.\n5. Вичавіть олію з апельсинової цедри та покладіть її в келих.",
+      "ingredients": "60мл Бурбон або житній віскі, 10мл Цукровий сироп, 2 деші бітера Angostura",
+      "instructions": "1. Додайте віскі, цукровий сироп і бітер у келих рокс із великим кубиком льоду.\n2. Перемішуйте 30 секунд для охолодження та розведення.\n3. За наявності прикрасьте апельсиновою цедрою.",
       "history": "Наприкінці XIX ст. так називали коктейль зі спирту, цукру та біттера, щоб відрізняти від «новомодних» міксів. (правдива історія)"
     },
     "sk": {
       "name": "Old Fashioned",
-      "ingredients": "60ml Bourbon or Rye, 1 Sugar Cube (or 10ml Syrup), 2 dashes Angostura Bitters",
-      "instructions": "1. Daj cukor a bitters do rocks pohára.\n2. Pridaj trošku vody/sódy a roztlač/rozmiešaj, kým sa cukor rozpustí.\n3. Pridaj veľkú kocku ľadu a whiskey.\n4. Jemne miešaj ~30 sekúnd, aby sa ochladil a ľahko zriedil.\n5. Vytlač oleje z pomarančovej kôry nad drink a kôru vlož dnu.",
+      "ingredients": "60ml Bourbon alebo ražná whisky, 10ml Cukrový sirup, 2 streky Angostura bitters",
+      "instructions": "1. Do nízkeho pohára s veľkou kockou ľadu pridajte whisky, cukrový sirup a bitter.\n2. Miešajte 30 sekúnd na ochladenie a zriedenie.\n3. Ak máte, ozdobte pomarančovou kôrou.",
       "joke": "Klasika bez výhovoriek — ako keď na Sídlisku povieš „dám si jedno“ a myslíš to vážne. Aspoň prvých 10 minút.",
       "history": "Koncom 19. storočia sa kombinácia destilátu + cukor + bitters volala „old fashioned“, aby sa odlíšila od novších štýlov. (pravdivý príbeh)"
     },
     "pl": {
       "name": "Old Fashioned",
-      "ingredients": "60ml Bourbon or Rye, 1 Sugar Cube (or 10ml Syrup), 2 dashes Angostura Bitters",
-      "instructions": "1. Umieść cukier i bitters w szklance typu rocks.\n2. Dodaj odrobinę wody/sody i rozgnieć, aż cukier się rozpuści.\n3. Dodaj dużą kostkę lodu i whiskey.\n4. Mieszaj delikatnie ~30 sekund, żeby schłodzić i lekko rozcieńczyć.\n5. Wyciśnij olejki ze skórki pomarańczy nad drink i wrzuć skórkę do środka.",
+      "ingredients": "60ml Bourbon lub whisky żytnia, 10ml Syrop cukrowy, 2 dashe Angostura bitters",
+      "instructions": "1. Do niskiej szklanki z dużą kostką lodu wlej whisky, syrop cukrowy i bitter.\n2. Mieszaj przez 30 sekund, aby schłodzić i rozcieńczyć.\n3. Udekoruj skórką pomarańczową, jeśli jest dostępna.",
       "joke": "Minimalizm jak z osiedlowego baru: mało składników, zero ściemy, maksimum klimatu na blokowisku.",
       "history": "Pod koniec XIX wieku miks: alkohol + cukier + bitters nazywano „old fashioned”, by odróżnić go od nowszych koktajli. (prawdziwa historia)"
     }
@@ -233,27 +355,27 @@ window.COCKTAILS = [
     "en": {
       "name": "White Russian",
       "joke": "The Dude abides. — The Big Lebowski. Best enjoyed in a bathrobe.",
-      "ingredients": "50ml Vodka, 20ml Coffee Liqueur (Kahlúa), 30ml Heavy Cream",
+      "ingredients": "50ml Vodka, 20ml Coffee Liqueur (Grind), 30ml Heavy Cream",
       "instructions": "1. Fill a rocks glass with ice.\n2. Add vodka and coffee liqueur.\n3. Stir gently to combine.\n4. Slowly pour the cream over the back of a spoon to float it on top.\n5. Serve without stirring (let the guest stir).",
       "history": "A creamy twist on the Black Russian, popularized in the mid‑20th century and later revived by pop culture. (true story)"
     },
     "ua": {
       "name": "Білий Російський",
       "joke": "Улюблений напій Чувака. Ідеально смакує в халаті з видом на Дніпро.",
-      "ingredients": "50мл Горілка, 20мл Кавовий лікер (Kahlúa), 30мл Вершки",
+      "ingredients": "50мл Горілка, 20мл Кавовий лікер (Grind), 30мл Вершки",
       "instructions": "1. Наповніть стакан рокс льодом.\n2. Додайте горілку та кавовий лікер.\n3. Легко перемішайте.\n4. Повільно налийте вершки через тильну сторону ложки, щоб вони лягли шаром зверху.\n5. Подавайте, не перемішуючи.",
       "history": "Кремова версія Black Russian, що стала популярною у середині ХХ століття і знову ожила завдяки попкультурі. (правдива історія)"
     },
     "sk": {
       "name": "White Russian",
-      "ingredients": "50ml Vodka, 20ml Coffee Liqueur (Kahlúa), 30ml Heavy Cream",
+      "ingredients": "50ml Vodka, 20ml Coffee Liqueur (Grind), 30ml Heavy Cream",
       "instructions": "1. Naplň rocks pohár ľadom.\n2. Pridaj vodku a kávový likér.\n3. Jemne premiešaj.\n4. Pomaly nalej smotanu po chrbte lyžičky, aby ostala navrchu.\n5. Podávaj bez miešania (nech si hosť premieša sám).",
       "joke": "Krémové pohodlie — ako keď na Sekčove nájdeš voľné miesto na parkovanie. Najlepšie v župane.",
       "history": "Krémový twist na Black Russian, populárny od polovice 20. storočia a neskôr znovu oživený popkultúrou. (pravdivý príbeh)"
     },
     "pl": {
       "name": "White Russian",
-      "ingredients": "50ml Vodka, 20ml Coffee Liqueur (Kahlúa), 30ml Heavy Cream",
+      "ingredients": "50ml Vodka, 20ml Coffee Liqueur (Grind), 30ml Heavy Cream",
       "instructions": "1. Napełnij szklankę typu rocks lodem.\n2. Wlej wódkę i likier kawowy.\n3. Delikatnie zamieszaj.\n4. Powoli wlej śmietankę po łyżeczce, żeby „pływała” na wierzchu.\n5. Podawaj bez mieszania (niech gość sam wymiesza).",
       "joke": "Kremowy klasyk: najlepiej smakuje w dresie, po drodze z PKP i z planem „nic nie robię”.",
       "history": "Kremowa wersja Black Russian: popularna w połowie XX wieku, później odświeżona przez popkulturę. (prawdziwa historia)"
@@ -299,27 +421,27 @@ window.COCKTAILS = [
     "en": {
       "name": "Sidecar",
       "joke": "So classy it makes you want to start speaking with a fake British accent. Indubitably!",
-      "ingredients": "50ml Cognac, 20ml Orange Liqueur (Cointreau), 20ml Lemon Juice",
+      "ingredients": "50ml Cognac, 20ml Orange Liqueur (Kirkland / Pierre Ferrand), 20ml Lemon Juice",
       "instructions": "1. Rim a coupe glass with sugar (run a lemon wedge around the rim, then dip in sugar).\n2. Fill a shaker with ice.\n3. Add Cognac, Orange Liqueur, and lemon juice.\n4. Shake well until chilled.\n5. Strain into the prepared glass.",
       "history": "First recorded in the 1920s in Paris/London; its name likely nods to the motorcycle sidecar. (true story)"
     },
     "ua": {
       "name": "Сайдкар",
       "joke": "Такий же вишуканий, як мешканець нової висотки на Русанівці.",
-      "ingredients": "50мл Коньяк, 20мл Апельсиновий лікер (Cointreau), 20мл Лимонний сік",
+      "ingredients": "50мл Коньяк, 20мл Апельсиновий лікер (Kirkland / Pierre Ferrand), 20мл Лимонний сік",
       "instructions": "1. Зробіть цукровий обідок на келиху (проведіть лимоном по краю, вмочіть у цукор).\n2. Наповніть шейкер льодом.\n3. Додайте коньяк, апельсиновий лікер та лимонний сік.\n4. Добре збовтайте.\n5. Процідіть у підготовлений келих.",
       "history": "Перші згадки з 1920‑х у Парижі/Лондоні; назва — від мотоциклетного «сайдкара». (правдива історія)"
     },
     "sk": {
       "name": "Sidecar",
-      "ingredients": "50ml Cognac, 20ml Orange Liqueur (Cointreau), 20ml Lemon Juice",
+      "ingredients": "50ml Cognac, 20ml Orange Liqueur (Kirkland / Pierre Ferrand), 20ml Lemon Juice",
       "instructions": "1. Sprav cukrový okraj na coupe (citrón po okraji, potom do cukru).\n2. Naplň shaker ľadom.\n3. Pridaj koňak, pomarančový likér a citrónovú šťavu.\n4. Dobre pretrep, kým je drink ľadový.\n5. Preceď do pripraveného pohára.",
       "joke": "Také elegantné, že aj Prešovské Sídlisko sa na chvíľu tvári ako Paríž. Na chvíľu.",
       "history": "Prvýkrát zaznamenaný v 20. rokoch v Paríži/Londýne; názov pravdepodobne odkazuje na motocyklový sidecar. (pravdivý príbeh)"
     },
     "pl": {
       "name": "Sidecar",
-      "ingredients": "50ml Cognac, 20ml Orange Liqueur (Cointreau), 20ml Lemon Juice",
+      "ingredients": "50ml Cognac, 20ml Orange Liqueur (Kirkland / Pierre Ferrand), 20ml Lemon Juice",
       "instructions": "1. Zrób cukrowy rant na coupe (cytryna na brzegu, potem do cukru).\n2. Napełnij shaker lodem.\n3. Wlej koniak, likier pomarańczowy i sok z cytryny.\n4. Wstrząśnij porządnie, aż będzie mocno schłodzone.\n5. Przecedź do przygotowanego kieliszka.",
       "joke": "Tak elegancki, że aż chce się mówić „dzień dobry” sąsiadom na klatce. Prawie.",
       "history": "Pierwsze przepisy pochodzą z lat 20. w Paryżu/Londynie; nazwa najpewniej od wózka bocznego motocykla. (prawdziwa historia)"
@@ -432,27 +554,27 @@ window.COCKTAILS = [
       "name": "Amaretto Sour",
       "joke": "Tastes like an almond biscotti, but without the crunch and with a kick.",
       "ingredients": "50ml Amaretto, 30ml Lemon Juice, 15ml Sugar Syrup, 1 dash Bitters, (Egg white optional)",
-      "instructions": "1. Fill a shaker with ice.\n2. Add Amaretto, Bourbon, lemon juice, and syrup.\n3. Shake vigorously to emulsify (add egg white if you like foam, dry shake first).\n4. Strain into a rocks glass filled with fresh ice.\n5. Garnish with a lemon wedge and a cherry.",
+      "instructions": "1. Fill a shaker with ice.\n2. Add amaretto, lemon juice, simple syrup and bitters.\n3. Shake vigorously. Egg white is optional; if using it, dry shake first.\n4. Strain into a rocks glass filled with fresh ice.\n5. Garnish with a lemon wedge and cherry if available.",
       "history": "A 1970s crowd‑pleaser; the modern recipe adds whiskey for balance and structure. (true story)"
     },
     "ua": {
       "name": "Амаретто Сауер",
       "joke": "Солодкий, як знайти вільне місце для парковки біля каналу в неділю.",
       "ingredients": "50мл Амаретто, 30мл Лимонний сік, 15мл Цукровий сироп, 1 деш біттера, (Яєчний білок за бажанням)",
-      "instructions": "1. Наповніть шейкер льодом.\n2. Додайте Амаретто, бурбон, лимонний сік та сироп.\n3. Енергійно збовтайте (якщо хочете піну — додайте білок і збийте спершу без льоду).\n4. Процідіть у стакан рокс зі свіжим льодом.\n5. Прикрасьте скибочкою лимона та вишнею.",
+      "instructions": "1. Наповніть шейкер льодом.\n2. Додайте амаретто, лимонний сік, цукровий сироп і бітер.\n3. Добре збовтайте. Яєчний білок — за бажанням; із ним спершу збовтайте без льоду.\n4. Процідіть у рокс зі свіжим льодом.\n5. За наявності прикрасьте часточкою лимона й вишнею.",
       "history": "Хіт 1970‑х; сучасна версія додає віскі, щоб напій був більш збалансованим. (правдива історія)"
     },
     "sk": {
       "name": "Amaretto Sour",
       "ingredients": "50ml Amaretto, 30ml Lemon Juice, 15ml Sugar Syrup, 1 dash Bitters, (Egg white optional)",
-      "instructions": "1. Naplň shaker ľadom.\n2. Pridaj Amaretto, Bourbon, citrónovú šťavu a sirup.\n3. Pretrep poriadne (ak chceš penu, pridaj bielok; najprv „dry shake“ bez ľadu).\n4. Preceď do rocks pohára so свежým ľadom.\n5. Ozdob citrónom a čerešňou.",
+      "instructions": "1. Naplňte šejker ľadom.\n2. Pridajte amaretto, citrónovú šťavu, cukrový sirup a bitter.\n3. Dobre pretrepte. Bielok je voliteľný; s ním najprv pretrepte bez ľadu.\n4. Preceďte do nízkeho pohára s čerstvým ľadom.\n5. Ak máte, ozdobte citrónom a čerešňou.",
       "joke": "Chutí ako mandľový dezert — len bez omrviniek a s odvahou typu „Sekčov, ideme“. ",
       "history": "Obľúbenec zo 70. rokov; moderná verzia pridáva whiskey pre lepšiu rovnováhu a štruktúru. (pravdivý príbeh)"
     },
     "pl": {
       "name": "Amaretto Sour",
       "ingredients": "50ml Amaretto, 30ml Lemon Juice, 15ml Sugar Syrup, 1 dash Bitters, (Egg white optional)",
-      "instructions": "1. Napełnij shaker lodem.\n2. Wlej Amaretto, Bourbon, sok z cytryny i syrop.\n3. Wstrząśnij energicznie (dla pianki dodaj białko; najpierw „dry shake” bez lodu).\n4. Przecedź do rocks na świeży lód.\n5. Udekoruj cytryną i wisienką.",
+      "instructions": "1. Napełnij shaker lodem.\n2. Dodaj amaretto, sok z cytryny, syrop cukrowy i bitter.\n3. Mocno wstrząśnij. Białko jest opcjonalne; z nim najpierw wstrząśnij bez lodu.\n4. Przecedź do niskiej szklanki ze świeżym lodem.\n5. Udekoruj cytryną i wiśnią, jeśli są dostępne.",
       "joke": "Smakuje jak migdałowy deser, tylko bez talerzyka i z klimatem „blokowisko nocą”.",
       "history": "Hit lat 70.; nowoczesne wersje dodają whiskey dla balansu i „kręgosłupa”. (prawdziwa historia)"
     }
@@ -629,27 +751,27 @@ window.COCKTAILS = [
     "en": {
       "name": "Gimlet",
       "joke": "Shaken, not stirred. Wait, that's the other one. But this one has more vitamin C!",
-      "ingredients": "60ml Gin, 30ml Lime Cordial (or 20ml Lime Juice + 10ml Syrup)",
+      "ingredients": "60ml Gin, 20ml Lime Juice, 10ml Simple Syrup",
       "instructions": "1. Fill a shaker with ice.\n2. Add Gin, lime juice, and simple syrup.\n3. Shake vigorously for 15 seconds until frost forms on the shaker.\n4. Strain into a chilled coupe or martini glass.\n5. Garnish with a lime wheel.",
       "history": "Linked to Royal Navy traditions of lime to prevent scurvy; gin turned the medicine into a cocktail. (true story)"
     },
     "ua": {
       "name": "Гімлет",
       "joke": "Прозорий, як наміри твого сусіда позичити дрель у суботу о 8 ранку.",
-      "ingredients": "60мл Джин, 30мл Лаймовий кордіал (або 20мл сік лайма + 10мл сироп)",
+      "ingredients": "60мл Джин, 20мл Сік лайма, 10мл Цукровий сироп",
       "instructions": "1. Наповніть шейкер льодом.\n2. Додайте джин, сік лайма та цукровий сироп.\n3. Енергійно збовтайте 15 секунд, доки шейкер не запітніє.\n4. Процідіть у охолоджений келих купе або мартіні.\n5. Прикрасьте кружальцем лайма.",
       "history": "Пов’язаний з морською традицією додавати лайм від цинги; джин зробив це коктейлем. (правдива історія)"
     },
     "sk": {
       "name": "Gimlet",
-      "ingredients": "60ml Gin, 30ml Lime Cordial (or 20ml Lime Juice + 10ml Syrup)",
+      "ingredients": "60ml Gin, 20ml Limetková šťava, 10ml Cukrový sirup",
       "instructions": "1. Naplň shaker ľadom.\n2. Pridaj gin, limetkovú šťavu a cukrový sirup.\n3. Pretrep 15 sekúnd, kým shaker „zmrzne“ zvonku.\n4. Preceď do vychladeného coupe alebo martini pohára.\n5. Ozdob kolieskom limetky.",
       "joke": "Čisté a kyslé — ako ranný vzduch v Prešove, kým si ešte nespomenieš, čo si včera sľúbil.",
       "history": "Spája sa s tradíciou Royal Navy používať limetky proti skorbutu; gin spravil z lieku koktail. (pravdivý príbeh)"
     },
     "pl": {
       "name": "Gimlet",
-      "ingredients": "60ml Gin, 30ml Lime Cordial (or 20ml Lime Juice + 10ml Syrup)",
+      "ingredients": "60ml Gin, 20ml Sok z limonki, 10ml Syrop cukrowy",
       "instructions": "1. Napełnij shaker lodem.\n2. Wlej gin, sok z limonki i syrop cukrowy.\n3. Wstrząśnij 15 sekund, aż shaker będzie oszroniony.\n4. Przecedź do schłodzonego coupe albo martini.\n5. Udekoruj plastrem limonki.",
       "joke": "Kwaśne, czyste i konkretne — jak szybka decyzja na blokowisku: „bierzemy i idziemy dalej”.",
       "history": "Łączony z marynarską tradycją limonek przeciw szkorbutowi; gin zamienił „lekarstwo” w koktajl. (prawdziwa historia)"
@@ -826,29 +948,29 @@ window.COCKTAILS = [
     "mood": "Strong",
     "en": {
       "name": "Troieshchyna Iced Tea",
-      "ingredients": "15ml Vodka, 15ml Rum, 15ml Gin, 15ml Tequila, 15ml Blue Curacao",
-      "instructions": "1. Fill a tall glass with ice.\n2. Add all spirits (Vodka, Rum, Gin, Tequila, Blue Curacao).\n3. Add sweet & sour mix (lemon juice + syrup) if available.\n4. Top with Cola.\n5. Stir gently. Garnish with a lemon wedge.",
+      "ingredients": "15ml Vodka, 15ml Rum, 15ml Gin, 15ml Tequila, 15ml Blue Curacao, Diet Pepsi to top",
+      "instructions": "1. Fill a tall glass with ice.\n2. Add all spirits (Vodka, Rum, Gin, Tequila, Blue Curacao).\n3. Add sweet & sour mix (lemon juice + syrup) if available.\n4. Top with Diet Pepsi.\n5. Stir gently. Garnish with a lemon wedge.",
       "joke": "Say hello to my little friend! (Scarface)",
       "history": "A big‑crowd backyard classic: a little of everything, because the night was going to be long."
     },
     "ua": {
       "name": "Троєщина Айс Ті",
-      "ingredients": "15мл Горілка, 15мл Ром, 15мл Джин, 15мл Текіла, 15мл Блю Курасао",
-      "instructions": "1. Наповніть високий стакан льодом.\n2. Додайте всі спирти (горілка, ром, джин, текіла, Блю Курасао).\n3. Додайте трохи лимонного соку з сиропом.\n4. Долийте колу.\n5. Перемішайте. Прикрасьте лимоном.",
+      "ingredients": "15мл Горілка, 15мл Ром, 15мл Джин, 15мл Текіла, 15мл Блю Курасао, Diet Pepsi для доливання",
+      "instructions": "1. Наповніть високий стакан льодом.\n2. Додайте всі спирти (горілка, ром, джин, текіла, Блю Курасао).\n3. Додайте трохи лимонного соку з сиропом.\n4. Долийте Diet Pepsi.\n5. Перемішайте. Прикрасьте лимоном.",
       "joke": "Один ковток — і ти прокидаєшся в іншому районі без телефону.",
       "history": "Класика для великої компанії у дворі: трохи всього, бо вечір обіцяв бути довгим."
     },
     "sk": {
       "name": "Troieshchyna Iced Tea",
-      "ingredients": "15ml Vodka, 15ml Rum, 15ml Gin, 15ml Tequila, 15ml Blue Curacao",
-      "instructions": "1. Naplň vysoký pohár ľadom.\n2. Pridaj všetky destiláty (vodka, rum, gin, tequila, Blue Curacao).\n3. Ak máš, pridaj sweet & sour mix (citrón + sirup).\n4. Dolej colou.\n5. Jemne premiešaj. Ozdob citrónom.",
+      "ingredients": "15ml Vodka, 15ml Rum, 15ml Gin, 15ml Tequila, 15ml Blue Curacao, Doliať Diet Pepsi",
+      "instructions": "1. Naplň vysoký pohár ľadom.\n2. Pridaj všetky destiláty (vodka, rum, gin, tequila, Blue Curacao).\n3. Ak máš, pridaj sweet & sour mix (citrón + sirup).\n4. Dolej Diet Pepsi.\n5. Jemne premiešaj. Ozdob citrónom.",
       "joke": "Trochu zo všetkého — ako sídlisková párty: niekto prinesie „ešte jednu tašku“ a plán na spánok sa zruší.",
       "history": "Klasika pre veľkú partiu: trochu zo všetkého, lebo noc mala byť dlhá."
     },
     "pl": {
       "name": "Troieshchyna Iced Tea",
-      "ingredients": "15ml Vodka, 15ml Rum, 15ml Gin, 15ml Tequila, 15ml Blue Curacao",
-      "instructions": "1. Napełnij wysoką szklankę lodem.\n2. Wlej wszystkie alkohole (wódka, rum, gin, tequila, Blue Curacao).\n3. Jeśli masz, dodaj sweet & sour (cytryna + syrop).\n4. Dopełnij colą.\n5. Delikatnie zamieszaj. Udekoruj cytryną.",
+      "ingredients": "15ml Vodka, 15ml Rum, 15ml Gin, 15ml Tequila, 15ml Blue Curacao, Diet Pepsi do dopełnienia",
+      "instructions": "1. Napełnij wysoką szklankę lodem.\n2. Wlej wszystkie alkohole (wódka, rum, gin, tequila, Blue Curacao).\n3. Jeśli masz, dodaj sweet & sour (cytryna + syrop).\n4. Dopełnij Diet Pepsi.\n5. Delikatnie zamieszaj. Udekoruj cytryną.",
       "joke": "Trochę wszystkiego, bo impreza długa — jak nocna rozmowa pod klatką na blokowisku.",
       "history": "Podwórkowy klasyk na dużą ekipę: po trochu z każdej butelki, bo noc miała być długa."
     }
@@ -892,28 +1014,28 @@ window.COCKTAILS = [
     "mood": "Refreshing",
     "en": {
       "name": "Obolon Sailor",
-      "ingredients": "60ml Black rum (Gosling's), 120ml Ginger beer",
+      "ingredients": "60ml Black rum (Bacardí Black), 120ml Ginger beer",
       "instructions": "1. Fill a highball glass with ice.\n2. Add Black Rum.\n3. Top with Ginger Beer.\n4. Squeeze a lime wedge into the drink and drop it in.\n5. Stir gently.",
       "joke": "Why is the rum gone? (Pirates of the Caribbean)",
       "history": "A riverside highball for summer fishermen on Obolon."
     },
     "ua": {
       "name": "Оболонський Матрос",
-      "ingredients": "60мл Чорний ром (Gosling's), 120мл Імбирне пиво",
+      "ingredients": "60мл Чорний ром (Bacardí Black), 120мл Імбирне пиво",
       "instructions": "1. Наповніть хайбол льодом.\n2. Додайте чорний ром.\n3. Долийте імбирне пиво.\n4. Вичавіть шматочок лайма в напій і киньте його всередину.\n5. Легко перемішайте.",
       "joke": "Для тих, хто вийшов на набережну в тапках і з насінням.",
       "history": "Набережний хайбол для літніх рибалок на Оболоні."
     },
     "sk": {
       "name": "Obolon Sailor",
-      "ingredients": "60ml Black rum (Gosling's), 120ml Ginger beer",
+      "ingredients": "60ml Black rum (Bacardí Black), 120ml Ginger beer",
       "instructions": "1. Naplň highball pohár ľadom.\n2. Pridaj čierny rum.\n3. Dolej ginger beer.\n4. Vytlač limetku do drinku a limetku hoď dnu.\n5. Jemne premiešaj.",
       "joke": "Pre tých, čo idú „len na chvíľku“ k vode… a vrátia sa s príbehom. Prešov edition: aj s jednou limetkou navyše.",
       "history": "Nábrežný highball na leto — pre rybárov aj večerných romantikov pri vode."
     },
     "pl": {
       "name": "Obolon Sailor",
-      "ingredients": "60ml Black rum (Gosling's), 120ml Ginger beer",
+      "ingredients": "60ml Black rum (Bacardí Black), 120ml Ginger beer",
       "instructions": "1. Napełnij highball lodem.\n2. Wlej czarny rum.\n3. Dopełnij ginger beer.\n4. Wyciśnij ćwiartkę limonki i wrzuć ją do środka.\n5. Delikatnie zamieszaj.",
       "joke": "Na lato nad wodą: proste, chłodne i z vibe’em jak wieczór pod blokiem, tylko z lepszym rumem.",
       "history": "Nadbrzeżny highball na letnie dni — dla tych, którzy lubią wiatr, wodę i konkretny łyk."
@@ -958,29 +1080,29 @@ window.COCKTAILS = [
     "mood": "Strong",
     "en": {
       "name": "The Oligarch",
-      "ingredients": "60ml Bourbon, Sugar, Bitters",
-      "instructions": "1. Place a sugar cube saturated with bitters in a rocks glass.\n2. Add a splash of water and muddle.\n3. Add a large ice cube and Bourbon.\n4. Stir slowly and deliberately.\n5. Garnish with a cherry and orange twist.",
+      "ingredients": "60ml Bourbon, 10ml Simple Syrup, 2 dashes Angostura Bitters",
+      "instructions": "1. Add bourbon, simple syrup and bitters to a rocks glass with a large ice cube.\n2. Stir for 30 seconds to chill and dilute.\n3. Garnish with orange peel if available.",
       "joke": "I'm gonna make him an offer he can't refuse. (The Godfather)",
       "history": "Built for a toast at a too‑fancy dinner—simple, stern, and expensive‑feeling."
     },
     "ua": {
       "name": "Олігарх",
-      "ingredients": "60мл Бурбон, Цукор, Біттер",
-      "instructions": "1. Покладіть цукор, просочений біттером, у стакан рокс.\n2. Додайте краплю води і розітріть.\n3. Додайте великий куб льоду та бурбон.\n4. Перемішуйте повільно і впевнено.\n5. Прикрасьте вишнею та цедрою апельсина.",
+      "ingredients": "60мл Бурбон, 10мл Цукровий сироп, 2 деші бітера Angostura",
+      "instructions": "1. Додайте бурбон, цукровий сироп і бітер у келих рокс із великим кубиком льоду.\n2. Перемішуйте 30 секунд для охолодження та розведення.\n3. За наявності прикрасьте апельсиновою цедрою.",
       "joke": "Витриманий, міцний і трохи гіркий через податки.",
       "history": "Напій для тосту на надто пафосній вечері: простий, строгий і «дорого звучить»."
     },
     "sk": {
       "name": "The Oligarch",
-      "ingredients": "60ml Bourbon, Sugar, Bitters",
-      "instructions": "1. Daj do rocks pohára kocku cukru nasiaknutú bitters.\n2. Pridaj trošku vody a roztlač.\n3. Pridaj veľkú kocku ľadu a bourbon.\n4. Miešaj pomaly a „s autoritou“.\n5. Ozdob čerešňou a pomarančovým twistom.",
+      "ingredients": "60ml Bourbon, 10ml Cukrový sirup, 2 streky Angostura bitters",
+      "instructions": "1. Do nízkeho pohára s veľkou kockou ľadu pridajte bourbon, cukrový sirup a bitter.\n2. Miešajte 30 sekúnd na ochladenie a zriedenie.\n3. Ak máte, ozdobte pomarančovou kôrou.",
       "joke": "Jednoduché, prísne a tvári sa draho — ako nový „luxusný“ byt na Sídlisku s výhľadom na parkovisko.",
       "history": "Postavené na prípitok pri príliš nóbl večeri — jednoduché, tvrdé a na pohľad „drahé“."
     },
     "pl": {
       "name": "The Oligarch",
-      "ingredients": "60ml Bourbon, Sugar, Bitters",
-      "instructions": "1. Włóż do rocks kostkę cukru nasączoną bitters.\n2. Dodaj odrobinę wody i rozgnieć.\n3. Dodaj dużą kostkę lodu i bourbon.\n4. Mieszaj powoli i „z klasą”.\n5. Udekoruj wisienką i twistem pomarańczowym.",
+      "ingredients": "60ml Bourbon, 10ml Syrop cukrowy, 2 dashe Angostura bitters",
+      "instructions": "1. Do niskiej szklanki z dużą kostką lodu wlej bourbon, syrop cukrowy i bitter.\n2. Mieszaj przez 30 sekund, aby schłodzić i rozcieńczyć.\n3. Udekoruj skórką pomarańczową, jeśli jest dostępna.",
       "joke": "Prosty skład, poważny ton i aura „to kosztuje” — jak kolacja, na którą ubierasz się za ładnie na blokowisku.",
       "history": "Stworzony na toast przy zbyt eleganckiej kolacji — prosty, surowy i sprawiający wrażenie drogiego."
     }
@@ -991,28 +1113,28 @@ window.COCKTAILS = [
     "mood": "Sweet",
     "en": {
       "name": "Pozniaky Concrete",
-      "ingredients": "30ml Vodka, 30ml Espresso liqueur (Kahlúa), 30ml Irish cream (Baileys)",
+      "ingredients": "30ml Vodka, 30ml Espresso liqueur (Grind), 30ml Irish cream (Baileys)",
       "instructions": "1. Fill a rocks glass with ice.\n2. Add Vodka and Coffee Liqueur.\n3. Stir.\n4. Float Irish Cream on top or stir it in for a 'concrete' look.\n5. Serve immediately.",
       "joke": "The Dude abides. (The Big Lebowski)",
       "history": "Dense and layered like the neighborhood—late‑night dessert in a glass."
     },
     "ua": {
       "name": "Позняківський Бетон",
-      "ingredients": "30мл Горілка, 30мл Кавовий лікер (Калуа), 30мл Айріш Крім (Baileys)",
+      "ingredients": "30мл Горілка, 30мл Кавовий лікер (Grind), 30мл Айріш Крім (Baileys)",
       "instructions": "1. Наповніть стакан рокс льодом.\n2. Додайте горілку та кавовий лікер.\n3. Перемішайте.\n4. Налийте Айріш Крім зверху або перемішайте для кольору «бетону».\n5. Подавайте одразу.",
       "joke": "Густий і важкий, як забудова на Позняках.",
       "history": "Щільний і шаруватий, як сам район. Нічний десерт у келиху."
     },
     "sk": {
       "name": "Pozniaky Concrete",
-      "ingredients": "30ml Vodka, 30ml Espresso liqueur (Kahlúa), 30ml Irish cream (Baileys)",
+      "ingredients": "30ml Vodka, 30ml Espresso liqueur (Grind), 30ml Irish cream (Baileys)",
       "instructions": "1. Naplň rocks pohár ľadom.\n2. Pridaj vodku a kávový likér.\n3. Premiešaj.\n4. Nalej Irish Cream navrch (alebo premiešaj pre „betónový“ vzhľad).\n5. Podávaj hneď.",
       "joke": "Husté a vrstvené — ako paneláky na Sekčove. Zvonku pokoj, vnútri dej.",
       "history": "Husté a vrstvené ako štvrť — neskorý dezert v pohári."
     },
     "pl": {
       "name": "Pozniaky Concrete",
-      "ingredients": "30ml Vodka, 30ml Espresso liqueur (Kahlúa), 30ml Irish cream (Baileys)",
+      "ingredients": "30ml Vodka, 30ml Espresso liqueur (Grind), 30ml Irish cream (Baileys)",
       "instructions": "1. Napełnij rocks lodem.\n2. Wlej wódkę i likier kawowy.\n3. Zamieszaj.\n4. Dolej Irish Cream na wierzch (albo wymieszaj dla efektu „betonu”).\n5. Podawaj od razu.",
       "joke": "Gęste i warstwowe jak blokowisko: z wierzchu spokój, w środku dużo się dzieje.",
       "history": "Gęste i warstwowe jak dzielnica — późnonocny deser w szklance."
@@ -1090,28 +1212,28 @@ window.COCKTAILS = [
     "mood": "Refreshing",
     "en": {
       "name": "Botanical Garden",
-      "ingredients": "60ml White rum (Bacardi), Mint, Lime, Soda",
+      "ingredients": "60ml White rum (Don Q Cristal), Mint, Lime, Soda, Simple Syrup",
       "instructions": "1. In a tall glass, muddle mint leaves with lime juice and sugar (or syrup).\n2. Add Rum.\n3. Fill glass with crushed ice.\n4. Top with Soda water and stir.\n5. Garnish with a fresh mint sprig.",
       "joke": "Run, Forrest, run! (Forrest Gump)",
       "history": "A minty refresher mixed after a spring walk through the gardens."
     },
     "ua": {
       "name": "Ботанічний Сад",
-      "ingredients": "60мл Білий ром (Bacardi), М’ята, Лайм, Содова",
+      "ingredients": "60мл Білий ром (Don Q Cristal), М’ята, Лайм, Содова, Цукровий сироп",
       "instructions": "1. У високому стакані розітріть м’яту з лаймом і цукром (або сиропом).\n2. Додайте ром.\n3. Наповніть стакан колотим льодом.\n4. Долийте содову і перемішайте.\n5. Прикрасьте гілочкою свіжої м’яти.",
       "joke": "Смакує як травень у Києві, поки не почалася спека.",
       "history": "М’ятний освіжаючий напій після прогулянки весняним садом."
     },
     "sk": {
       "name": "Botanical Garden",
-      "ingredients": "60ml White rum (Bacardi), Mint, Lime, Soda",
+      "ingredients": "60ml White rum (Don Q Cristal), Mint, Lime, Soda, Cukrový sirup",
       "instructions": "1. Vo vysokom pohári jemne roztlač mätu s limetkou a cukrom (alebo sirupom).\n2. Pridaj rum.\n3. Naplň pohár drveným ľadom.\n4. Dolej sódovou vodou a premiešaj.\n5. Ozdob čerstvou vetvičkou mäty.",
       "joke": "Mäta robí zázraky — ako keď v Prešove prvýkrát po zime cítiš jar a hneď je svet miernejší.",
       "history": "Mätové osvieženie namiešané po jarnej prechádzke záhradami."
     },
     "pl": {
       "name": "Botanical Garden",
-      "ingredients": "60ml White rum (Bacardi), Mint, Lime, Soda",
+      "ingredients": "60ml White rum (Don Q Cristal), Mint, Lime, Soda, Syrop cukrowy",
       "instructions": "1. W wysokiej szklance delikatnie ugnieć miętę z limonką i cukrem (albo syropem).\n2. Wlej rum.\n3. Napełnij szklankę kruszonym lodem.\n4. Dopełnij sodą i zamieszaj.\n5. Udekoruj świeżą gałązką mięty.",
       "joke": "Mięta robi robotę: jak wiosna po zimie — nagle oddycha się łatwiej, nawet na blokowisku.",
       "history": "Miętowe orzeźwienie po wiosennym spacerze wśród zieleni."
@@ -1156,28 +1278,28 @@ window.COCKTAILS = [
     "mood": "Sweet",
     "en": {
       "name": "Bessarabka Hustle",
-      "ingredients": "60ml Tequila, Orange juice, Syrup",
+      "ingredients": "60ml Tequila, Orange Juice, Grenadine Syrup",
       "instructions": "1. Fill a tall glass with ice.\n2. Pour in Tequila and Orange Juice.\n3. Add a splash of Grenadine syrup (it sinks to create a 'sunrise' effect).\n4. Do not stir.\n5. Garnish with an orange slice and cherry.",
       "joke": "To infinity and beyond! (Toy Story)",
       "history": "Quick, bright, and a little chaotic—just like the market at rush hour."
     },
     "ua": {
       "name": "Бессарабський Хастл",
-      "ingredients": "60мл Текіла, Апельсиновий сік, Сироп",
+      "ingredients": "60мл Текіла, Апельсиновий сік, Сироп гренадин",
       "instructions": "1. Наповніть високий стакан льодом.\n2. Налийте текілу та апельсиновий сік.\n3. Додайте краплю сиропу Гренадін (він осяде на дно для ефекту світанку).\n4. Не перемішуйте.\n5. Прикрасьте апельсином та вишнею.",
       "joke": "Яскравий, хаотичний і трохи «overpriced».",
       "history": "Швидкий, яскравий і трохи хаотичний — як Бессарабка у піковий час."
     },
     "sk": {
       "name": "Bessarabka Hustle",
-      "ingredients": "60ml Tequila, Orange juice, Syrup",
+      "ingredients": "60ml Tequila, Pomarančový džús, Grenadínový sirup",
       "instructions": "1. Naplň vysoký pohár ľadom.\n2. Nalej tequilu a pomarančový džús.\n3. Pridaj grenadín/sirup (klesne a spraví „sunrise“ efekt).\n4. Nemiešaj.\n5. Ozdob pomarančom a čerešňou.",
       "joke": "Rýchle, jasné a trochu chaotické — ako sobota na trhu. Prešov vibe: „len dve veci“ a odídeš s piatimi.",
       "history": "Rýchly, jasný a ľahko chaotický drink — presne ako trh v špičke."
     },
     "pl": {
       "name": "Bessarabka Hustle",
-      "ingredients": "60ml Tequila, Orange juice, Syrup",
+      "ingredients": "60ml Tequila, Sok pomarańczowy, Syrop grenadyna",
       "instructions": "1. Napełnij wysoką szklankę lodem.\n2. Wlej tequilę i sok pomarańczowy.\n3. Dodaj grenadynę/syrop (opadnie i zrobi efekt „sunrise”).\n4. Nie mieszaj.\n5. Udekoruj plastrem pomarańczy i wisienką.",
       "joke": "Szybkie, jasne i trochę chaotyczne — jak zakupy w sobotę, gdy wszyscy mają ten sam plan: Żabka, „tylko na chwilę”.",
       "history": "Błyskawiczne, słoneczne i odrobinę szalone — jak targ w godzinach szczytu."
@@ -1255,28 +1377,28 @@ window.COCKTAILS = [
     "mood": "Sweet",
     "en": {
       "name": "Dream Town Shopper",
-      "ingredients": "45ml Vodka, 15ml Orange liqueur (Cointreau/Triple Sec/Curaçao), 30ml Cranberry",
+      "ingredients": "45ml Vodka, 15ml Orange liqueur (Cointreau/Triple Sec/Curaçao), 30ml Cranberry, Lime Juice",
       "instructions": "1. Fill a shaker with ice.\n2. Add Vodka, Orange Liqueur, Cranberry juice, and lime juice.\n3. Shake well.\n4. Strain into a martini glass.\n5. Garnish with a lime wheel.",
       "joke": "On Wednesdays we wear pink. (Mean Girls)",
       "history": "A mall happy‑hour favorite—pink, sweet, and suspiciously easy to finish."
     },
     "ua": {
       "name": "Шопер Дрім Тауна",
-      "ingredients": "45мл Горілка, 15мл Апельсиновий лікер (Куантро/Тріпл Сек/Курасао), 30мл Журавлина",
+      "ingredients": "45мл Горілка, 15мл Апельсиновий лікер (Куантро/Тріпл Сек/Курасао), 30мл Журавлина, Сік лайма",
       "instructions": "1. Наповніть шейкер льодом.\n2. Додайте горілку, апельсиновий лікер, журавлинний морс та сік лайма.\n3. Добре збовтайте.\n4. Процідіть у келих для мартіні.\n5. Прикрасьте кружальцем лайма.",
       "joke": "Рожевий, солодкий, і врешті-решт болить голова.",
       "history": "Фірмовий напій «шопінг‑щастя»: рожевий, солодкий і підступно легкий."
     },
     "sk": {
       "name": "Dream Town Shopper",
-      "ingredients": "45ml Vodka, 15ml Orange liqueur (Cointreau/Triple Sec/Curaçao), 30ml Cranberry",
+      "ingredients": "45ml Vodka, 15ml Orange liqueur (Cointreau/Triple Sec/Curaçao), 30ml Cranberry, Limetková šťava",
       "instructions": "1. Naplň shaker ľadom.\n2. Pridaj vodku, pomarančový likér, brusnicový džús a limetkovú šťavu.\n3. Dobre pretrep.\n4. Preceď do martini pohára.\n5. Ozdob kolieskom limetky.",
       "joke": "Ružové, sladké a zradne rýchle — ako keď na Sekčove ideš „len pozrieť“ a odídeš s troma taškami.",
       "history": "Obľúbenec z mall happy-hour: ružové, sladké a podozrivo ľahké dopiť."
     },
     "pl": {
       "name": "Dream Town Shopper",
-      "ingredients": "45ml Vodka, 15ml Orange liqueur (Cointreau/Triple Sec/Curaçao), 30ml Cranberry",
+      "ingredients": "45ml Vodka, 15ml Orange liqueur (Cointreau/Triple Sec/Curaçao), 30ml Cranberry, Sok z limonki",
       "instructions": "1. Napełnij shaker lodem.\n2. Wlej wódkę, likier pomarańczowy, sok żurawinowy i sok z limonki.\n3. Wstrząśnij porządnie.\n4. Przecedź do kieliszka martini.\n5. Udekoruj plastrem limonki.",
       "joke": "Różowe, słodkie i podejrzanie łatwe do wypicia — jak „tylko wpadnę do Żabki na chwilę”.",
       "history": "Ulubieniec happy hour: różowy, słodki i znikający szybciej, niż planowałeś."
@@ -1288,28 +1410,28 @@ window.COCKTAILS = [
     "mood": "Strong",
     "en": {
       "name": "The Blackout",
-      "ingredients": "30ml Espresso liqueur (Kahlúa), 30ml Vodka, Soda splash",
+      "ingredients": "30ml Espresso liqueur (Grind), 30ml Vodka, Soda splash",
       "instructions": "1. Fill a rocks glass with ice.\n2. Add Vodka and Coffee Liqueur.\n3. Top with a splash of Club Soda for fizz.\n4. Stir gently.\n5. Serve immediately (no garnish needed).",
       "joke": "I am your father. (Star Wars)",
       "history": "Born during a neighborhood power outage—espresso kept morale (and the party) alive."
     },
     "ua": {
       "name": "Блекаут",
-      "ingredients": "30мл Кавовий лікер (Калуа), 30мл Горілка, Содова",
+      "ingredients": "30мл Кавовий лікер (Grind), 30мл Горілка, Содова",
       "instructions": "1. Наповніть стакан рокс льодом.\n2. Додайте горілку та кавовий лікер.\n3. Долийте трохи содової для бульбашок.\n4. Легко перемішайте.\n5. Подавайте одразу (гарніш не потрібен).",
       "joke": "Немає світла? Немає проблем. Вимикає надійно.",
       "history": "З’явився під час блекауту: трохи еспресо, щоб тримати настрій і світло всередині."
     },
     "sk": {
       "name": "The Blackout",
-      "ingredients": "30ml Espresso liqueur (Kahlúa), 30ml Vodka, Soda splash",
+      "ingredients": "30ml Espresso liqueur (Grind), 30ml Vodka, Soda splash",
       "instructions": "1. Naplň rocks pohár ľadom.\n2. Pridaj vodku a kávový likér.\n3. Dolej trošku sódy pre bublinky.\n4. Jemne premiešaj.\n5. Podávaj hneď (bez ozdoby).",
       "joke": "Keď zhasne svetlo, na Sídlisku sa vždy nájde plán B: káva, ľad a dobrá nálada. Len s mierou.",
       "history": "Narodené počas výpadku prúdu — espresso držalo morálku (a párty) pri živote."
     },
     "pl": {
       "name": "The Blackout",
-      "ingredients": "30ml Espresso liqueur (Kahlúa), 30ml Vodka, Soda splash",
+      "ingredients": "30ml Espresso liqueur (Grind), 30ml Vodka, Soda splash",
       "instructions": "1. Napełnij rocks lodem.\n2. Wlej wódkę i likier kawowy.\n3. Dopełnij odrobiną sody dla bąbelków.\n4. Delikatnie zamieszaj.\n5. Podawaj od razu (bez dekoracji).",
       "joke": "Gdy gaśnie prąd, zostaje plan B: kawa i odwaga. Ten drink zna oba — zwłaszcza na blokowisku.",
       "history": "Powstał podczas awarii prądu — espresso trzymało morale (i imprezę) przy życiu."

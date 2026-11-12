@@ -1,6 +1,6 @@
 /* bar.js
    Inventory + ingredient catalog for cocktails.khokhlov.org
-   Storage: localStorage (browser-only)
+   Storage: shared server inventory; localStorage retained for legacy callers
 */
 
 (function (global) {
@@ -15,7 +15,7 @@
    * category: for grouping in /manage
    * synonyms: strings that may appear in cocktail ingredient phrases
    */
-  const CATALOG = [
+  const LEGACY_CATALOG = [
     // Spirits
     { id: 'gin', label: 'Gin', category: 'Spirits', synonyms: ['gin'] },
     { id: 'vodka', label: 'Vodka', category: 'Spirits', synonyms: ['vodka'] },
@@ -70,15 +70,31 @@
 
     // Other
     { id: 'mint', label: 'Mint', category: 'Other', synonyms: ['mint'] },
-    { id: 'lime', label: 'Lime (wedge)', category: 'Other', synonyms: ['lime', 'lime wedge'] },
+    { id: 'lime', label: 'Fresh Lime', category: 'Other', synonyms: ['lime', 'lime wedge'] },
     { id: 'espresso', label: 'Espresso', category: 'Other', synonyms: ['fresh espresso', 'espresso'] },
     { id: 'heavy-cream', label: 'Heavy Cream', category: 'Other', synonyms: ['heavy cream'] },
     { id: 'spices', label: 'Spices', category: 'Other', synonyms: ['spices'] },
   ];
 
+  const SNAPSHOT = global.BAR_INVENTORY_SNAPSHOT || { date: '2026-11-06', groups: [], items: [] };
+  const catalogById = new Map(LEGACY_CATALOG.map(item => [item.id, item]));
+  for (const item of SNAPSHOT.items) {
+    const previous = catalogById.get(item.id);
+    catalogById.set(item.id, {
+      ...previous, id: item.id, label: item.labels.en,
+      category: SNAPSHOT.groups[item.group].en,
+      brand: item.brand, status: item.status, labels: item.labels,
+      note: item.notes?.en || '',
+      synonyms: [...new Set([...(previous?.synonyms || []), item.labels.en, item.id.replace(/-/g, ' ')])]
+    });
+  }
+  catalogById.set('grenadine', { id: 'grenadine', label: 'Grenadine (confirmed identity)', category: 'Sweeteners & Syrups', synonyms: ['grenadine', 'grenadine syrup'] });
+  catalogById.set('cola', { id: 'cola', label: 'Cola', category: 'Mixers & Soda', synonyms: ['cola'] });
+  const CATALOG = [...catalogById.values()];
+
   // Any ingredient phrase containing these words is considered optional/garnish.
   const OPTIONAL_MARKERS = [
-    'garnish', 'twist', 'wedge', 'slice', 'rim', 'mint sprig', 'ice'
+    'optional', 'garnish', 'twist', 'wedge', 'slice', 'rim', 'mint sprig', 'ice'
   ];
 
   const byId = new Map(CATALOG.map(i => [i.id, i]));
@@ -96,6 +112,7 @@
   function norm(s) {
     return String(s || '')
       .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
       .replace(/[’']/g, "'")
       .replace(/\s+/g, ' ')
       .trim();
@@ -207,23 +224,18 @@
   }
 
   function ingredientIdsFromPhrase(phraseLower) {
-    const ids = new Set();
-
-    // Exact synonym match first
-    const exact = synonymToId.get(norm(phraseLower));
-    if (exact) {
-      ids.add(exact);
-      return [...ids];
+    const phrase = norm(phraseLower);
+    const exact = synonymToId.get(phrase);
+    if (exact) return [exact];
+    // Prefer the most specific complete phrase: ginger beer is not gin,
+    // mint syrup is not plain syrup, and orange bitters are not aromatic bitters.
+    const matches = [...synonymToId.entries()].sort((a, b) => b[0].length - a[0].length);
+    for (const [syn, id] of matches) {
+      const escaped = syn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (new RegExp(`(^|[^a-z])${escaped}(?=$|[^a-z])`).test(phrase)) return [id];
     }
-
-    // Contains match (for phrases like "fresh espresso")
-    for (const [syn, id] of synonymToId.entries()) {
-      if (syn.length < 3) continue;
-      if (norm(phraseLower).includes(syn)) ids.add(id);
-    }
-
-    // Filter out false positives: if phrase is just "lime" and we also matched lime-juice, keep both? not needed.
-    return [...ids];
+    // An unrecognized required ingredient must not silently pass the filter.
+    return [`unknown:${phrase}`];
   }
 
   function dedupeGroups(groups) {
@@ -240,14 +252,29 @@
     return out;
   }
 
-  function isMakeable(cocktail, inventorySet) {
+  const SUBSTITUTES = {
+    gin: ['gin', 'gunpowder-gin'],
+    rum: ['rum', 'white-rum', 'aged-rum', 'black-rum'],
+    'orange-liqueur': ['orange-liqueur', 'dry-curacao'],
+    bitters: ['bitters', 'angostura-bitters'],
+    cola: ['cola', 'diet-pepsi']
+  };
+
+  function hasIngredient(id, inventorySet) {
+    if (id.startsWith('unknown:')) return false;
+    return (SUBSTITUTES[id] || [id]).some(candidate => inventorySet.has(candidate));
+  }
+
+  function missingIngredients(cocktail, inventorySet, locale = 'en') {
     const inv = inventorySet || loadInventoryLocal();
+    return requirementGroups(cocktail?.en?.ingredients)
+      .filter(group => !group.some(id => hasIngredient(id, inv)))
+      .map(group => group.map(id => byId.get(id)?.labels?.[locale] || byId.get(id)?.label || id.replace(/^unknown:/, '')).join(' / '));
+  }
+
+  function isMakeable(cocktail, inventorySet) {
     const groups = requirementGroups(cocktail?.en?.ingredients);
-    if (!groups.length) {
-      // If we can't infer requirements, be permissive (don’t hide the drink silently).
-      return true;
-    }
-    return groups.every(group => group.some(id => inv.has(id)));
+    return groups.length > 0 && missingIngredients(cocktail, inventorySet).length === 0;
   }
 
   function categories() {
@@ -266,6 +293,8 @@
   global.BAR = {
     STORAGE_KEY,
     CATALOG,
+    SNAPSHOT,
+    missingIngredients,
     byId,
     categories,
     // local (legacy)

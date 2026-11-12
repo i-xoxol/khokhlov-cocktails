@@ -4,23 +4,24 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#09080f">
-  <meta name="description" content="Step into Igor Khokhlov’s neon speakeasy. Explore 38 cocktail recipes, discover the Añejo Old Fashioned, and find your Halloween spirit in four languages.">
+  <meta name="description" content="Step into Igor Khokhlov’s neon speakeasy. Explore 39 cocktail recipes, discover the Añejo Old Fashioned, and find your Halloween spirit in four languages.">
   <title>Khokhlov’s Bar · Spirits After Dark</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="/images/menu-2026/anejo_old_fashioned-hero.webp" fetchpriority="high">
-  <link rel="stylesheet" href="/assets/halloween-2026.css?v=1">
-  <script src="/assets/bar.js?v=2" defer></script>
-  <script src="/assets/menu-halloween-2026.js?v=4" defer></script>
-  <script src="/assets/halloween-2026.js?v=2" defer></script>
+  <link rel="stylesheet" href="/assets/halloween-2026.css?v=20261107">
+  <script src="/assets/inventory-2026-11-06.js?v=1" defer></script>
+  <script src="/assets/bar.js?v=20261107" defer></script>
+  <script src="/assets/menu-halloween-2026.js?v=20261112" defer></script>
+  <script src="/assets/halloween-2026.js?v=20261112" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#menu" data-i18n="skip">Skip to the menu</a>
   <div class="ambient" aria-hidden="true"><span></span><span></span><span></span></div>
   <header class="site-header wrap" id="top">
     <a class="brand" href="#top" aria-label="Khokhlov’s Bar"><span class="brand-symbol" aria-hidden="true">K<span>✦</span></span><span>KHOKHLOV’S<span class="brand-sub" data-i18n="brandSub">THE NEON SPEAKEASY</span></span></a>
-    <nav aria-label="Main" id="main-nav"><a href="#menu" data-i18n="menuNav">The menu</a><button type="button" class="nav-favorites" id="nav-favorites"><span data-i18n="saved">Saved</span> <span id="saved-count">0</span></button></nav>
+    <nav aria-label="Main" id="main-nav"><a href="#menu" data-i18n="menuNav">The menu</a><a href="#bar-inventory" data-i18n="inventoryNav">Home bar</a><button type="button" class="nav-favorites" id="nav-favorites"><span data-i18n="saved">Saved</span> <span id="saved-count">0</span></button></nav>
     <label class="language"><span aria-hidden="true">◎</span><span class="sr-only" data-i18n="language">Language</span><select id="lang-select"><option value="en">EN</option><option value="ua">УК</option><option value="sk">SK</option><option value="pl">PL</option></select></label>
   </header>
   <main>
@@ -46,13 +47,17 @@
       <div class="collection-tabs" role="group" id="collection-tabs" aria-label="Collections"><button type="button" class="collection-tab active" data-collection="all" aria-pressed="true" data-i18n="allDrinks">All cocktails</button><button type="button" class="collection-tab" data-collection="halloween" aria-pressed="false"><span aria-hidden="true">☾</span> <span data-i18n="halloween">Midnight picks</span></button><button type="button" class="collection-tab" data-collection="favorites" aria-pressed="false"><span aria-hidden="true">♡</span> <span data-i18n="favorites">Your favorites</span><span class="favorites-count">0</span></button></div>
       <div class="filters"><div class="filter-select"><label for="spirit-filter" data-i18n="baseLabel">SPIRIT</label><select id="spirit-filter"></select></div><div class="filter-select"><label for="mood-filter" data-i18n="moodLabel">MOOD</label><select id="mood-filter"></select></div><button type="button" class="availability" id="availability-toggle" aria-pressed="true"><span class="toggle-track" aria-hidden="true"><span></span></span><span data-i18n="available">In the bar</span></button><p class="results" id="results-count" aria-live="polite" aria-atomic="true"></p></div>
       <p class="inventory-status" id="inventory-status" hidden></p>
+      <details class="bar-inventory" id="bar-inventory">
+        <summary><span><strong data-i18n="inventoryTitle">Dr. Igor’s Home Bar</strong><span class="inventory-summary" id="inventory-summary">48 listed · 45 identified · 3 tentative</span></span><span class="inventory-expand" aria-hidden="true">+</span></summary>
+        <div class="inventory-content"><p class="inventory-date" id="inventory-date"></p><p class="inventory-explanation" data-i18n="inventoryExplanation">The November 6 photo inventory. Tentative identities do not count toward “In the bar.” Garnishes are optional; ice and remaining quantities are not verified.</p><div class="inventory-stats" id="inventory-stats"></div><div class="inventory-groups" id="inventory-groups"></div></div>
+      </details>
       <div class="menu-grid" id="cocktail-grid"></div>
       <div class="empty-state" id="empty-state" hidden><span aria-hidden="true">✧</span><h3 id="empty-title"></h3><p id="empty-description"></p><button class="button button-primary" type="button" id="reset-filters" data-i18n="reset">Show all cocktails</button></div>
       <div class="menu-end"><span aria-hidden="true">✦</span><span data-i18n="menuEnd">Good company. Great cocktails. A little neon.</span><span aria-hidden="true">✦</span></div>
     </section>
   </main>
   <footer class="site-footer wrap"><a class="footer-brand" href="#top">KHOKHLOV’S <span>BAR</span></a><p data-i18n="footer">Made for nights worth remembering.</p><a href="#top" data-i18n="backTop">Back to the glow ↑</a></footer>
-  <dialog id="recipe-dialog" aria-labelledby="modal-title"><button class="modal-close" type="button" id="modal-close" aria-label="Close recipe">×</button><div class="recipe-layout"><div class="recipe-art"><img id="modal-img" alt="" width="1000" height="1000"><div class="recipe-art-caption"><span aria-hidden="true">✦</span><span>KHOKHLOV’S / AFTER DARK</span></div></div><div class="recipe-body"><p class="eyebrow" id="modal-category"></p><h2 id="modal-title"></h2><p class="recipe-notes" id="modal-notes"></p><p id="modal-description"></p><div class="recipe-tools"><div class="unit-switch" role="group" id="unit-switch" aria-label="Units"><button type="button" data-unit="oz" aria-pressed="true">oz</button><button type="button" data-unit="ml" aria-pressed="false">ml</button></div><div class="servings"><span data-i18n="servings">Servings</span><button type="button" id="servings-minus" aria-label="Fewer servings">−</button><output id="servings-value" aria-live="polite">1</output><button type="button" id="servings-plus" aria-label="More servings">+</button></div></div><h3 class="recipe-section-title" data-i18n="ingredients">Ingredients</h3><ul class="ingredient-list" id="modal-ingredients"></ul><h3 class="recipe-section-title" data-i18n="method">The ritual</h3><ol class="method-list" id="modal-instructions"></ol><div class="recipe-history" id="modal-history"></div><p class="bartender-note" id="modal-joke"></p><p class="abv-note" id="modal-strength"></p><div class="recipe-bottom"><button type="button" class="button button-ghost" id="modal-save"></button><button type="button" class="button button-ghost" id="share-recipe" data-i18n="copyLink">Copy recipe link</button></div><p class="share-status" id="share-status" role="status"></p></div></div></dialog>
+  <dialog id="recipe-dialog" aria-labelledby="modal-title"><button class="modal-close" type="button" id="modal-close" aria-label="Close recipe">×</button><div class="recipe-layout"><div class="recipe-art"><img id="modal-img" alt="" width="1000" height="1000"><div class="recipe-art-caption"><span aria-hidden="true">✦</span><span>KHOKHLOV’S / AFTER DARK</span></div></div><div class="recipe-body"><p class="eyebrow" id="modal-category"></p><h2 id="modal-title"></h2><p class="recipe-notes" id="modal-notes"></p><p id="modal-description"></p><div class="recipe-tools"><div class="unit-switch" role="group" id="unit-switch" aria-label="Units"><button type="button" data-unit="oz" aria-pressed="true">oz</button><button type="button" data-unit="ml" aria-pressed="false">ml</button></div><div class="servings"><span data-i18n="servings">Servings</span><button type="button" id="servings-minus" aria-label="Fewer servings">−</button><output id="servings-value" aria-live="polite">1</output><button type="button" id="servings-plus" aria-label="More servings">+</button></div></div><p class="recipe-availability" id="recipe-availability" role="status"></p><h3 class="recipe-section-title" data-i18n="ingredients">Ingredients</h3><ul class="ingredient-list" id="modal-ingredients"></ul><h3 class="recipe-section-title" data-i18n="method">The ritual</h3><ol class="method-list" id="modal-instructions"></ol><div class="recipe-history" id="modal-history"></div><p class="bartender-note" id="modal-joke"></p><p class="abv-note" id="modal-strength"></p><div class="recipe-bottom"><button type="button" class="button button-ghost" id="modal-save"></button><button type="button" class="button button-ghost" id="share-recipe" data-i18n="copyLink">Copy recipe link</button></div><p class="share-status" id="share-status" role="status"></p></div></div></dialog>
   <div class="toast" id="toast" role="status"></div>
 </body>
 </html>

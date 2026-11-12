@@ -226,7 +226,7 @@
         <input id="pw" type="password" placeholder="Password" autocomplete="current-password" />
         <button class="pill" id="loginBtn">Unlock</button>
         <div class="hint">
-          Note: this is client-side only. It keeps the page out of sight, but it’s not real security.
+          Changes are saved to the shared bar inventory after sign-in.
         </div>
       </div>
     </div>
@@ -254,7 +254,7 @@
       <div id="categories"></div>
 
       <div class="sub" style="text-align:center; margin-top: 14px;">
-        Tip: on mobile, use search + toggles. Inventory is stored in your browser only.
+        The November 6 photo list is shown with brands. Tentative items start unselected; selecting one confirms its identity. Check “Grenadine (confirmed identity)” only after identifying the red syrup. Prepared espresso must be confirmed separately. Changes are shared with all menu visitors.
       </div>
     </div>
 
@@ -262,7 +262,8 @@
 
   <div class="toast" id="toast"></div>
 
-  <script src="/assets/bar.js?v=1"></script>
+  <script src="/assets/inventory-2026-11-06.js?v=1"></script>
+  <script src="/assets/bar.js?v=20261107"></script>
   <script>
     const AUTH_KEY = 'khokhlov_manage_auth_v1';
 
@@ -352,7 +353,7 @@
       label.textContent = item.label;
       const meta = document.createElement('div');
       meta.className = 'meta';
-      meta.textContent = item.id;
+      meta.textContent = [item.brand, item.status === 'tentative' ? 'Tentative identity' : '', item.note].filter(Boolean).join(' · ') || 'Not in the November 6 photo list';
       left.appendChild(label);
       left.appendChild(meta);
 
@@ -360,6 +361,7 @@
       sw.className = 'switch';
       const input = document.createElement('input');
       input.type = 'checkbox';
+      input.setAttribute('aria-label', item.label);
       input.checked = inventory.has(item.id);
       const slider = document.createElement('span');
       slider.className = 'slider';
@@ -375,7 +377,7 @@
 
       row.appendChild(left);
       row.appendChild(sw);
-      row.dataset.search = (item.label + ' ' + item.id).toLowerCase();
+      row.dataset.search = (item.label + ' ' + item.id + ' ' + (item.brand || '')).toLowerCase();
 
       return row;
     }
@@ -389,7 +391,8 @@
 
       for (const [catName, items] of cats.entries()) {
         const d = document.createElement('details');
-        d.open = (catName === 'Spirits' || catName === 'Juices');
+        d.open = ['Whiskey, bourbon and cognac', 'Rum', 'Gin, vodka and tequila', 'Juices and mixers'].includes(catName);
+        d.dataset.defaultOpen = String(d.open);
 
         const s = document.createElement('summary');
         const left = document.createElement('span');
@@ -424,6 +427,9 @@
       rows.forEach(r => {
         if (!q) r.style.display = '';
         else r.style.display = r.dataset.search.includes(q) ? '' : 'none';
+      });
+      els.categories.querySelectorAll('details').forEach(group => {
+        group.open = q ? [...group.querySelectorAll('.item')].some(row => row.style.display !== 'none') : group.dataset.defaultOpen === 'true';
       });
     }
 

@@ -2,7 +2,7 @@
 
 A neon speakeasy cocktail menu, refreshed for Halloween 2026. Static HTML, CSS and JavaScript served by the existing nginx deployment at https://cocktails.khokhlov.org/.
 
-- 38 illustrated recipes, including the Añejo Old Fashioned and Tequila Manhattan.
+- 39 illustrated recipes, including Añejo Old Fashioned, Tequila Manhattan and Long Island Iced Tea.
 - English, Ukrainian, Slovak and Polish for the interface and recipes.
 - Search by name or ingredient, spirit and mood filters, and a midnight collection.
 - Saved favorites, language and unit preferences stored on the visitor’s device.
@@ -29,7 +29,7 @@ npm test
 
 The local preview uses a small example inventory sufficient for the Añejo cocktail. Turn off “In the bar” to browse all recipes. Production continues to use the live inventory API. Set `TEST_BASE_URL` to test another preview origin and `TEST_EVIDENCE_DIR` to save screenshots and the check report.
 
-Browser checks cover all 38 dialogs in four languages, image decoding, filters, favorites and persistence, recipe links, serving arithmetic, five responsive widths, reduced motion, unavailable storage/inventory, and automated WCAG AA audits.
+Browser checks cover all 39 dialogs in four languages, image decoding, filters, favorites and persistence, recipe links, serving arithmetic, five responsive widths, reduced motion, unavailable storage/inventory, and automated WCAG AA audits.
 
 ## Bartender note style
 
@@ -54,3 +54,9 @@ The existing nginx container bind-mounts `/home/igorx/apps/cocktails`. Develop a
 The existing deployed working copy is preserved in a separate local snapshot. The feature branch starts from the current main branch and contains the seasonal update. Main is not merged by this work.
 
 MIT license.
+
+## Storage and seasonal additions
+
+Recipes, translations and bartender jokes are stored in `assets/menu-halloween-2026.js`; there is no SQL recipe database. The existing inventory API persists shared stock in the server-side `inventory.json` file. Favorites, language and units are browser-local preferences.
+
+New cocktail artwork follows the current season; preserve older cocktail artwork and the site theme unless explicitly asked to replace them. Long Island Iced Tea uses pumpkin-free Christmas artwork. Its recipe follows the IBA measures: 15 ml each vodka, tequila, white rum, gin and orange liqueur, 25 ml lemon juice, 30 ml simple syrup, topped with cola. The existing bar supports Diet Pepsi as a cola substitute.

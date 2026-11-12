@@ -21,24 +21,24 @@ async function check(name, fn) {await fn();report.push(name);console.log(`PASS $
   assert.equal(await page.locator('#inventory-status').isVisible(),false);
  });
  await page.locator('#availability-toggle').click();
- await check('All 38 cocktails and all optimized images load',async()=>{
-  assert.equal(await page.locator('.card').count(),38);
+ await check('All 39 cocktails and all optimized images load',async()=>{
+  assert.equal(await page.locator('.card').count(),39);
   const result=await page.evaluate(async()=>{
    const ids=window.COCKTAILS.map(c=>c.id);const images=await Promise.all(ids.map(async id=>{const img=new Image();img.src=`/images/menu-2026/${id}.webp`;await img.decode();return img.naturalWidth;}));
    return {unique:new Set(ids).size,images};
   });
-  assert.equal(result.unique,38);assert(result.images.every(w=>w===640));
+  assert.equal(result.unique,39);assert(result.images.every(w=>w===640));
  });
  await check('Accent-insensitive name and ingredient search, filters and empty state',async()=>{
   await page.fill('#search','anejo');assert.equal(await page.locator('.card').count(),2);
-  await page.fill('#search','Kirkland');assert.equal(await page.locator('.card').count(),2);
+  await page.fill('#search','Kirkland');assert.equal(await page.locator('.card').count(),3);
   await page.fill('#search','no-such-cocktail');assert.equal(await page.locator('.card').count(),0);assert(await page.locator('#empty-state').isVisible());
-  await page.locator('#reset-filters').click();assert.equal(await page.locator('.card').count(),38);
+  await page.locator('#reset-filters').click();assert.equal(await page.locator('.card').count(),39);
   await page.selectOption('#spirit-filter','Tequila');assert(await page.locator('[data-id=anejo_old_fashioned]').count());
   const names=await page.locator('.card h3').allTextContents();assert(names.includes('Margarita'));
   await page.selectOption('#mood-filter','Strong');assert.equal(await page.locator('.card').count(),2);
   await page.selectOption('#spirit-filter','all');await page.selectOption('#mood-filter','all');
-  await page.locator('[data-collection=halloween]').click();assert.equal(await page.locator('.card').count(),10);
+  await page.locator('[data-collection=halloween]').click();assert.equal(await page.locator('.card').count(),11);
   await page.locator('[data-collection=all]').click();
  });
  await check('Favorites persist, filter correctly and remove cleanly',async()=>{
@@ -82,6 +82,28 @@ async function check(name, fn) {await fn();report.push(name);console.log(`PASS $
   await page.goto(`${base}/#recipe=tequila_manhattan`,{waitUntil:'networkidle'});await page.locator('#recipe-dialog').waitFor({state:'visible'});assert.equal(await page.locator('#modal-title').textContent(),'Tequila Manhattan');assert.equal(await page.locator('#servings-value').textContent(),'1');
   await page.keyboard.press('Escape');
  });
+ await check('Long Island name search, translations, humor, units and servings',async()=>{
+  await page.fill('#search','long island');assert.equal(await page.locator('.card').count(),1);
+  await page.locator('[data-recipe=long_island_iced_tea]').click();
+  await page.locator('[data-unit=ml]').click();
+  assert.deepEqual(await page.locator('#modal-ingredients li').allTextContents(),['15 ml Vodka','15 ml Tequila','15 ml White rum','15 ml Gin','15 ml Orange liqueur (Cointreau/Triple Sec)','25 ml Lemon juice','30 ml Simple syrup','Top with cola (Diet Pepsi works too)']);
+  await page.locator('#servings-plus').click();
+  assert((await page.locator('#modal-ingredients li').first().textContent()).startsWith('30 ml'));
+  assert((await page.locator('#modal-ingredients li').nth(5).textContent()).startsWith('50 ml'));
+  assert((await page.locator('#modal-ingredients li').nth(6).textContent()).startsWith('60 ml'));
+  assert.equal(await page.locator('#modal-ingredients li').last().textContent(),'Top with cola (Diet Pepsi works too)');
+  await page.locator('[data-unit=oz]').click();assert((await page.locator('#modal-ingredients li').first().textContent()).startsWith('1 oz'));
+  assert(!/NaN|undefined/.test(await page.locator('#recipe-dialog').textContent()));
+  await page.locator('#modal-img').evaluate(img=>img.decode());assert((await page.locator('#modal-img').getAttribute('src')).includes('long_island_iced_tea.webp'));
+  await page.keyboard.press('Escape');await page.fill('#search','');
+  for(const [lang,reference] of [['en','Avengers'],['ua','Русанівки й Дарниці'],['sk','Sekčova'],['pl','Żabce']]){
+   await page.selectOption('#lang-select',lang);await page.locator('[data-recipe=long_island_iced_tea]').evaluate(el=>el.click());
+   assert((await page.locator('#modal-joke').textContent()).includes(reference));assert.equal(await page.locator('#modal-instructions li').count(),4);assert.equal(await page.locator('#modal-ingredients li').count(),8);
+   await page.keyboard.press('Escape');
+  }
+  await page.selectOption('#lang-select','ua');await page.fill('#search','Лонг-Айленд');assert.equal(await page.locator('.card').count(),1);await page.fill('#search','');await page.selectOption('#lang-select','en');
+  await page.goto(`${base}/#recipe=long_island_iced_tea`,{waitUntil:'networkidle'});await page.locator('#recipe-dialog').waitFor({state:'visible'});assert.equal(await page.locator('#modal-title').textContent(),'Long Island Iced Tea');await page.keyboard.press('Escape');
+ });
  await check('Recipe links open directly, retain keyboard focus and reset servings',async()=>{
   await page.goto(`${base}/#recipe=anejo_old_fashioned`,{waitUntil:'networkidle'});await page.locator('#recipe-dialog').waitFor({state:'visible'});
   assert.equal(await page.locator('#servings-value').textContent(),'1');
@@ -91,7 +113,7 @@ async function check(name, fn) {await fn();report.push(name);console.log(`PASS $
  await check('Four complete translations, every recipe dialog and WCAG AA checks',async()=>{
   for(const [language,htmlLang,title] of [['en','en','Pick your poison.'],['ua','uk','Оберіть своє зілля.'],['sk','sk','Vyberte si elixír.'],['pl','pl','Wybierz swój eliksir.']]){
    await page.selectOption('#lang-select',language);assert.equal(await page.locator('html').getAttribute('lang'),htmlLang);assert.equal(await page.locator('#menu-title').textContent(),title);
-   assert.equal(await page.locator('.card').count(),38);
+   assert.equal(await page.locator('.card').count(),39);
    const cards=await page.locator('.recipe-open').evaluateAll(nodes=>nodes.map(n=>n.dataset.recipe));
    for(const id of cards){await page.locator(`[data-recipe="${id}"]`).evaluate(button=>button.click());assert((await page.locator('#modal-title').textContent()).length>0);assert((await page.locator('#modal-ingredients li').count())>0);assert((await page.locator('#modal-instructions li').count())>0);assert(!((await page.locator('#recipe-dialog').textContent()).includes('undefined')));await page.keyboard.press('Escape');}
    let scan=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();assert.deepEqual(scan.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)})),[]);
@@ -120,10 +142,16 @@ async function check(name, fn) {await fn();report.push(name);console.log(`PASS $
   const ctx=await browser.newContext();const p=await ctx.newPage();await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items:['tequila','simple-syrup','orange-bitters']}}));await p.goto(base,{waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),1);assert(await p.locator('[data-id=anejo_old_fashioned]').count());
   assert.equal(await p.locator('[data-id=tequila_manhattan]').count(),0);
   await p.unroute('**/_a/bar/inventory');await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items:['tequila','simple-syrup','orange-bitters','sweet-vermouth']}}));await p.reload({waitUntil:'networkidle'});assert(await p.locator('[data-id=tequila_manhattan]').count());assert.equal(await p.locator('.card').count(),2);
-  await p.unroute('**/_a/bar/inventory');await p.route('**/_a/bar/inventory',r=>r.fulfill({status:503,body:'Unavailable'}));await p.reload({waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),38);assert((await p.locator('#inventory-status').textContent()).includes('unavailable'));await ctx.close();
+  await p.unroute('**/_a/bar/inventory');await p.route('**/_a/bar/inventory',r=>r.fulfill({status:503,body:'Unavailable'}));await p.reload({waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),39);assert((await p.locator('#inventory-status').textContent()).includes('unavailable'));await ctx.close();
+ });
+ await check('Long Island stock requires every ingredient and accepts Diet Pepsi',async()=>{
+  const ctx=await browser.newContext();const p=await ctx.newPage();const items=['vodka','tequila','white-rum','gin','orange-liqueur','lemon-juice','simple-syrup','diet-pepsi'];
+  await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items}}));await p.goto(base,{waitUntil:'networkidle'});assert(await p.locator('[data-id=long_island_iced_tea]').count());
+  const checks=await p.evaluate(items=>{const recipe=window.COCKTAILS.find(c=>c.id==='long_island_iced_tea');return items.map(item=>!BAR.isMakeable(recipe,new Set(items.filter(id=>id!==item))));},items);assert(checks.every(Boolean));
+  await p.unroute('**/_a/bar/inventory');await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items:items.filter(id=>id!=='diet-pepsi')}}));await p.reload({waitUntil:'networkidle'});assert.equal(await p.locator('[data-id=long_island_iced_tea]').count(),0);await ctx.close();
  });
  await check('Blocked browser storage and reduced motion remain usable',async()=>{
-  const ctx=await browser.newContext({reducedMotion:'reduce'});await ctx.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('Unavailable','SecurityError');}});});const p=await ctx.newPage();await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items:[]}}));await p.goto(base,{waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),38);assert.equal(await p.locator('.title-star').evaluate(el=>getComputedStyle(el).animationName),'none');await p.locator('#featured-open').click();assert(await p.locator('#recipe-dialog').isVisible());await ctx.close();
+  const ctx=await browser.newContext({reducedMotion:'reduce'});await ctx.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new DOMException('Unavailable','SecurityError');}});});const p=await ctx.newPage();await p.route('**/_a/bar/inventory',r=>r.fulfill({json:{items:[]}}));await p.goto(base,{waitUntil:'networkidle'});assert.equal(await p.locator('.card').count(),39);assert.equal(await p.locator('.title-star').evaluate(el=>getComputedStyle(el).animationName),'none');await p.locator('#featured-open').click();assert(await p.locator('#recipe-dialog').isVisible());await ctx.close();
  });
  console.log(`\n${report.length} checks passed.`);
  if(evidence)fs.writeFileSync(path.join(evidence,'test-results.json'),JSON.stringify({base,checks:report},null,2));
