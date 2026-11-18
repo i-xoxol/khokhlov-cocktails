@@ -3,7 +3,6 @@ window.COCKTAILS = [
     "id": "anejo_old_fashioned",
     "spirit": "Tequila",
     "mood": "Strong",
-    "featured": true,
     "measurements": [
       {
         "amount": 2,
@@ -57,7 +56,6 @@ window.COCKTAILS = [
     "id": "tequila_manhattan",
     "spirit": "Tequila",
     "mood": "Strong",
-    "newArrival": true,
     "measurements": [
       {
         "amount": 2,
@@ -131,7 +129,6 @@ window.COCKTAILS = [
     "id": "long_island_iced_tea",
     "spirit": "Other",
     "mood": "Strong",
-    "newArrival": true,
     "measurements": [
       {
         "amount": 0.5,

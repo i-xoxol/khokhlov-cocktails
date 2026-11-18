@@ -4,17 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#09080f">
-  <meta name="description" content="Step into Igor Khokhlov’s neon speakeasy. Explore 39 cocktail recipes, discover the Añejo Old Fashioned, and find your Halloween spirit in four languages.">
+  <meta name="description" content="Explore classic cocktails and Kyiv originals at Igor Khokhlov’s neon speakeasy. Search recipes and see what you can make with the ingredients in the bar.">
   <title>Khokhlov’s Bar · Spirits After Dark</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="/images/menu-2026/anejo_old_fashioned-hero.webp" fetchpriority="high">
-  <link rel="stylesheet" href="/assets/halloween-2026.css?v=20261107">
+  <link rel="stylesheet" href="/assets/speakeasy.css?v=20261118">
   <script src="/assets/inventory-2026-11-06.js?v=1" defer></script>
   <script src="/assets/bar.js?v=20261107" defer></script>
-  <script src="/assets/menu-halloween-2026.js?v=20261112" defer></script>
-  <script src="/assets/halloween-2026.js?v=20261112" defer></script>
+  <script src="/assets/cocktail-menu.js?v=20261118" defer></script>
+  <script src="/assets/speakeasy.js?v=20261118" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#menu" data-i18n="skip">Skip to the menu</a>
@@ -27,24 +26,17 @@
   <main>
     <section class="hero wrap" aria-labelledby="main-title">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="live-dot"></span><span data-i18n="edition">HALLOWEEN EDITION · OCTOBER 2026</span></p>
-        <p class="host" data-i18n="host">A late night at Igor Khokhlov’s bar</p>
-        <h1 id="main-title"><span data-i18n="heroLine1">Spirits</span><br><span class="outline-title" data-i18n="heroLine2">after dark.</span><span class="title-star" aria-hidden="true">✦</span></h1>
-        <p class="hero-description" data-i18n="intro">The lights are low. The spirits are high. Step into a little neon magic, one beautiful cocktail at a time.</p>
-        <div class="hero-actions"><a class="button button-primary" href="#menu"><span data-i18n="explore">Explore the menu</span><span aria-hidden="true">↗</span></a><button class="button button-ghost" type="button" id="surprise"><span aria-hidden="true">✧</span><span data-i18n="surprise">Cast a little spell</span></button></div>
-        <div class="hero-footnote"><span class="tiny-orbit" aria-hidden="true">◌</span><span data-i18n="footnote">Familiar classics. Kyiv originals. A darker kind of glow.</span></div>
-      </div>
-      <div class="hero-art">
-        <div class="orbit-label" aria-hidden="true">NEON SPIRITS / VOL. 10</div>
-        <img id="hero-image" src="/images/menu-2026/anejo_old_fashioned-hero.webp" width="1000" height="1000" alt="Amber Añejo Old Fashioned with a clear ice cube and orange peel, glowing in neon light beside a Halloween pumpkin" fetchpriority="high">
-        <span class="art-cross cross-one" aria-hidden="true">+</span><span class="art-cross cross-two" aria-hidden="true">+</span>
-        <button class="featured-plaque" id="featured-open" type="button"><span class="plaque-top"><span class="live-dot"></span><span data-i18n="newPour">THE NEW POUR</span><span aria-hidden="true">↗</span></span><span class="plaque-title" id="featured-name">Añejo Old Fashioned</span><span class="plaque-notes" id="featured-notes">Smooth · Oak · Agave</span></button>
+        <h1 id="main-title"><span data-i18n="heroLine1">Spirits</span> <em data-i18n="heroLine2">after dark.</em></h1>
+        <p class="hero-description" data-i18n="intro">Classic cocktails and Kyiv originals from Igor Khokhlov’s bar. Find a recipe by name, ingredient, or what’s in the bar.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#menu"><span data-i18n="explore">Explore the menu</span><span aria-hidden="true">↓</span></a>
+          <button class="button button-ghost" type="button" id="surprise"><span aria-hidden="true">✧</span><span data-i18n="surprise">Surprise me</span></button>
+        </div>
       </div>
     </section>
-    <div class="ticker" aria-hidden="true"><div class="wrap ticker-inner"><span>✦ <span data-i18n="ticker1">NO TRICKS. JUST GREAT DRINKS.</span></span><span>✦ <span data-i18n="ticker2">A LITTLE DARK. A LOT OF SPIRIT.</span></span><span>✦ <span data-i18n="ticker3">YOUR NEXT FAVORITE IS HERE.</span></span></div></div>
     <section class="menu-section wrap" id="menu" aria-labelledby="menu-title">
-      <div class="section-heading"><div><p class="eyebrow" data-i18n="collection">THE COCKTAIL COLLECTION</p><h2 id="menu-title" data-i18n="menuTitle">Pick your poison.</h2><p class="section-intro" data-i18n="menuIntro">Find your mood. Meet your glass.</p></div><label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span class="sr-only" data-i18n="searchLabel">Search cocktails or ingredients</span><input id="search" type="search" data-placeholder="searchPlaceholder" placeholder="Name, spirit, ingredient…" autocomplete="off"></label></div>
-      <div class="collection-tabs" role="group" id="collection-tabs" aria-label="Collections"><button type="button" class="collection-tab active" data-collection="all" aria-pressed="true" data-i18n="allDrinks">All cocktails</button><button type="button" class="collection-tab" data-collection="halloween" aria-pressed="false"><span aria-hidden="true">☾</span> <span data-i18n="halloween">Midnight picks</span></button><button type="button" class="collection-tab" data-collection="favorites" aria-pressed="false"><span aria-hidden="true">♡</span> <span data-i18n="favorites">Your favorites</span><span class="favorites-count">0</span></button></div>
+      <div class="section-heading"><h2 id="menu-title" data-i18n="menuTitle">Cocktail menu</h2><label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span class="sr-only" data-i18n="searchLabel">Search cocktails or ingredients</span><input id="search" type="search" data-placeholder="searchPlaceholder" placeholder="Name, spirit, ingredient…" autocomplete="off"></label></div>
+      <div class="collection-tabs" role="group" id="collection-tabs" aria-label="Collections"><button type="button" class="collection-tab active" data-collection="all" aria-pressed="true" data-i18n="allDrinks">All cocktails</button><button type="button" class="collection-tab" data-collection="midnight" aria-pressed="false"><span aria-hidden="true">☾</span> <span data-i18n="midnight">Midnight picks</span></button><button type="button" class="collection-tab" data-collection="favorites" aria-pressed="false"><span aria-hidden="true">♡</span> <span data-i18n="favorites">Your favorites</span><span class="favorites-count">0</span></button></div>
       <div class="filters"><div class="filter-select"><label for="spirit-filter" data-i18n="baseLabel">SPIRIT</label><select id="spirit-filter"></select></div><div class="filter-select"><label for="mood-filter" data-i18n="moodLabel">MOOD</label><select id="mood-filter"></select></div><button type="button" class="availability" id="availability-toggle" aria-pressed="true"><span class="toggle-track" aria-hidden="true"><span></span></span><span data-i18n="available">In the bar</span></button><p class="results" id="results-count" aria-live="polite" aria-atomic="true"></p></div>
       <p class="inventory-status" id="inventory-status" hidden></p>
       <details class="bar-inventory" id="bar-inventory">

@@ -1,6 +1,6 @@
 # Khokhlov’s Bar · Spirits After Dark
 
-A neon speakeasy cocktail menu, refreshed for Halloween 2026. Static HTML, CSS and JavaScript served by the existing nginx deployment at https://cocktails.khokhlov.org/.
+A year-round neon speakeasy featuring classic cocktails and Kyiv originals. Static HTML, CSS and JavaScript served by the existing nginx deployment at https://cocktails.khokhlov.org/.
 
 - 39 illustrated recipes, including Añejo Old Fashioned, Tequila Manhattan and Long Island Iced Tea.
 - English, Ukrainian, Slovak and Polish for the interface and recipes.
@@ -38,9 +38,9 @@ Keep the established, playful voice when adding cocktails. Ukrainian notes use n
 ## Source files
 
 - `index.html` — semantic layout and recipe dialog.
-- `assets/menu-halloween-2026.js` — complete four-language recipe data.
-- `assets/halloween-2026.js` — translations, filters, preferences and recipe controls.
-- `assets/halloween-2026.css` — seasonal design and responsive layout.
+- `assets/cocktail-menu.js` — complete four-language recipe data.
+- `assets/speakeasy.js` — translations, filters, preferences and recipe controls.
+- `assets/speakeasy.css` — speakeasy design and responsive layout.
 - `images/menu-2026/` — optimized WebP illustrations; the full menu is about 1.2 MB.
 - `images/cocktails/` — original PNG artwork, including the generated Añejo image.
 - `assets/bar.js`, `manage/` — existing inventory integration and management page.
@@ -51,12 +51,12 @@ Añejo’s default measures preserve the supplied 2 oz tequila, 0.25 oz syrup an
 
 The existing nginx container bind-mounts `/home/igorx/apps/cocktails`. Develop and test in the feature worktree. Deploy the new, uniquely named asset directories first, then atomically replace `index.html` after checks pass. Keep a copy of the previous HTML for rollback. Existing `/manage`, `/minions`, `/game-room` and `/_a` routes remain served by the existing configuration.
 
-The existing deployed working copy is preserved in a separate local snapshot. The feature branch starts from the current main branch and contains the seasonal update. Main is not merged by this work.
+The existing deployed working copy is preserved in a separate local snapshot. The feature branch starts from the current main branch and contains the speakeasy update. Main is not merged by this work.
 
 MIT license.
 
 ## Storage and seasonal additions
 
-Recipes, translations and bartender jokes are stored in `assets/menu-halloween-2026.js`; there is no SQL recipe database. The existing inventory API persists shared stock in the server-side `inventory.json` file. Favorites, language and units are browser-local preferences.
+Recipes, translations and bartender jokes are stored in `assets/cocktail-menu.js`; there is no SQL recipe database. The existing inventory API persists shared stock in the server-side `inventory.json` file. Favorites, language and units are browser-local preferences.
 
 New cocktail artwork follows the current season; preserve older cocktail artwork and the site theme unless explicitly asked to replace them. Long Island Iced Tea uses pumpkin-free Christmas artwork. Its recipe follows the IBA measures: 15 ml each vodka, tequila, white rum, gin and orange liqueur, 25 ml lemon juice, 30 ml simple syrup, topped with cola. The existing bar supports Diet Pepsi as a cola substitute.
